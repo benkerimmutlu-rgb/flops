@@ -1,197 +1,271 @@
-// Simple, geometrically accurate flag illustrations for the MVP country set.
-// All straight lines/rects — no hand-tuned curves, so proportions stay reliable
-// at any size. Swap for licensed/illustrated artwork later; the viewBox
-// contract (see FLAG_VIEWBOX) is what quiz crop zones are positioned against.
+// Real flag images (public/flags/<code>.png), not hand-drawn SVGs — hand
+// authoring shapes like Turkey's crescent+star or Canada's maple leaf by eye
+// produced visibly wrong results (confirmed by screenshot) twice over, so
+// flags are rendered from actual flag artwork instead. FLAG_VIEWBOX holds
+// each image's real pixel dimensions so containers can reserve the correct
+// aspect ratio before the image loads; quiz crop zones are still positioned
+// against it as percentages, same contract as before.
 
 export const FLAG_VIEWBOX: Record<string, { w: number; h: number }> = {
-  it: { w: 300, h: 200 },
-  gb: { w: 300, h: 150 },
-  se: { w: 320, h: 200 },
-  es: { w: 300, h: 200 },
-  fr: { w: 300, h: 200 },
-  de: { w: 300, h: 200 },
-  tr: { w: 300, h: 200 },
-  jp: { w: 300, h: 200 },
-  ng: { w: 300, h: 200 },
-  ca: { w: 9600, h: 4800 },
-  br: { w: 300, h: 200 },
-  fi: { w: 320, h: 200 },
-};
-
-function ItalyFlag() {
-  return (
-    <svg viewBox="0 0 300 200" className="h-full w-full" aria-hidden="true">
-      <rect x="0" y="0" width="100" height="200" fill="#009246" />
-      <rect x="100" y="0" width="100" height="200" fill="#FFFFFF" />
-      <rect x="200" y="0" width="100" height="200" fill="#CE2B37" />
-    </svg>
-  );
-}
-
-function UKFlag() {
-  return (
-    <svg viewBox="0 0 300 150" className="h-full w-full" aria-hidden="true">
-      <rect x="0" y="0" width="300" height="150" fill="#012169" />
-      {/* white diagonals */}
-      <polygon points="0,0 34,0 300,132 300,150 266,150 0,18" fill="#FFFFFF" />
-      <polygon points="300,0 300,18 34,150 0,150 0,132 266,0" fill="#FFFFFF" />
-      {/* red diagonals, narrower */}
-      <polygon points="0,0 14,0 300,142 300,150 286,150 0,8" fill="#C8102E" />
-      <polygon points="300,0 300,8 14,150 0,150 0,142 286,0" fill="#C8102E" />
-      {/* white cross */}
-      <rect x="120" y="0" width="60" height="150" fill="#FFFFFF" />
-      <rect x="0" y="55" width="300" height="40" fill="#FFFFFF" />
-      {/* red cross */}
-      <rect x="132" y="0" width="36" height="150" fill="#C8102E" />
-      <rect x="0" y="65" width="300" height="20" fill="#C8102E" />
-    </svg>
-  );
-}
-
-function SwedenFlag() {
-  return (
-    <svg viewBox="0 0 320 200" className="h-full w-full" aria-hidden="true">
-      <rect x="0" y="0" width="320" height="200" fill="#006AA7" />
-      <rect x="100" y="0" width="40" height="200" fill="#FECC00" />
-      <rect x="0" y="80" width="320" height="40" fill="#FECC00" />
-    </svg>
-  );
-}
-
-function SpainFlag() {
-  return (
-    <svg viewBox="0 0 300 200" className="h-full w-full" aria-hidden="true">
-      <rect x="0" y="0" width="300" height="50" fill="#AA151B" />
-      <rect x="0" y="50" width="300" height="100" fill="#F1BF00" />
-      <rect x="0" y="150" width="300" height="50" fill="#AA151B" />
-    </svg>
-  );
-}
-
-function FranceFlag() {
-  return (
-    <svg viewBox="0 0 300 200" className="h-full w-full" aria-hidden="true">
-      <rect x="0" y="0" width="100" height="200" fill="#0055A4" />
-      <rect x="100" y="0" width="100" height="200" fill="#FFFFFF" />
-      <rect x="200" y="0" width="100" height="200" fill="#EF4135" />
-    </svg>
-  );
-}
-
-function GermanyFlag() {
-  return (
-    <svg viewBox="0 0 300 200" className="h-full w-full" aria-hidden="true">
-      <rect x="0" y="0" width="300" height="67" fill="#000000" />
-      <rect x="0" y="67" width="300" height="66" fill="#DD0000" />
-      <rect x="0" y="133" width="300" height="67" fill="#FFCE00" />
-    </svg>
-  );
-}
-
-// Crescent = a white circle with a same-colour-as-background circle laid on
-// top, offset just enough to "bite" a bite out of it — the standard safe way
-// to draw a crescent from two circles instead of a hand-tuned curve. The
-// star path below is the well-tested 24x24 "star" glyph used across many
-// icon sets, just translated and scaled, not hand-derived.
-function TurkeyFlag() {
-  return (
-    <svg viewBox="0 0 300 200" className="h-full w-full" aria-hidden="true">
-      <rect x="0" y="0" width="300" height="200" fill="#E30A17" />
-      <circle cx="110" cy="100" r="42" fill="#FFFFFF" />
-      <circle cx="124" cy="100" r="34" fill="#E30A17" />
-      <g transform="translate(150,78) scale(1.15)">
-        <path
-          d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 19.771l-7.416 3.642 1.48-8.279-6.064-5.828 8.332-1.151z"
-          fill="#FFFFFF"
-        />
-      </g>
-    </svg>
-  );
-}
-
-function JapanFlag() {
-  return (
-    <svg viewBox="0 0 300 200" className="h-full w-full" aria-hidden="true">
-      <rect x="0" y="0" width="300" height="200" fill="#FFFFFF" />
-      <circle cx="150" cy="100" r="45" fill="#BC002D" />
-    </svg>
-  );
-}
-
-function NigeriaFlag() {
-  return (
-    <svg viewBox="0 0 300 200" className="h-full w-full" aria-hidden="true">
-      <rect x="0" y="0" width="100" height="200" fill="#008751" />
-      <rect x="100" y="0" width="100" height="200" fill="#FFFFFF" />
-      <rect x="200" y="0" width="100" height="200" fill="#008751" />
-    </svg>
-  );
-}
-
-// Two attempts at hand-derived maple-leaf point coordinates both produced
-// the wrong silhouette (a fir tree, then a symmetric star) — freehand
-// leaf geometry is exactly the kind of eyeballed curve that goes wrong
-// invisibly until rendered. So this uses the real path data from a
-// verified, widely-used open-source flag SVG (hampusborgos/country-flags,
-// MIT) instead of another freehand guess, kept at its original coordinate
-// scale (viewBox 0 0 9600 4800) to avoid introducing new scaling errors.
-function CanadaFlag() {
-  return (
-    <svg viewBox="0 0 9600 4800" className="h-full w-full" aria-hidden="true">
-      <path fill="#D52B1E" d="M0 0h2400l99 99h4602l99-99h2400v4800H7200l-99-99H2499l-99 99H0z" />
-      <path
-        fill="#FFFFFF"
-        d="M2400 0h4800v4800H2400zm2490 4430l-45-863a95 95 0 01111-98l859 151-116-320a65 65 0 0120-73l941-762-212-99a65 65 0 01-34-79l186-572-542 115a65 65 0 01-73-38l-105-247-423 454a65 65 0 01-111-57l204-1052-327 189a65 65 0 01-91-27l-332-652-332 652a65 65 0 01-91 27l-327-189 204 1052a65 65 0 01-111 57l-423-454-105 247a65 65 0 01-73 38l-542-115 186 572a65 65 0 01-34 79l-212 99 941 762a65 65 0 0120 73l-116 320 859-151a95 95 0 01111 98l-45 863z"
-      />
-    </svg>
-  );
-}
-
-function BrazilFlag() {
-  return (
-    <svg viewBox="0 0 300 200" className="h-full w-full" aria-hidden="true">
-      <defs>
-        <clipPath id="br-circle">
-          <circle cx="150" cy="100" r="42" />
-        </clipPath>
-      </defs>
-      <rect x="0" y="0" width="300" height="200" fill="#009739" />
-      <polygon points="150,22 272,100 150,178 28,100" fill="#FEDD00" />
-      <circle cx="150" cy="100" r="42" fill="#002776" />
-      <g clipPath="url(#br-circle)">
-        <rect x="100" y="92" width="100" height="16" fill="#FFFFFF" transform="rotate(-18 150 100)" />
-      </g>
-    </svg>
-  );
-}
-
-function FinlandFlag() {
-  return (
-    <svg viewBox="0 0 320 200" className="h-full w-full" aria-hidden="true">
-      <rect x="0" y="0" width="320" height="200" fill="#FFFFFF" />
-      <rect x="100" y="0" width="40" height="200" fill="#002F6C" />
-      <rect x="0" y="80" width="320" height="40" fill="#002F6C" />
-    </svg>
-  );
-}
-
-const FLAG_COMPONENTS: Record<string, () => React.ReactElement> = {
-  it: ItalyFlag,
-  gb: UKFlag,
-  se: SwedenFlag,
-  es: SpainFlag,
-  fr: FranceFlag,
-  de: GermanyFlag,
-  tr: TurkeyFlag,
-  jp: JapanFlag,
-  ng: NigeriaFlag,
-  ca: CanadaFlag,
-  br: BrazilFlag,
-  fi: FinlandFlag,
+  ad: { w: 2560, h: 1792 },
+  ae: { w: 2560, h: 1280 },
+  af: { w: 2560, h: 1707 },
+  ag: { w: 2560, h: 1707 },
+  ai: { w: 2560, h: 1280 },
+  al: { w: 2560, h: 1829 },
+  am: { w: 2560, h: 1280 },
+  ao: { w: 2560, h: 1707 },
+  aq: { w: 2560, h: 1707 },
+  ar: { w: 2560, h: 1600 },
+  as: { w: 2560, h: 1280 },
+  at: { w: 2560, h: 1707 },
+  au: { w: 2560, h: 1280 },
+  aw: { w: 2560, h: 1707 },
+  ax: { w: 2560, h: 1674 },
+  az: { w: 2560, h: 1280 },
+  ba: { w: 2560, h: 1280 },
+  bb: { w: 2560, h: 1707 },
+  bd: { w: 2560, h: 1536 },
+  be: { w: 2560, h: 2219 },
+  bf: { w: 2560, h: 1707 },
+  bg: { w: 2560, h: 1536 },
+  bh: { w: 2560, h: 1536 },
+  bi: { w: 2560, h: 1536 },
+  bj: { w: 2560, h: 1707 },
+  bl: { w: 2560, h: 1707 },
+  bm: { w: 2560, h: 1280 },
+  bn: { w: 2560, h: 1280 },
+  bo: { w: 2560, h: 1745 },
+  bq: { w: 2560, h: 1707 },
+  br: { w: 2560, h: 1792 },
+  bs: { w: 2560, h: 1280 },
+  bt: { w: 2560, h: 1707 },
+  bv: { w: 2560, h: 1862 },
+  bw: { w: 2560, h: 1707 },
+  by: { w: 2560, h: 1280 },
+  bz: { w: 2560, h: 1536 },
+  ca: { w: 2560, h: 1280 },
+  cc: { w: 2560, h: 1280 },
+  cd: { w: 2560, h: 1920 },
+  cf: { w: 2560, h: 1707 },
+  cg: { w: 2560, h: 1707 },
+  ch: { w: 2560, h: 2560 },
+  ci: { w: 2560, h: 1707 },
+  ck: { w: 2560, h: 1280 },
+  cl: { w: 2560, h: 1707 },
+  cm: { w: 2560, h: 1707 },
+  cn: { w: 2560, h: 1707 },
+  co: { w: 2560, h: 1707 },
+  cr: { w: 2560, h: 1536 },
+  cu: { w: 2560, h: 1280 },
+  cv: { w: 2560, h: 1506 },
+  cw: { w: 2560, h: 1707 },
+  cx: { w: 2560, h: 1280 },
+  cy: { w: 2560, h: 1707 },
+  cz: { w: 2560, h: 1707 },
+  de: { w: 2560, h: 1536 },
+  dj: { w: 2560, h: 1707 },
+  dk: { w: 2560, h: 1937 },
+  dm: { w: 2560, h: 1280 },
+  do: { w: 2560, h: 1707 },
+  dz: { w: 2560, h: 1707 },
+  ec: { w: 2560, h: 1707 },
+  ee: { w: 2560, h: 1629 },
+  eg: { w: 2560, h: 1707 },
+  eh: { w: 2560, h: 1280 },
+  er: { w: 2560, h: 1280 },
+  es: { w: 2560, h: 1707 },
+  et: { w: 2560, h: 1280 },
+  fi: { w: 2560, h: 1564 },
+  fj: { w: 2560, h: 1280 },
+  fk: { w: 2560, h: 1280 },
+  fm: { w: 2560, h: 1347 },
+  fo: { w: 2560, h: 1862 },
+  fr: { w: 2560, h: 1707 },
+  ga: { w: 2560, h: 1920 },
+  gb: { w: 2560, h: 1280 },
+  "gb-eng": { w: 2560, h: 1536 },
+  "gb-nir": { w: 2560, h: 1280 },
+  "gb-sct": { w: 2560, h: 1536 },
+  "gb-wls": { w: 2560, h: 1536 },
+  gd: { w: 2560, h: 1536 },
+  ge: { w: 2560, h: 1707 },
+  gf: { w: 2560, h: 1707 },
+  gg: { w: 2560, h: 1707 },
+  gh: { w: 2560, h: 1707 },
+  gi: { w: 2560, h: 1280 },
+  gl: { w: 2560, h: 1707 },
+  gm: { w: 2560, h: 1707 },
+  gn: { w: 2560, h: 1707 },
+  gp: { w: 2560, h: 1707 },
+  gq: { w: 2560, h: 1707 },
+  gr: { w: 2560, h: 1707 },
+  gs: { w: 2560, h: 1280 },
+  gt: { w: 2560, h: 1600 },
+  gu: { w: 2560, h: 1374 },
+  gw: { w: 2560, h: 1280 },
+  gy: { w: 2560, h: 1536 },
+  hk: { w: 2560, h: 1707 },
+  hm: { w: 2560, h: 1280 },
+  hn: { w: 2560, h: 1280 },
+  hr: { w: 2560, h: 1280 },
+  ht: { w: 2560, h: 1536 },
+  hu: { w: 2560, h: 1280 },
+  id: { w: 2560, h: 1707 },
+  ie: { w: 2560, h: 1280 },
+  il: { w: 2560, h: 1862 },
+  im: { w: 2560, h: 1280 },
+  in: { w: 2560, h: 1707 },
+  io: { w: 2560, h: 1280 },
+  iq: { w: 2560, h: 1707 },
+  ir: { w: 2560, h: 1463 },
+  is: { w: 2560, h: 1843 },
+  it: { w: 2560, h: 1707 },
+  je: { w: 2560, h: 1536 },
+  jm: { w: 2560, h: 1280 },
+  jo: { w: 2560, h: 1280 },
+  jp: { w: 2560, h: 1707 },
+  ke: { w: 2560, h: 1707 },
+  kg: { w: 2560, h: 1536 },
+  kh: { w: 2560, h: 1638 },
+  ki: { w: 2560, h: 1280 },
+  km: { w: 2560, h: 1536 },
+  kn: { w: 2560, h: 1707 },
+  kp: { w: 2560, h: 1280 },
+  kr: { w: 2560, h: 1707 },
+  kw: { w: 2560, h: 1280 },
+  ky: { w: 2560, h: 1280 },
+  kz: { w: 2560, h: 1280 },
+  la: { w: 2560, h: 1707 },
+  lb: { w: 2560, h: 1707 },
+  lc: { w: 2560, h: 1280 },
+  li: { w: 2560, h: 1536 },
+  lk: { w: 2560, h: 1280 },
+  lr: { w: 2560, h: 1347 },
+  ls: { w: 2560, h: 1707 },
+  lt: { w: 2560, h: 1536 },
+  lu: { w: 2560, h: 1536 },
+  lv: { w: 2560, h: 1280 },
+  ly: { w: 2560, h: 1280 },
+  ma: { w: 2560, h: 1707 },
+  mc: { w: 2560, h: 2048 },
+  md: { w: 2560, h: 1280 },
+  me: { w: 2560, h: 1280 },
+  mf: { w: 2560, h: 1707 },
+  mg: { w: 2560, h: 1707 },
+  mh: { w: 2560, h: 1347 },
+  mk: { w: 2560, h: 1280 },
+  ml: { w: 2560, h: 1707 },
+  mm: { w: 2560, h: 1707 },
+  mn: { w: 2560, h: 1280 },
+  mo: { w: 2560, h: 1707 },
+  mp: { w: 2560, h: 1280 },
+  mq: { w: 2560, h: 1707 },
+  mr: { w: 2560, h: 1707 },
+  ms: { w: 2560, h: 1280 },
+  mt: { w: 2560, h: 1707 },
+  mu: { w: 2560, h: 1707 },
+  mv: { w: 2560, h: 1707 },
+  mw: { w: 2560, h: 1707 },
+  mx: { w: 2560, h: 1463 },
+  my: { w: 2560, h: 1280 },
+  mz: { w: 2560, h: 1707 },
+  na: { w: 2560, h: 1707 },
+  nc: { w: 2560, h: 1280 },
+  ne: { w: 2560, h: 2194 },
+  nf: { w: 2560, h: 1280 },
+  ng: { w: 2560, h: 1280 },
+  ni: { w: 2560, h: 1536 },
+  nl: { w: 2560, h: 1707 },
+  no: { w: 2560, h: 1862 },
+  np: { w: 2560, h: 3121 },
+  nr: { w: 2560, h: 1280 },
+  nu: { w: 2560, h: 1280 },
+  nz: { w: 2560, h: 1280 },
+  om: { w: 2560, h: 1463 },
+  pa: { w: 2560, h: 1707 },
+  pe: { w: 2560, h: 1707 },
+  pf: { w: 2560, h: 1707 },
+  pg: { w: 2560, h: 1920 },
+  ph: { w: 2560, h: 1280 },
+  pk: { w: 2560, h: 1707 },
+  pl: { w: 2560, h: 1600 },
+  pm: { w: 2560, h: 1707 },
+  pn: { w: 2560, h: 1280 },
+  pr: { w: 2560, h: 1707 },
+  ps: { w: 2560, h: 1280 },
+  pt: { w: 2560, h: 1707 },
+  pw: { w: 2560, h: 1600 },
+  py: { w: 2560, h: 1408 },
+  qa: { w: 2560, h: 1006 },
+  re: { w: 2560, h: 1707 },
+  ro: { w: 2560, h: 1707 },
+  rs: { w: 2560, h: 1707 },
+  ru: { w: 2560, h: 1707 },
+  rw: { w: 2560, h: 1707 },
+  sa: { w: 2560, h: 1707 },
+  sb: { w: 2560, h: 1280 },
+  sc: { w: 2560, h: 1280 },
+  sd: { w: 2560, h: 1280 },
+  se: { w: 2560, h: 1600 },
+  sg: { w: 2560, h: 1707 },
+  sh: { w: 2560, h: 1280 },
+  si: { w: 2560, h: 1280 },
+  sj: { w: 2560, h: 1862 },
+  sk: { w: 2560, h: 1707 },
+  sl: { w: 2560, h: 1707 },
+  sm: { w: 2560, h: 1920 },
+  sn: { w: 2560, h: 1707 },
+  so: { w: 2560, h: 1707 },
+  sr: { w: 2560, h: 1707 },
+  ss: { w: 2560, h: 1280 },
+  st: { w: 2560, h: 1280 },
+  sv: { w: 2560, h: 1444 },
+  sx: { w: 2560, h: 1707 },
+  sy: { w: 2560, h: 1707 },
+  sz: { w: 2560, h: 1707 },
+  tc: { w: 2560, h: 1280 },
+  td: { w: 2560, h: 1707 },
+  tf: { w: 2560, h: 1707 },
+  tg: { w: 2560, h: 1582 },
+  th: { w: 2560, h: 1707 },
+  tj: { w: 2560, h: 1280 },
+  tk: { w: 2560, h: 1280 },
+  tl: { w: 2560, h: 1280 },
+  tm: { w: 2560, h: 1707 },
+  tn: { w: 2560, h: 1707 },
+  to: { w: 2560, h: 1280 },
+  tr: { w: 2560, h: 1707 },
+  tt: { w: 2560, h: 1536 },
+  tv: { w: 2560, h: 1280 },
+  tw: { w: 2560, h: 1707 },
+  tz: { w: 2560, h: 1707 },
+  ua: { w: 2560, h: 1707 },
+  ug: { w: 2560, h: 1707 },
+  um: { w: 2560, h: 1347 },
+  us: { w: 2560, h: 1347 },
+  uy: { w: 2560, h: 1707 },
+  uz: { w: 2560, h: 1280 },
+  va: { w: 2560, h: 2560 },
+  vc: { w: 2560, h: 1707 },
+  ve: { w: 2560, h: 1707 },
+  vg: { w: 2560, h: 1280 },
+  vi: { w: 2560, h: 1707 },
+  vn: { w: 2560, h: 1707 },
+  vu: { w: 2560, h: 1536 },
+  wf: { w: 2560, h: 1707 },
+  ws: { w: 2560, h: 1280 },
+  xk: { w: 2560, h: 1829 },
+  ye: { w: 2560, h: 1707 },
+  yt: { w: 2560, h: 1707 },
+  za: { w: 2560, h: 1707 },
+  zm: { w: 2560, h: 1707 },
+  zw: { w: 2560, h: 1280 },
 };
 
 export function FlagSvg({ code }: { code: string }) {
-  const Flag = FLAG_COMPONENTS[code];
-  if (!Flag) return null;
-  return <Flag />;
+  if (!FLAG_VIEWBOX[code]) return null;
+  // Fixed small local asset set served from /public — not worth Next/Image's setup.
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={`/flags/${code}.png`} alt="" className="h-full w-full object-cover" />;
 }
