@@ -33,6 +33,6 @@ export async function middleware(request: NextRequest) {
 export const config = {
   // Пропускаем статику и ассеты.
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|assets|flags|flags-clay|auth/callback).*)",
+    "/((?!_next/static|_next/image|favicon.ico|assets|flags|flags-clay|icons|manifest.webmanifest|auth/callback).*)",
   ],
 };
