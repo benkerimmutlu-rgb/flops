@@ -1,4 +1,5 @@
-import { Country } from "./types";
+import { Country, CountryLite, ContinentId } from "./types";
+import { COUNTRIES_EXTRA } from "./countries-lite";
 
 export const COUNTRIES: Country[] = [
   {
@@ -431,3 +432,83 @@ export function randomCountry(excludeCode?: string): Country {
     : COUNTRIES;
   return pool[Math.floor(Math.random() * pool.length)];
 }
+
+// Flag palette/look-alike tags for the 12 fully-detailed countries, kept here
+// so the Country records above stay focused on learning content. Merged into
+// their CountryLite projection for the distractor picker.
+const FULL_FLAG_META: Record<string, Pick<CountryLite, "flagTags" | "lookalikes">> = {
+  it: { flagTags: ["green", "white", "red", "tricolor-v"], lookalikes: ["mx", "ie"] },
+  gb: { flagTags: ["red", "white", "blue", "union-jack", "cross"] },
+  se: { flagTags: ["blue", "yellow", "nordic-cross"], lookalikes: ["fi"] },
+  es: { flagTags: ["red", "yellow", "stripes", "coat-of-arms"] },
+  fr: { flagTags: ["blue", "white", "red", "tricolor-v"], lookalikes: ["nl", "ru"] },
+  de: { flagTags: ["black", "red", "yellow", "tricolor-h"] },
+  tr: { flagTags: ["red", "white", "crescent", "star"], lookalikes: ["tn"] },
+  jp: { flagTags: ["white", "red", "circle"], lookalikes: ["bd"] },
+  ng: { flagTags: ["green", "white", "tricolor-v"] },
+  ca: { flagTags: ["red", "white", "leaf"] },
+  br: { flagTags: ["green", "yellow", "blue", "circle", "stars"] },
+  fi: { flagTags: ["white", "blue", "nordic-cross"], lookalikes: ["se"] },
+};
+
+// The 12 detailed countries projected down to CountryLite (+ their tags).
+const FULL_AS_LITE: CountryLite[] = COUNTRIES.map((c) => ({
+  code: c.code,
+  name: c.name,
+  continent: c.continent,
+  ...FULL_FLAG_META[c.code],
+}));
+
+/** Every country the games can use: 12 detailed + the lite list, deduped. */
+export const ALL_LITE: CountryLite[] = (() => {
+  const seen = new Set(FULL_AS_LITE.map((c) => c.code));
+  return [...FULL_AS_LITE, ...COUNTRIES_EXTRA.filter((c) => !seen.has(c.code))];
+})();
+
+const LITE_BY_CODE: Record<string, CountryLite> = Object.fromEntries(
+  ALL_LITE.map((c) => [c.code, c])
+);
+
+export function liteByCode(code: string): CountryLite | undefined {
+  return LITE_BY_CODE[code];
+}
+
+/** Game continent filter — "america" merges North + South. */
+export type GameContinent = "europe" | "asia" | "africa" | "america" | "all";
+
+function matchesContinent(c: CountryLite, filter: GameContinent): boolean {
+  if (filter === "all") return true;
+  if (filter === "america")
+    return c.continent === "north_america" || c.continent === "south_america";
+  return c.continent === filter;
+}
+
+/** Shuffle (Fisher–Yates) — impure, call after mount / on user action only. */
+export function shuffle<T>(arr: readonly T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/** Pick up to `count` random countries from a continent filter. */
+export function pickCountries(count: number, filter: GameContinent): CountryLite[] {
+  const pool = ALL_LITE.filter((c) => matchesContinent(c, filter));
+  return shuffle(pool).slice(0, count);
+}
+
+/** How many countries are available per game-continent (for setup UI). */
+export function countByContinent(filter: GameContinent): number {
+  return ALL_LITE.filter((c) => matchesContinent(c, filter)).length;
+}
+
+export const ALL_CONTINENT_IDS: ContinentId[] = [
+  "europe",
+  "asia",
+  "africa",
+  "north_america",
+  "south_america",
+  "oceania",
+];

@@ -36,7 +36,22 @@ export interface FlagCropZone {
   h: number;
 }
 
-export interface Country {
+/**
+ * Lightweight country record — enough to drive the flag-guessing game and the
+ * memory game (flag image + name + continent). The 12 fully-detailed `Country`
+ * records are a superset of this; everything else lives only as `CountryLite`.
+ */
+export interface CountryLite {
+  code: string; // ISO-ish short code -> /public/flags/<code>.png
+  name: string; // Russian name shown in the UI
+  continent: ContinentId;
+  /** Palette / pattern tags used to pick visually-confusing wrong answers. */
+  flagTags?: string[];
+  /** Codes of famous look-alike flags, used first when picking distractors. */
+  lookalikes?: string[];
+}
+
+export interface Country extends CountryLite {
   code: string; // ISO-ish short code, used in routes: "it", "gb", "se", "es"
   name: string;
   continent: ContinentId;
@@ -65,4 +80,7 @@ export interface UserCountryState {
   category: CategoryId | null;
   likeCountry: boolean | null; // true = like, false = dislike, null = no opinion yet
   likeLanguage: boolean | null;
+  seen: boolean; // has shown up in the game at least once
+  known: boolean; // guessed correctly -> lives in "Знаю"
+  inRepeat: boolean; // guessed wrong -> sits in the "Повтори" stack
 }

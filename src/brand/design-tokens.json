@@ -1,0 +1,52 @@
+{
+  "brand": {
+    "name": "FLOPS",
+    "tagline": "Учи флаги, узнавай мир"
+  },
+  "colors": {
+    "background": "#F8F2E8",
+    "surface": "#FFFFFF",
+    "text": "#1F2430",
+    "muted": "#696D75",
+    "green": "#1E9A58",
+    "yellow": "#F6C742",
+    "red": "#E84A43",
+    "blue": "#33A8E4",
+    "clayBeige": "#D7B89C",
+    "border": "#E6E1DA"
+  },
+  "font": {
+    "ui": "Nunito Sans",
+    "ui_fallback": "Nunito, system-ui, sans-serif",
+    "headings": "Rubik",
+    "alternative": "Manrope",
+    "logo": "USE IMAGE flops_wordmark; do not recreate with CSS font"
+  },
+  "fontSizes": {
+    "caption": 13,
+    "body": 16,
+    "button": 17,
+    "cardTitle": 21,
+    "screenTitle": 28
+  },
+  "radii": {
+    "card": 28,
+    "pill": 999,
+    "icon": 20
+  },
+  "spacing": {
+    "xs": 4,
+    "sm": 8,
+    "md": 16,
+    "lg": 24,
+    "xl": 32
+  },
+  "shadow": {
+    "card": "0 5px 16px rgba(31,36,48,0.07)"
+  },
+  "accessibility": {
+    "minTapSizePx": 44,
+    "minBodySizePx": 16,
+    "avoidColorOnlyFeedback": true
+  }
+}

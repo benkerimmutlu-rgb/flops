@@ -1,0 +1,1133 @@
+{
+  "kit_version": "3.0",
+  "brand": "FLOPS",
+  "tagline": "Учи флаги, узнавай мир",
+  "assets": [
+    {
+      "id": "flops_logo_with_tagline",
+      "category": "logo",
+      "label_ru": "FLOPS — утверждённый логотип со слоганом",
+      "png": "/assets/logo/flops_logo_with_tagline.png",
+      "webp": "/assets/logo/flops_logo_with_tagline.webp",
+      "transparent_background": true,
+      "usage": "splash/branding",
+      "note": "Transparent raster derived from approved low-resolution logo. Source was about 338px wide; upscale does not add genuine source detail.",
+      "pixel_size": [
+        1200,
+        772
+      ],
+      "quality_method": "Exact approved logo preserved from preceding kit. Raster derived from a small supplied screenshot; NOT a newly redrawn master."
+    },
+    {
+      "id": "flops_wordmark",
+      "category": "logo",
+      "label_ru": "FLOPS — надпись без слогана",
+      "png": "/assets/logo/flops_wordmark.png",
+      "webp": "/assets/logo/flops_wordmark.webp",
+      "transparent_background": true,
+      "usage": "home/header",
+      "note": "Transparent raster derived from approved low-resolution logo. Source was about 338px wide; upscale does not add genuine source detail.",
+      "pixel_size": [
+        1000,
+        398
+      ],
+      "quality_method": "Exact approved logo preserved from preceding kit. Raster derived from a small supplied screenshot; NOT a newly redrawn master."
+    },
+    {
+      "id": "flops_app_icon_1024",
+      "category": "logo",
+      "label_ru": "Иконка приложения из исходного персонажа Опса",
+      "png": "/assets/logo/flops_app_icon_1024.png",
+      "transparent_background": false,
+      "usage": "app_icon",
+      "note": "Secondary draft; keep official wordmark unchanged.",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "quality_method": "Draft app icon preserved unchanged"
+    },
+    {
+      "id": "ops_app_avatar",
+      "label_ru": "Опс — иконка",
+      "category": "ops",
+      "usage": "app_icon/avatar",
+      "png": "/assets/ops/ops_app_avatar.png",
+      "webp": "/assets/ops/ops_app_avatar.webp",
+      "source": "Assets Flops New 3.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_hello",
+      "label_ru": "Опс приветствует",
+      "category": "ops",
+      "usage": "home/onboarding",
+      "png": "/assets/ops/ops_hello.png",
+      "webp": "/assets/ops/ops_hello.webp",
+      "source": "Assets Flops New 3.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_explorer",
+      "label_ru": "Опс с рюкзаком",
+      "category": "ops",
+      "usage": "home/explore",
+      "png": "/assets/ops/ops_explorer.png",
+      "webp": "/assets/ops/ops_explorer.webp",
+      "source": "мопс_путешественник_с_рюкзаком_и_шарфом.png",
+      "pixel_size": [
+        1536,
+        1536
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Regenerated HD clay-style image, 1254 px original output, padded to 1536 px. Appearance may vary from old source-sheet version.",
+      "quality_tier": "regenerated_hd",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_play",
+      "label_ru": "Опс с мячиком",
+      "category": "ops",
+      "usage": "game/fun",
+      "png": "/assets/ops/ops_play.png",
+      "webp": "/assets/ops/ops_play.webp",
+      "source": "Assets Flops New 3.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_celebrate",
+      "label_ru": "Опс радуется",
+      "category": "ops",
+      "usage": "quiz/correct",
+      "png": "/assets/ops/ops_celebrate.png",
+      "webp": "/assets/ops/ops_celebrate.webp",
+      "source": "Assets Flops New 3.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_sad",
+      "label_ru": "Опс грустит",
+      "category": "ops",
+      "usage": "quiz/retry",
+      "png": "/assets/ops/ops_sad.png",
+      "webp": "/assets/ops/ops_sad.webp",
+      "source": "Assets Flops New 3.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_sad_hoodie",
+      "label_ru": "Опс в худи",
+      "category": "ops",
+      "usage": "quiz/retry",
+      "png": "/assets/ops/ops_sad_hoodie.png",
+      "webp": "/assets/ops/ops_sad_hoodie.webp",
+      "source": "Assets Flops New 3.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_sleep",
+      "label_ru": "Спящий Опс",
+      "category": "ops",
+      "usage": "rest/empty",
+      "png": "/assets/ops/ops_sleep.png",
+      "webp": "/assets/ops/ops_sleep.webp",
+      "source": "Assets Flops New 3.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_back",
+      "label_ru": "Опс со спины",
+      "category": "ops",
+      "usage": "misc",
+      "png": "/assets/ops/ops_back.png",
+      "webp": "/assets/ops/ops_back.webp",
+      "source": "Assets Flops New 3.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "bone_currency",
+      "label_ru": "Косточка",
+      "category": "rewards",
+      "usage": "currency",
+      "png": "/assets/rewards/bone_currency.png",
+      "webp": "/assets/rewards/bone_currency.webp",
+      "source": "Assets Flops New 3.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "food_bowl",
+      "label_ru": "Миска с кормом",
+      "category": "rewards",
+      "usage": "reward",
+      "png": "/assets/rewards/food_bowl.png",
+      "webp": "/assets/rewards/food_bowl.webp",
+      "source": "Assets Flops New 3.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "sound_speaker",
+      "label_ru": "Динамик",
+      "category": "navigation",
+      "usage": "audio",
+      "png": "/assets/navigation/sound_speaker.png",
+      "webp": "/assets/navigation/sound_speaker.webp",
+      "source": "Assets Flops New 3.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "capital_flag",
+      "label_ru": "Флажок Швеции",
+      "category": "navigation",
+      "usage": "capitals",
+      "png": "/assets/navigation/capital_flag.png",
+      "webp": "/assets/navigation/capital_flag.webp",
+      "source": "Assets Flops New 3.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_waving_hat",
+      "label_ru": "Опс приветствует в шляпе",
+      "category": "ops",
+      "usage": "home/onboarding",
+      "png": "/assets/ops/ops_waving_hat.png",
+      "webp": "/assets/ops/ops_waving_hat.webp",
+      "source": "Assets Flops New 4.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_green_pack",
+      "label_ru": "Опс с зелёным рюкзаком",
+      "category": "ops",
+      "usage": "explore",
+      "png": "/assets/ops/ops_green_pack.png",
+      "webp": "/assets/ops/ops_green_pack.webp",
+      "source": "Assets Flops New 4.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_happy_badge",
+      "label_ru": "Опс счастлив",
+      "category": "ops",
+      "usage": "success",
+      "png": "/assets/ops/ops_happy_badge.png",
+      "webp": "/assets/ops/ops_happy_badge.webp",
+      "source": "Assets Flops New 4.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_worried_badge",
+      "label_ru": "Опс немного грустит",
+      "category": "ops",
+      "usage": "retry",
+      "png": "/assets/ops/ops_worried_badge.png",
+      "webp": "/assets/ops/ops_worried_badge.webp",
+      "source": "Assets Flops New 4.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_sleep_badge",
+      "label_ru": "Опс спит",
+      "category": "ops",
+      "usage": "rest",
+      "png": "/assets/ops/ops_sleep_badge.png",
+      "webp": "/assets/ops/ops_sleep_badge.webp",
+      "source": "Assets Flops New 4.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_back_badge",
+      "label_ru": "Опс — вид сзади",
+      "category": "ops",
+      "usage": "back",
+      "png": "/assets/ops/ops_back_badge.png",
+      "webp": "/assets/ops/ops_back_badge.webp",
+      "source": "Assets Flops New 4.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "badge_great",
+      "label_ru": "Класс!",
+      "category": "status",
+      "usage": "success",
+      "png": "/assets/status/badge_great.png",
+      "webp": "/assets/status/badge_great.webp",
+      "source": "Assets Flops New 4.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "badge_avoid",
+      "label_ru": "Сюда не ходим",
+      "category": "status",
+      "usage": "visited_dislike",
+      "png": "/assets/status/badge_avoid.png",
+      "webp": "/assets/status/badge_avoid.webp",
+      "source": "Assets Flops New 4.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "bone_currency_badge",
+      "label_ru": "Косточка в круге",
+      "category": "rewards",
+      "usage": "currency",
+      "png": "/assets/rewards/bone_currency_badge.png",
+      "webp": "/assets/rewards/bone_currency_badge.webp",
+      "source": "Assets Flops New 4.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "food_bowl_badge",
+      "label_ru": "Миска в круге",
+      "category": "rewards",
+      "usage": "reward",
+      "png": "/assets/rewards/food_bowl_badge.png",
+      "webp": "/assets/rewards/food_bowl_badge.webp",
+      "source": "Assets Flops New 4.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "sound_speaker_badge",
+      "label_ru": "Динамик в круге",
+      "category": "navigation",
+      "usage": "audio",
+      "png": "/assets/navigation/sound_speaker_badge.png",
+      "webp": "/assets/navigation/sound_speaker_badge.webp",
+      "source": "Assets Flops New 4.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "capital_flag_blue",
+      "label_ru": "Синий флажок",
+      "category": "navigation",
+      "usage": "capitals",
+      "png": "/assets/navigation/capital_flag_blue.png",
+      "webp": "/assets/navigation/capital_flag_blue.webp",
+      "source": "Assets Flops New 4.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_pilot",
+      "label_ru": "Опс-пилот",
+      "category": "ops",
+      "usage": "travel",
+      "png": "/assets/ops/ops_pilot.png",
+      "webp": "/assets/ops/ops_pilot.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_captain",
+      "label_ru": "Опс-капитан",
+      "category": "ops",
+      "usage": "travel",
+      "png": "/assets/ops/ops_captain.png",
+      "webp": "/assets/ops/ops_captain.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_map",
+      "label_ru": "Опс с картой",
+      "category": "ops",
+      "usage": "travel",
+      "png": "/assets/ops/ops_map.png",
+      "webp": "/assets/ops/ops_map.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "ops_globe",
+      "label_ru": "Опс с глобусом",
+      "category": "ops",
+      "usage": "travel",
+      "png": "/assets/ops/ops_globe.png",
+      "webp": "/assets/ops/ops_globe.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "globe",
+      "label_ru": "Глобус",
+      "category": "navigation",
+      "usage": "learn_flags",
+      "png": "/assets/navigation/globe.png",
+      "webp": "/assets/navigation/globe.webp",
+      "source": "глиняный_глобус_с_метками.png",
+      "pixel_size": [
+        1536,
+        1536
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Regenerated HD clay-style image, 1254 px original output, padded to 1536 px. Appearance may vary from old source-sheet version.",
+      "quality_tier": "regenerated_hd",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "suitcase",
+      "label_ru": "Чемодан",
+      "category": "world",
+      "usage": "travel",
+      "png": "/assets/world/suitcase.png",
+      "webp": "/assets/world/suitcase.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "compass",
+      "label_ru": "Компас",
+      "category": "world",
+      "usage": "navigation",
+      "png": "/assets/world/compass.png",
+      "webp": "/assets/world/compass.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "airplane",
+      "label_ru": "Самолёт",
+      "category": "world",
+      "usage": "travel",
+      "png": "/assets/world/airplane.png",
+      "webp": "/assets/world/airplane.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "passport",
+      "label_ru": "Загранпаспорт",
+      "category": "world",
+      "usage": "travel",
+      "png": "/assets/world/passport.png",
+      "webp": "/assets/world/passport.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "camera",
+      "label_ru": "Фотоаппарат",
+      "category": "world",
+      "usage": "travel",
+      "png": "/assets/world/camera.png",
+      "webp": "/assets/world/camera.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "bunting_flags",
+      "label_ru": "Гирлянда флажков",
+      "category": "world",
+      "usage": "decoration",
+      "png": "/assets/world/bunting_flags.png",
+      "webp": "/assets/world/bunting_flags.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "toy_bone_pattern",
+      "label_ru": "Расписная косточка",
+      "category": "rewards",
+      "usage": "reward",
+      "png": "/assets/rewards/toy_bone_pattern.png",
+      "webp": "/assets/rewards/toy_bone_pattern.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "passport_ops",
+      "label_ru": "Паспорт Опса",
+      "category": "world",
+      "usage": "profile",
+      "png": "/assets/world/passport_ops.png",
+      "webp": "/assets/world/passport_ops.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "signpost",
+      "label_ru": "Указатель",
+      "category": "navigation",
+      "usage": "capitals",
+      "png": "/assets/navigation/signpost.png",
+      "webp": "/assets/navigation/signpost.webp",
+      "source": "яркий_глиняный_указатель_с_травой.png",
+      "pixel_size": [
+        1536,
+        1536
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Regenerated HD clay-style image, 1254 px original output, padded to 1536 px. Appearance may vary from old source-sheet version.",
+      "quality_tier": "regenerated_hd",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "colorful_bone",
+      "label_ru": "Цветная косточка",
+      "category": "navigation",
+      "usage": "reward",
+      "png": "/assets/navigation/colorful_bone.png",
+      "webp": "/assets/navigation/colorful_bone.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "flag_on_hill",
+      "label_ru": "Флаг на холме",
+      "category": "world",
+      "usage": "country",
+      "png": "/assets/world/flag_on_hill.png",
+      "webp": "/assets/world/flag_on_hill.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "human_traveler",
+      "label_ru": "Путешественник",
+      "category": "world",
+      "usage": "culture",
+      "png": "/assets/world/human_traveler.png",
+      "webp": "/assets/world/human_traveler.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "royal_guard",
+      "label_ru": "Гвардеец",
+      "category": "world",
+      "usage": "culture",
+      "png": "/assets/world/royal_guard.png",
+      "webp": "/assets/world/royal_guard.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "world_people",
+      "label_ru": "Земной шар и люди",
+      "category": "world",
+      "usage": "culture",
+      "png": "/assets/world/world_people.png",
+      "webp": "/assets/world/world_people.webp",
+      "source": "Assets Flops New 2.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "visited_loved",
+      "label_ru": "Был там, круто",
+      "category": "status",
+      "usage": "visit_status",
+      "png": "/assets/status/visited_loved.png",
+      "webp": "/assets/status/visited_loved.webp",
+      "source": "Assets Flops New.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "visited_disliked",
+      "label_ru": "Был — ни ногой больше",
+      "category": "status",
+      "usage": "visit_status",
+      "png": "/assets/status/visited_disliked.png",
+      "webp": "/assets/status/visited_disliked.webp",
+      "source": "Assets Flops New.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "want_to_visit",
+      "label_ru": "Не был, очень хочу",
+      "category": "status",
+      "usage": "visit_status",
+      "png": "/assets/status/want_to_visit.png",
+      "webp": "/assets/status/want_to_visit.webp",
+      "source": "Assets Flops New.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "not_interested",
+      "label_ru": "Не был, не хочу",
+      "category": "status",
+      "usage": "visit_status",
+      "png": "/assets/status/not_interested.png",
+      "webp": "/assets/status/not_interested.webp",
+      "source": "Assets Flops New.png",
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "transparent_background": true,
+      "note": "Extracted from supplied contact sheet. Upscaled for consistency; not native 512px source.",
+      "quality_method": "Original contact-sheet crop, alpha cleanup, 2x Lanczos enlargement to 1024, mild sharpening. Not a high-resolution AI redraw.",
+      "quality_tier": "enhanced_upscale",
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    },
+    {
+      "id": "map",
+      "label_ru": "Пластилиновая карта путешествий",
+      "category": "navigation",
+      "usage": "home/categories/explore",
+      "png": "/assets/navigation/map.png",
+      "webp": "/assets/navigation/map.webp",
+      "source": "глиняная_карта_мира_с_маршрутами.png",
+      "transparent_background": true,
+      "quality_method": "Regenerated HD clay-style image, 1254 px original output, padded to 1536 px. Appearance may vary from old source-sheet version.",
+      "quality_tier": "regenerated_hd",
+      "pixel_size": [
+        1536,
+        1536
+      ],
+      "webp_pixel_size": [
+        768,
+        768
+      ],
+      "source_note": "Production preview: quality depends on original. Inspect close-up on device."
+    }
+  ],
+  "base_path": "public",
+  "note": "All paths assume contents of the assets folder are copied to the public/assets folder of the project. Do not use reference collages directly in UI.",
+  "asset_count_excluding_logos": 49,
+  "delivery_note": "48 original object IDs + 1 extra standalone map, 3 logo files. 4 HD regenerated images (ops_explorer, globe, signpost, map); all other images are enhanced upscales and not AI redrawn.",
+  "web_usage": "Move /assets into /public/assets. URLs begin at /assets. Do not reference collages."
+}
