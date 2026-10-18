@@ -1,210 +1,116 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
-import { COUNTRIES, randomCountry } from "@/lib/data";
-import { FlagSvg, FLAG_VIEWBOX } from "@/lib/flags";
-import { Country, FlagCropZone } from "@/lib/types";
-import { speak, LANG_BY_CODE } from "@/lib/speech";
+import { useState } from "react";
+import Image from "next/image";
+import { CountryLite } from "@/lib/types";
+import { GameContinent, pickCountries, countByContinent } from "@/lib/data";
+import { FlagGuessGame } from "@/components/FlagGuessGame";
+import { getFlopsAsset } from "@/brand/flops-assets";
 
-type Mode = "cards" | "quiz";
+const COUNTS = [5, 10, 20] as const;
+
+const CONTINENTS: { id: GameContinent; label: string }[] = [
+  { id: "all", label: "Весь мир" },
+  { id: "europe", label: "Европа" },
+  { id: "asia", label: "Азия" },
+  { id: "africa", label: "Африка" },
+  { id: "america", label: "Америка" },
+];
 
 export default function LearnFlagsPage() {
-  const [mode, setMode] = useState<Mode>("cards");
-  const [country, setCountry] = useState<Country>(COUNTRIES[0]);
-  const [revealed, setRevealed] = useState(false);
+  const [pool, setPool] = useState<CountryLite[] | null>(null);
 
-  // Randomize after mount: picking a random card is inherently impure, and
-  // doing it during the initial render would make server and client HTML
-  // disagree (hydration mismatch) and trip Next's prerender-stability check.
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional randomize-after-mount
-    setCountry(randomCountry());
-  }, []);
-
-  function next() {
-    setCountry((prev) => randomCountry(prev.code));
-    setRevealed(false);
+  if (pool) {
+    return (
+      <div className="flex flex-col gap-5">
+        <h1 className="text-[28px] font-bold text-foreground">Учи флаги</h1>
+        <FlagGuessGame pool={pool} variant="learn" />
+      </div>
+    );
   }
 
+  return <Setup onStart={(count, cont) => setPool(pickCountries(count, cont))} />;
+}
+
+function Setup({ onStart }: { onStart: (count: number, cont: GameContinent) => void }) {
+  const [count, setCount] = useState<number>(5);
+  const [cont, setCont] = useState<GameContinent>("all");
+
+  const available = countByContinent(cont);
+  const realCount = Math.min(count, available);
+
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-stone-900">Учи Флаги</h1>
-        <div className="flex gap-1 rounded-full bg-stone-200 p-1">
-          <button
-            onClick={() => setMode("cards")}
-            className={`rounded-full px-3 py-1 text-sm font-medium ${
-              mode === "cards" ? "bg-white shadow-sm" : "text-stone-600"
-            }`}
-          >
-            Карточки
-          </button>
-          <button
-            onClick={() => setMode("quiz")}
-            className={`rounded-full px-3 py-1 text-sm font-medium ${
-              mode === "quiz" ? "bg-white shadow-sm" : "text-stone-600"
-            }`}
-          >
-            Викторина
-          </button>
+    <div className="flex flex-col gap-7">
+      <div className="flex items-center gap-4">
+        <Image
+          src={getFlopsAsset("ops_explorer")}
+          alt="Мопс Опс"
+          width={96}
+          height={96}
+          priority
+          className="h-24 w-24 object-contain flops-bob"
+        />
+        <div>
+          <h1 className="text-[28px] font-bold leading-tight text-foreground">Учи флаги</h1>
+          <p className="text-muted">Слушай и угадывай страну по флагу.</p>
         </div>
       </div>
 
-      {mode === "cards" ? (
-        <FlashCard country={country} revealed={revealed} onReveal={() => setRevealed(true)} onNext={next} />
-      ) : (
-        <QuizCard key={country.code} country={country} onNext={next} />
-      )}
-
-      <p className="text-center text-xs text-stone-400">
-        Страны показываются вперемешку, вне зависимости от того, были вы там
-        или нет.
-      </p>
-    </div>
-  );
-}
-
-function FlashCard({
-  country,
-  revealed,
-  onReveal,
-  onNext,
-}: {
-  country: Country;
-  revealed: boolean;
-  onReveal: () => void;
-  onNext: () => void;
-}) {
-  const ratio = FLAG_VIEWBOX[country.code];
-  return (
-    <div className="flex flex-col items-center gap-5 rounded-3xl border border-stone-200 bg-white p-8 shadow-sm">
-      <div
-        className="w-full max-w-xs overflow-hidden rounded-2xl border border-stone-200 shadow-inner"
-        style={{ aspectRatio: `${ratio.w} / ${ratio.h}` }}
-      >
-        <FlagSvg code={country.code} />
-      </div>
-
-      {revealed ? (
-        <button
-          onClick={() => speak(country.name, LANG_BY_CODE[country.code])}
-          className="flex items-center gap-2 rounded-full bg-stone-900 px-5 py-2.5 text-lg font-bold text-white"
-        >
-          🔊 {country.name}
-        </button>
-      ) : (
-        <button
-          onClick={onReveal}
-          className="rounded-full bg-stone-900 px-5 py-2.5 text-sm font-semibold text-white"
-        >
-          Показать название
-        </button>
-      )}
-
-      <div className="flex w-full gap-3">
-        {revealed && (
-          <Link
-            href={`/flags/${country.code}`}
-            className="flex-1 rounded-full border border-stone-300 px-4 py-2.5 text-center text-sm font-semibold text-stone-700 hover:bg-stone-100"
-          >
-            Узнать больше о стране →
-          </Link>
-        )}
-        <button
-          onClick={onNext}
-          className={`rounded-full px-4 py-2.5 text-sm font-semibold text-white ${
-            revealed ? "bg-stone-400 hover:bg-stone-500" : "flex-1 bg-stone-900"
-          }`}
-        >
-          Следующий флаг
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function QuizCard({ country, onNext }: { country: Country; onNext: () => void }) {
-  const zones = country.quizCropZones;
-  const hidden = useMemo<FlagCropZone>(
-    // eslint-disable-next-line react-hooks/purity -- picking the hidden zone is meant to be random each render of a fresh quiz card
-    () => zones[Math.floor(Math.random() * zones.length)],
-    [zones]
-  );
-  const options = useMemo(() => shuffle(zones.map((z) => z.label)), [zones]);
-  const [answer, setAnswer] = useState<string | null>(null);
-  const ratio = FLAG_VIEWBOX[country.code];
-  const correct = answer === hidden.label;
-
-  return (
-    <div className="flex flex-col items-center gap-5 rounded-3xl border border-stone-200 bg-white p-8 shadow-sm">
-      <p className="text-sm font-medium text-stone-500">Что скрыто на флаге?</p>
-
-      <div
-        className="relative w-full max-w-xs overflow-hidden rounded-2xl border border-stone-200 shadow-inner"
-        style={{ aspectRatio: `${ratio.w} / ${ratio.h}` }}
-      >
-        <FlagSvg code={country.code} />
-        <div
-          className="absolute flex items-center justify-center bg-stone-900/90 text-2xl font-bold text-white"
-          style={{
-            left: `${hidden.x}%`,
-            top: `${hidden.y}%`,
-            width: `${hidden.w}%`,
-            height: `${hidden.h}%`,
-          }}
-        >
-          ?
-        </div>
-      </div>
-
-      <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-3">
-        {options.map((label) => {
-          const isAnswer = answer !== null;
-          const isCorrectOption = label === hidden.label;
-          return (
+      {/* Сколько флагов */}
+      <section className="flex flex-col gap-3">
+        <h2 className="text-[21px] font-bold text-foreground">Сколько флагов учим?</h2>
+        <div className="grid grid-cols-3 gap-3">
+          {COUNTS.map((n) => (
             <button
-              key={label}
-              disabled={isAnswer}
-              onClick={() => setAnswer(label)}
-              className={`rounded-xl border px-3 py-2.5 text-sm font-semibold transition-colors ${
-                !isAnswer
-                  ? "border-stone-300 hover:bg-stone-100"
-                  : isCorrectOption
-                  ? "border-emerald-400 bg-emerald-100 text-emerald-800"
-                  : label === answer
-                  ? "border-rose-400 bg-rose-100 text-rose-800"
-                  : "border-stone-200 text-stone-400"
+              key={n}
+              onClick={() => setCount(n)}
+              className={`rounded-[var(--radius-icon)] border py-5 text-2xl font-bold transition-colors ${
+                count === n
+                  ? "border-brand-green bg-brand-green/10 text-brand-green"
+                  : "border-border bg-surface text-foreground hover:bg-black/[0.03]"
               }`}
             >
-              {label}
+              {n}
             </button>
-          );
-        })}
-      </div>
-
-      {answer !== null && (
-        <div className="flex w-full flex-col items-center gap-3">
-          <p className={`text-sm font-semibold ${correct ? "text-emerald-700" : "text-rose-700"}`}>
-            {correct ? "Верно! 🎉" : `Не угадали — это «${hidden.label}», флаг ${country.name}.`}
-          </p>
-          <button
-            onClick={onNext}
-            className="rounded-full bg-stone-900 px-5 py-2.5 text-sm font-semibold text-white"
-          >
-            Следующий флаг
-          </button>
+          ))}
         </div>
-      )}
+      </section>
+
+      {/* Континент */}
+      <section className="flex flex-col gap-3">
+        <h2 className="text-[21px] font-bold text-foreground">Какой континент?</h2>
+        <div className="flex flex-wrap gap-2.5">
+          {CONTINENTS.map((c) => (
+            <button
+              key={c.id}
+              onClick={() => setCont(c.id)}
+              className={`rounded-full border px-5 py-2.5 text-[17px] font-bold transition-colors ${
+                cont === c.id
+                  ? "border-brand-green bg-brand-green text-white"
+                  : "border-border bg-surface text-foreground hover:bg-black/[0.03]"
+              }`}
+            >
+              {c.label}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <button
+        onClick={() => onStart(count, cont)}
+        className="rounded-full bg-brand-green px-8 py-4 text-xl font-bold text-white shadow-[var(--shadow-card)] active:scale-95"
+      >
+        Поехали! — {realCount} {flagWord(realCount)}
+      </button>
     </div>
   );
 }
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
+function flagWord(n: number): string {
+  const d = n % 10;
+  const dd = n % 100;
+  if (dd >= 11 && dd <= 14) return "флагов";
+  if (d === 1) return "флаг";
+  if (d >= 2 && d <= 4) return "флага";
+  return "флагов";
 }

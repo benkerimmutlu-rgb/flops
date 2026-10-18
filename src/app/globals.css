@@ -1,26 +1,140 @@
 @import "tailwindcss";
 
+/* FLOPS design tokens — warm cream, soft claymation, friendly rounding.
+   Source: brand/design-tokens.json. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f2e8;
+  --surface: #ffffff;
+  --foreground: #1f2430;
+  --muted: #696d75;
+  --green: #1e9a58;
+  --yellow: #f6c742;
+  --red: #e84a43;
+  --blue: #33a8e4;
+  --clay-beige: #d7b89c;
+  --border: #e6e1da;
+  --shadow-card: 0 5px 16px rgba(31, 36, 48, 0.07);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-brand-green: var(--green);
+  --color-brand-yellow: var(--yellow);
+  --color-brand-red: var(--red);
+  --color-brand-blue: var(--blue);
+  --color-clay-beige: var(--clay-beige);
+  --color-border: var(--border);
+
+  --font-sans: var(--font-nunito), "Nunito", system-ui, sans-serif;
+  --font-heading: var(--font-rubik), var(--font-nunito), system-ui, sans-serif;
+
+  --radius-card: 28px;
+  --radius-icon: 20px;
+  --shadow-card: var(--shadow-card);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Brand is warm and bright in both schemes — no dark inversion that would
+   fight the claymation illustrations, which are drawn on light. */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+}
+
+/* ─── Playful claymation motion (used by the games) ─── */
+@keyframes flops-pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.flops-pop { animation: flops-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+@keyframes flops-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+.flops-wiggle { animation: flops-wiggle 0.6s ease-in-out infinite; }
+
+@keyframes flops-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.flops-bob { animation: flops-bob 2.4s ease-in-out infinite; }
+
+@keyframes flops-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+.flops-shake { animation: flops-shake 0.5s ease-in-out both; }
+
+@keyframes flops-confetti-fall {
+  0% { transform: translateY(-10%) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(120%) rotate(540deg); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flops-pop, .flops-wiggle, .flops-bob, .flops-shake { animation: none; }
+}
+
+/* ─── Меморина: 3D-переворот карточек (flip) ─── */
+.mem-card {
+  perspective: 800px;
+  -webkit-tap-highlight-color: transparent;
+}
+.mem-card__inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.mem-card__inner.is-flipped {
+  transform: rotateY(180deg);
+}
+.mem-card__side {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 18px;
+  overflow: hidden;
+}
+.mem-card__back {
+  background: linear-gradient(135deg, var(--yellow) 0%, #ef9f3a 100%);
+  border: 3px solid #fff;
+  box-shadow: var(--shadow-card);
+}
+.mem-card__face {
+  transform: rotateY(180deg);
+  background: #fff;
+  box-shadow: var(--shadow-card);
+}
+/* Matched cards gently shrink away ("карта исчезает"). */
+.mem-card--matched .mem-card__inner {
+  animation: mem-vanish 0.5s ease forwards;
+  pointer-events: none;
+}
+@keyframes mem-vanish {
+  0% { transform: rotateY(180deg) scale(1); opacity: 1; }
+  100% { transform: rotateY(180deg) scale(0.35); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mem-card__inner { transition: none; }
+  .mem-card--matched .mem-card__inner { animation: none; opacity: 0; }
 }

@@ -269,3 +269,49 @@ export function FlagSvg({ code }: { code: string }) {
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={`/flags/${code}.png`} alt="" className="h-full w-full object-cover" />;
 }
+
+// Clay-rendered flags (public/flags-clay/<code>.png) are a progressive visual
+// upgrade over the accurate stock PNGs. A code is listed here only once its
+// clay flag has been identified and dropped in — otherwise we fall back to the
+// stock flag, so the games always have a complete, correct set to draw from.
+export const CLAY_FLAGS = new Set<string>([
+  // Identified from "Flags NEW" and copied to public/flags-clay/<code>.png.
+  "ae", "af", "al", "am", "ao", "ar", "at", "au", "az", "ba",
+  "bd", "be", "bg", "bo", "br", "by", "ca", "ch", "ci", "cl",
+  "cm", "cn", "co", "cr", "cu", "cz", "de", "dk", "do", "dz",
+  "ec", "ee", "eg", "es", "et", "fi", "fj", "fr", "gb", "ge",
+  "gh", "gn", "gr", "gt", "hn", "hr", "ht", "hu", "id", "ie",
+  "il", "in", "iq", "ir", "is", "it", "jm", "jo", "jp", "ke",
+  "kh", "kp", "kr", "kw", "kz", "lb", "lk", "lt", "lu", "lv",
+  "ma", "md", "mg", "mk", "ml", "no",
+]);
+
+/** Public URL for a flag — clay version (webp) when available, else stock PNG. */
+export function flagSrc(code: string): string {
+  return CLAY_FLAGS.has(code) ? `/flags-clay/${code}.webp` : `/flags/${code}.png`;
+}
+
+/**
+ * A flag image for the games. `fit="contain"` keeps clay flags (which carry
+ * their own soft edges / shadow) un-cropped; `fit="cover"` fills a framed card.
+ */
+export function FlagImage({
+  code,
+  alt = "",
+  fit = "contain",
+  className = "",
+}: {
+  code: string;
+  alt?: string;
+  fit?: "contain" | "cover";
+  className?: string;
+}) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={flagSrc(code)}
+      alt={alt}
+      className={`h-full w-full ${fit === "cover" ? "object-cover" : "object-contain"} ${className}`}
+    />
+  );
+}
