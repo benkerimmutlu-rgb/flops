@@ -10,24 +10,27 @@ export type AccessorySlot = "head" | "face" | "neck" | "hold";
 export interface Accessory {
   id: string;
   name: string;
-  emoji: string;
+  emoji: string; // для текстовой подписи «что надето»
+  img: string; // пластилиновый PNG для картинок и «образа»
   price: number;
   slot: AccessorySlot;
 }
 
+const SHOP = "/assets/shop";
+
 export const ACCESSORIES: Accessory[] = [
-  { id: "cap", name: "Кепка", emoji: "🧢", price: 20, slot: "head" },
-  { id: "scarf", name: "Шарфик", emoji: "🧣", price: 30, slot: "neck" },
-  { id: "glasses", name: "Очки", emoji: "🕶️", price: 45, slot: "face" },
-  { id: "bowtie", name: "Бабочка", emoji: "🎀", price: 60, slot: "neck" },
-  { id: "ball", name: "Мячик", emoji: "⚽", price: 75, slot: "hold" },
-  { id: "backpack", name: "Рюкзак", emoji: "🎒", price: 95, slot: "hold" },
-  { id: "camera", name: "Фотоаппарат", emoji: "📸", price: 120, slot: "hold" },
-  { id: "party", name: "Колпак", emoji: "🥳", price: 150, slot: "head" },
-  { id: "tophat", name: "Цилиндр", emoji: "🎩", price: 180, slot: "head" },
-  { id: "medal", name: "Медаль", emoji: "🏅", price: 220, slot: "hold" },
-  { id: "wizard", name: "Шляпа мага", emoji: "🪄", price: 280, slot: "head" },
-  { id: "crown", name: "Корона", emoji: "👑", price: 350, slot: "head" },
+  { id: "cap", name: "Кепка", emoji: "🧢", img: `${SHOP}/cap.webp`, price: 20, slot: "head" },
+  { id: "scarf", name: "Шарфик", emoji: "🧣", img: `${SHOP}/scarf.webp`, price: 30, slot: "neck" },
+  { id: "glasses", name: "Очки", emoji: "🕶️", img: `${SHOP}/glasses.webp`, price: 45, slot: "face" },
+  { id: "bowtie", name: "Бабочка", emoji: "🎀", img: `${SHOP}/bowtie.webp`, price: 60, slot: "neck" },
+  { id: "ball", name: "Мячик", emoji: "⚽", img: `${SHOP}/ball.webp`, price: 75, slot: "hold" },
+  { id: "backpack", name: "Рюкзак", emoji: "🎒", img: `${SHOP}/backpack.webp`, price: 95, slot: "hold" },
+  { id: "camera", name: "Фотоаппарат", emoji: "📸", img: `${SHOP}/camera.webp`, price: 120, slot: "hold" },
+  { id: "party", name: "Колпак", emoji: "🥳", img: `${SHOP}/party.webp`, price: 150, slot: "head" },
+  { id: "tophat", name: "Цилиндр", emoji: "🎩", img: `${SHOP}/tophat.webp`, price: 180, slot: "head" },
+  { id: "medal", name: "Медаль", emoji: "🏅", img: `${SHOP}/medal.webp`, price: 220, slot: "hold" },
+  { id: "cape", name: "Плащ", emoji: "🦸", img: `${SHOP}/cape.webp`, price: 280, slot: "neck" },
+  { id: "crown", name: "Корона", emoji: "👑", img: `${SHOP}/crown.webp`, price: 350, slot: "head" },
 ];
 
 /** Slots that hold at most one item (so Flops never wears two hats at once). */

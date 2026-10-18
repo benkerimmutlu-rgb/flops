@@ -62,9 +62,13 @@ export default function ShopPage() {
                 isOn ? "border-brand-green" : "border-border"
               }`}
             >
-              <span className="text-4xl" aria-hidden>
-                {a.emoji}
-              </span>
+              <Image
+                src={a.img}
+                alt=""
+                width={72}
+                height={72}
+                className="h-16 w-16 object-contain"
+              />
               <span className="text-[15px] font-bold text-foreground">{a.name}</span>
 
               {!isOwned ? (

@@ -130,11 +130,20 @@ export default function MyWorldPage() {
               >
                 <button
                   onClick={() => setOpenCont(open ? null : cont)}
-                  className="flex w-full items-center justify-between px-4 py-3.5 text-left"
+                  className="flex w-full items-center justify-between px-4 py-3 text-left"
                   aria-expanded={open}
                 >
-                  <span className="text-[17px] font-bold text-foreground">
-                    {CONTINENT_LABEL[cont]}
+                  <span className="flex items-center gap-3">
+                    <Image
+                      src={`/assets/continents/${cont}.webp`}
+                      alt=""
+                      width={40}
+                      height={40}
+                      className="h-10 w-10 shrink-0 object-contain"
+                    />
+                    <span className="text-[17px] font-bold text-foreground">
+                      {CONTINENT_LABEL[cont]}
+                    </span>
                   </span>
                   <span className="flex items-center gap-2 text-sm text-muted">
                     {marked > 0 && (
