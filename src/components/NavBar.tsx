@@ -35,8 +35,8 @@ export function NavBar() {
           <Image
             src={getFlopsAsset("flops_wordmark", false)}
             alt="FLOPS"
-            width={146}
-            height={70}
+            width={193}
+            height={100}
             priority
             className="h-8 w-auto object-contain"
           />
