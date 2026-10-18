@@ -284,6 +284,10 @@ export const CLAY_FLAGS = new Set<string>([
   "il", "in", "iq", "ir", "is", "it", "jm", "jo", "jp", "ke",
   "kh", "kp", "kr", "kw", "kz", "lb", "lk", "lt", "lu", "lv",
   "ma", "md", "mg", "mk", "ml", "no",
+  // Second batch from "Flags NEW"
+  "mx", "my", "mz", "na", "ng", "nl", "np", "nz", "pa", "pe",
+  "pg", "ph", "pk", "pl", "pt", "py", "ro", "rs", "ru", "rw",
+  "sa", "ne", "ni", "om", "qa", "sd", "sc", "sb", "pw", "nr",
 ]);
 
 /** Public URL for a flag — clay version (webp) when available, else stock PNG. */

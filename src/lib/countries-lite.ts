@@ -127,4 +127,15 @@ export const COUNTRIES_EXTRA: CountryLite[] = [
   { code: "pg", name: "Папуа — Новая Гвинея", continent: "oceania", flagTags: ["red", "black", "yellow", "stars", "bird"] },
   { code: "ws", name: "Самоа", continent: "oceania", flagTags: ["red", "blue", "white", "stars", "canton"] },
   { code: "to", name: "Тонга", continent: "oceania", flagTags: ["red", "white", "cross", "canton"] },
+
+  // ───────── Добавлены вместе с пластилиновыми флагами ─────────
+  { code: "ne", name: "Нигер", continent: "africa", flagTags: ["orange", "white", "green", "tricolor-h", "circle"], lookalikes: ["in", "ci"] },
+  { code: "ni", name: "Никарагуа", continent: "north_america", flagTags: ["blue", "white", "stripes", "coat-of-arms", "triangle"] },
+  { code: "om", name: "Оман", continent: "asia", flagTags: ["red", "white", "green", "emblem"] },
+  { code: "qa", name: "Катар", continent: "asia", flagTags: ["maroon", "white", "serrated"] },
+  { code: "sd", name: "Судан", continent: "africa", flagTags: ["red", "white", "black", "green", "pan-arab", "triangle"] },
+  { code: "sc", name: "Сейшелы", continent: "africa", flagTags: ["blue", "yellow", "red", "white", "green", "rays"] },
+  { code: "sb", name: "Соломоновы Острова", continent: "oceania", flagTags: ["blue", "green", "yellow", "stars", "diagonal"] },
+  { code: "pw", name: "Палау", continent: "oceania", flagTags: ["blue", "yellow", "circle"] },
+  { code: "nr", name: "Науру", continent: "oceania", flagTags: ["blue", "yellow", "star"] },
 ];

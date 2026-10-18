@@ -16,7 +16,7 @@ import {
   createMemory,
   observe,
   prune,
-  recallChance,
+  STRENGTH,
 } from "./ai";
 
 type Phase = "peek" | "player" | "flops" | "finished";
@@ -66,6 +66,7 @@ export function MemoryGame({
 }) {
   const { addBones } = useUserState();
   const pairs = config.pairs;
+  const strength = STRENGTH[config.id]; // how hard Flops plays this level
 
   const [cards, setCards] = useState<BoardCard[]>(initialCards);
   const [phase, setPhase] = useState<Phase>("peek");
@@ -116,7 +117,7 @@ export function MemoryGame({
   // ── Peek phase: whole board open, Flops studies it too, then it covers up. ──
   useEffect(() => {
     initialCards.forEach((c) =>
-      observe(memory.current, toAi(c), recallChance(pairs))
+      observe(memory.current, toAi(c), strength.recall)
     );
     const tick = window.setInterval(
       () => setPeekLeft((v) => (v > 1 ? v - 1 : v)),
@@ -135,10 +136,12 @@ export function MemoryGame({
 
   function finishGame() {
     finished.current = true;
-    const reward = playerRef.current + 3;
+    // Always rewarding, but a win is worth more — Flops can now win on hard/expert.
+    const won = playerRef.current > flopsRef.current;
+    const reward = playerRef.current + (won ? 3 : 1);
     setBonesEarned(reward);
     addBones(reward);
-    setMood("happy");
+    setMood(won ? "happy" : "sad");
     setPhase("finished");
   }
 
@@ -229,13 +232,14 @@ export function MemoryGame({
         cardsRef.current.map(toAi),
         memory.current,
         flopsRef.current,
-        pairs
+        strength.cap,
+        strength.forget
       );
       setFlipped([aId]);
-      observe(memory.current, toAi(cardById(aId)), recallChance(pairs));
+      observe(memory.current, toAi(cardById(aId)), strength.recall);
       later(STEP_MS, () => {
         setFlipped([aId, bId]);
-        observe(memory.current, toAi(cardById(bId)), recallChance(pairs));
+        observe(memory.current, toAi(cardById(bId)), strength.recall);
         resolve(aId, bId, "flops");
       });
     });
@@ -251,7 +255,7 @@ export function MemoryGame({
       return;
     const next = [...flipped, card.id];
     setFlipped(next);
-    observe(memory.current, toAi(card), recallChance(pairs));
+    observe(memory.current, toAi(card), strength.recall);
     if (next.length === 2) {
       setLocked(true);
       resolve(next[0], next[1], "player");
@@ -261,6 +265,13 @@ export function MemoryGame({
   if (phase === "finished") {
     return (
       <MemoryFinish
+        outcome={
+          playerScore > flopsScore
+            ? "win"
+            : playerScore < flopsScore
+            ? "lose"
+            : "tie"
+        }
         playerScore={playerScore}
         flopsScore={flopsScore}
         bonesEarned={bonesEarned}

@@ -44,9 +44,9 @@ export function MemorySetup({
         </div>
       </div>
 
-      {/* Размер поля */}
+      {/* Размер поля — с визуальной подсказкой сложности для нечитающих детей */}
       <section className="flex flex-col gap-3">
-        <h2 className="text-[21px] font-bold text-foreground">Размер поля</h2>
+        <h2 className="text-[21px] font-bold text-foreground">Насколько сложно?</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {DIFFICULTY_ORDER.map((id) => {
             const d = DIFFICULTIES[id];
@@ -55,16 +55,20 @@ export function MemorySetup({
               <button
                 key={id}
                 onClick={() => setDifficulty(id)}
-                className={`flex flex-col items-center gap-1 rounded-[var(--radius-icon)] border py-4 transition-colors ${
+                style={
                   active
-                    ? "border-brand-green bg-brand-green/10 text-brand-green"
-                    : "border-border bg-surface text-foreground hover:bg-black/[0.03]"
+                    ? { borderColor: d.accent, backgroundColor: `${d.accent}1A` }
+                    : undefined
+                }
+                className={`flex flex-col items-center gap-2 rounded-[var(--radius-icon)] border-2 py-4 transition-colors ${
+                  active ? "" : "border-border bg-surface hover:bg-black/[0.03]"
                 }`}
               >
-                <span className="text-[17px] font-bold">{d.label}</span>
-                <span className="text-sm font-semibold text-muted">
-                  {d.cols}×{d.rows}
-                </span>
+                {/* Мини-превью поля: чем больше ячеек, тем сложнее */}
+                <MiniGrid cols={d.cols} rows={d.rows} accent={d.accent} />
+                <span className="text-[15px] font-bold text-foreground">{d.label}</span>
+                {/* Индикатор уровня: 1–4 заполненных точки */}
+                <LevelPips level={d.level} accent={d.accent} />
               </button>
             );
           })}
@@ -105,5 +109,47 @@ export function MemorySetup({
         Играть с Флопсом!
       </button>
     </div>
+  );
+}
+
+/** Tiny board preview — more cells reads as "harder" without any words. */
+function MiniGrid({
+  cols,
+  rows,
+  accent,
+}: {
+  cols: number;
+  rows: number;
+  accent: string;
+}) {
+  return (
+    <span
+      className="grid gap-[2px]"
+      style={{ gridTemplateColumns: `repeat(${cols}, 9px)` }}
+      aria-hidden
+    >
+      {Array.from({ length: cols * rows }, (_, i) => (
+        <span
+          key={i}
+          className="h-[9px] w-[9px] rounded-[2px]"
+          style={{ backgroundColor: accent, opacity: 0.85 }}
+        />
+      ))}
+    </span>
+  );
+}
+
+/** Four pips, the first `level` filled — a wordless difficulty meter. */
+function LevelPips({ level, accent }: { level: number; accent: string }) {
+  return (
+    <span className="flex items-center gap-1" aria-label={`Сложность ${level} из 4`}>
+      {[1, 2, 3, 4].map((n) => (
+        <span
+          key={n}
+          className="h-2 w-2 rounded-full"
+          style={{ backgroundColor: n <= level ? accent : "rgba(0,0,0,0.12)" }}
+        />
+      ))}
+    </span>
   );
 }
