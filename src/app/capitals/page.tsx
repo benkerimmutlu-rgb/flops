@@ -1,69 +1,134 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { COUNTRIES, randomCountry } from "@/lib/data";
-import { FlagSvg, FLAG_VIEWBOX } from "@/lib/flags";
-import { Country } from "@/lib/types";
-import { speak, LANG_BY_CODE } from "@/lib/speech";
+import { useState } from "react";
+import Image from "next/image";
+import { CountryLite } from "@/lib/types";
+import {
+  GameContinent,
+  pickCapitalCountries,
+  capitalCountByContinent,
+} from "@/lib/data";
+import { CapitalGuessGame } from "@/components/CapitalGuessGame";
+import { getFlopsAsset } from "@/brand/flops-assets";
+
+const COUNTS = [5, 10, 20] as const;
+
+const CONTINENTS: { id: GameContinent; label: string }[] = [
+  { id: "all", label: "Весь мир" },
+  { id: "europe", label: "Европа" },
+  { id: "asia", label: "Азия" },
+  { id: "africa", label: "Африка" },
+  { id: "america", label: "Америка" },
+];
 
 export default function LearnCapitalsPage() {
-  const [country, setCountry] = useState<Country>(COUNTRIES[0]);
-  const [revealed, setRevealed] = useState(false);
+  const [pool, setPool] = useState<CountryLite[] | null>(null);
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional randomize-after-mount, see /flags/page.tsx
-    setCountry(randomCountry());
-  }, []);
-
-  function next() {
-    setCountry((prev) => randomCountry(prev.code));
-    setRevealed(false);
+  if (pool) {
+    return (
+      <div className="flex flex-col gap-5">
+        <h1 className="text-[28px] font-bold text-foreground">Учи столицы</h1>
+        <CapitalGuessGame pool={pool} onRestart={() => setPool(null)} />
+      </div>
+    );
   }
 
-  const ratio = FLAG_VIEWBOX[country.code];
+  return (
+    <Setup
+      onStart={(count, cont) => setPool(pickCapitalCountries(count, cont))}
+    />
+  );
+}
+
+function Setup({
+  onStart,
+}: {
+  onStart: (count: number, cont: GameContinent) => void;
+}) {
+  const [count, setCount] = useState<number>(5);
+  const [cont, setCont] = useState<GameContinent>("all");
+
+  const available = capitalCountByContinent(cont);
+  const realCount = Math.min(count, available);
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-bold text-stone-900">Учи Столицы</h1>
-        <p className="text-sm text-stone-500">
-          Необязательный раздел: по флагу и названию страны вспомни или выучи
-          столицу.
-        </p>
-      </div>
-
-      <div className="flex flex-col items-center gap-5 rounded-3xl border border-stone-200 bg-white p-8 shadow-sm">
-        <div
-          className="w-full max-w-xs overflow-hidden rounded-2xl border border-stone-200 shadow-inner"
-          style={{ aspectRatio: `${ratio.w} / ${ratio.h}` }}
-        >
-          <FlagSvg code={country.code} />
+    <div className="flex flex-col gap-7">
+      <div className="flex items-center gap-4">
+        <Image
+          src={getFlopsAsset("signpost")}
+          alt=""
+          width={96}
+          height={96}
+          priority
+          className="h-24 w-24 object-contain flops-bob"
+        />
+        <div>
+          <h1 className="text-[28px] font-bold leading-tight text-foreground">
+            Учи столицы
+          </h1>
+          <p className="text-muted">
+            Смотри на флаг и страну — выбери её столицу.
+          </p>
         </div>
-        <p className="text-xl font-bold text-stone-900">{country.name}</p>
-
-        {revealed ? (
-          <button
-            onClick={() => speak(country.capital, LANG_BY_CODE[country.code])}
-            className="flex items-center gap-2 rounded-full bg-stone-900 px-5 py-2.5 text-lg font-bold text-white"
-          >
-            🔊 {country.capital}
-          </button>
-        ) : (
-          <button
-            onClick={() => setRevealed(true)}
-            className="rounded-full bg-stone-900 px-5 py-2.5 text-sm font-semibold text-white"
-          >
-            Какая столица?
-          </button>
-        )}
-
-        <button
-          onClick={next}
-          className="w-full rounded-full border border-stone-300 px-4 py-2.5 text-sm font-semibold text-stone-700 hover:bg-stone-100"
-        >
-          Следующая страна
-        </button>
       </div>
+
+      {/* Сколько столиц */}
+      <section className="flex flex-col gap-3">
+        <h2 className="text-[21px] font-bold text-foreground">
+          Сколько столиц угадываем?
+        </h2>
+        <div className="grid grid-cols-3 gap-3">
+          {COUNTS.map((n) => (
+            <button
+              key={n}
+              onClick={() => setCount(n)}
+              className={`rounded-[var(--radius-icon)] border py-5 text-2xl font-bold transition-colors ${
+                count === n
+                  ? "border-brand-green bg-brand-green/10 text-brand-green"
+                  : "border-border bg-surface text-foreground hover:bg-black/[0.03]"
+              }`}
+            >
+              {n}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* Континент */}
+      <section className="flex flex-col gap-3">
+        <h2 className="text-[21px] font-bold text-foreground">Какой континент?</h2>
+        <div className="flex flex-wrap gap-2.5">
+          {CONTINENTS.map((c) => (
+            <button
+              key={c.id}
+              onClick={() => setCont(c.id)}
+              className={`rounded-full border px-5 py-2.5 text-[17px] font-bold transition-colors ${
+                cont === c.id
+                  ? "border-brand-green bg-brand-green text-white"
+                  : "border-border bg-surface text-foreground hover:bg-black/[0.03]"
+              }`}
+            >
+              {c.label}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <button
+        onClick={() => onStart(count, cont)}
+        className="rounded-full bg-brand-green px-8 py-4 text-xl font-bold text-white shadow-[var(--shadow-card)] active:scale-95"
+      >
+        Поехали! — {realCount} {capitalWord(realCount)}
+      </button>
     </div>
   );
+}
+
+function capitalWord(n: number): string {
+  const d = n % 10;
+  const dd = n % 100;
+  if (dd >= 11 && dd <= 14) return "столиц";
+  if (d === 1) return "столица";
+  if (d >= 2 && d <= 4) return "столицы";
+  return "столиц";
 }

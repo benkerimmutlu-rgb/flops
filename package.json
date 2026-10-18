@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.49.4",
     "@svg-maps/world": "^2.0.0",
     "next": "16.4.2",
     "react": "19.3.0",

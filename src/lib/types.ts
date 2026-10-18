@@ -31,6 +31,8 @@ export interface CountryLite {
   code: string; // ISO-ish short code -> /public/flags/<code>.png
   name: string; // Russian name shown in the UI
   continent: ContinentId;
+  /** Capital city, Russian spelling — powers the capitals guessing game. */
+  capital?: string;
   /** Palette / pattern tags used to pick visually-confusing wrong answers. */
   flagTags?: string[];
   /** Codes of famous look-alike flags, used first when picking distractors. */

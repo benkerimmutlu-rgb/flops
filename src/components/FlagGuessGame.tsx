@@ -228,7 +228,7 @@ function Results({
     <div className="flex flex-col items-center gap-5 rounded-[var(--radius-card)] border border-border bg-surface p-8 text-center shadow-[var(--shadow-card)]">
       <Image
         src={getFlopsAsset("ops_celebrate")}
-        alt="Опс радуется"
+        alt="Флопс радуется"
         width={160}
         height={160}
         priority

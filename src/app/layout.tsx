@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito_Sans, Rubik } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/lib/auth";
 import { UserStateProvider } from "@/lib/store";
 import { NavBar } from "@/components/NavBar";
 
@@ -29,12 +30,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${nunitoSans.variable} ${rubik.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <UserStateProvider>
-          <NavBar />
-          <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
-            {children}
-          </main>
-        </UserStateProvider>
+        <AuthProvider>
+          <UserStateProvider>
+            <NavBar />
+            <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
+              {children}
+            </main>
+          </UserStateProvider>
+        </AuthProvider>
       </body>
     </html>
   );

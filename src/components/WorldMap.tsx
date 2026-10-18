@@ -5,28 +5,59 @@ import Image from "next/image";
 import { WORLD_COUNTRY_TOTAL } from "@/lib/data";
 import { getFlopsAsset } from "@/brand/flops-assets";
 
-/** Flat world map; countries in `visited` are filled green, the rest pale clay. */
-export function WorldMap({ visited }: { visited: Set<string> }) {
+/**
+ * Flat world map. Been-there (`visited`) countries are green, dream (`wish`)
+ * countries a bright blue, everything else stays uncolored pale land. Visited
+ * wins over wish when a country is both.
+ */
+export function WorldMap({
+  visited,
+  wish,
+}: {
+  visited: Set<string>;
+  wish?: Set<string>;
+}) {
   return (
-    <svg
-      viewBox={world.viewBox}
-      className="h-auto w-full"
-      role="img"
-      aria-label="Карта мира: закрашены страны, где ты был"
-    >
-      {world.locations.map((loc) => {
-        const on = visited.has(loc.id);
-        return (
-          <path
-            key={loc.id}
-            d={loc.path}
-            fill={on ? "var(--green)" : "var(--border)"}
-            stroke="var(--background)"
-            strokeWidth={0.5}
-          />
-        );
-      })}
-    </svg>
+    <div className="flex flex-col gap-3">
+      <svg
+        viewBox={world.viewBox}
+        className="h-auto w-full"
+        role="img"
+        aria-label="Карта мира: зелёным — где ты был, синим — куда мечтаешь"
+      >
+        {world.locations.map((loc) => {
+          const isVisited = visited.has(loc.id);
+          const isWish = !isVisited && wish?.has(loc.id);
+          const fill = isVisited
+            ? "var(--green)"
+            : isWish
+            ? "var(--blue)"
+            : "var(--border)";
+          return (
+            <path
+              key={loc.id}
+              d={loc.path}
+              fill={fill}
+              stroke="var(--background)"
+              strokeWidth={0.5}
+            />
+          );
+        })}
+      </svg>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm font-semibold text-muted">
+        <LegendDot color="var(--green)" label="Был" />
+        <LegendDot color="var(--blue)" label="Мечтаю" />
+      </div>
+    </div>
+  );
+}
+
+function LegendDot({ color, label }: { color: string; label: string }) {
+  return (
+    <span className="flex items-center gap-1.5">
+      <span className="h-3 w-3 rounded-full" style={{ background: color }} />
+      {label}
+    </span>
   );
 }
 

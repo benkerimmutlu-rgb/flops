@@ -42,13 +42,13 @@ export default function RepeatPage() {
         <div className="flex flex-col items-center gap-4 rounded-[var(--radius-card)] border border-border bg-surface p-10 text-center shadow-[var(--shadow-card)]">
           <Image
             src={getFlopsAsset("ops_sleep")}
-            alt="Опс спит"
+            alt="Флопс спит"
             width={160}
             height={160}
             className="h-36 w-36 object-contain flops-bob"
           />
           <h2 className="text-xl font-bold text-foreground">Стопка пуста — ты молодец!</h2>
-          <p className="text-muted">Ошибок на повтор нет. Опс отдыхает 😴</p>
+          <p className="text-muted">Ошибок на повтор нет. Флопс отдыхает 😴</p>
           <Link href="/flags" className="rounded-full bg-brand-green px-7 py-3 text-[17px] font-bold text-white active:scale-95">
             Учить дальше
           </Link>

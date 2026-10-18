@@ -5,15 +5,15 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { getFlopsAsset } from "@/brand/flops-assets";
 
+// Итоговое меню (по просьбе): логотип ведёт на главную, остальное — 6 разделов.
+// «Повтори» и «Учу» остаются доступны карточками на главной и из игры «Флаги».
 const LINKS = [
-  { href: "/", label: "Главная" },
   { href: "/flags", label: "Флаги" },
-  { href: "/flags/repeat", label: "Повтори" },
-  { href: "/learning", label: "Учу" },
-  { href: "/world", label: "Мир" },
-  { href: "/categories", label: "Мои страны" },
-  { href: "/memory", label: "Меморина" },
   { href: "/capitals", label: "Столицы" },
+  { href: "/languages", label: "Языки" },
+  { href: "/memory", label: "Меморина" },
+  { href: "/world", label: "Мой мир" },
+  { href: "/shop", label: "Магазин" },
 ];
 
 export function NavBar() {

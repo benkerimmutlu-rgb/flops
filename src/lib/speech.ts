@@ -48,5 +48,18 @@ export function speak(text: string, lang: string) {
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = lang;
   utterance.rate = 0.9;
+  // Pick a voice that actually matches the requested language when the device
+  // has one — this is what lets a foreign phrase (e.g. "Bonjour") be spoken in
+  // French instead of read with the default (Russian) voice. Falls back to the
+  // browser default when no matching voice is installed.
+  const voices = window.speechSynthesis.getVoices();
+  if (voices && voices.length) {
+    const want = lang.toLowerCase();
+    const base = want.split("-")[0];
+    const match =
+      voices.find((v) => v.lang?.toLowerCase() === want) ??
+      voices.find((v) => v.lang?.toLowerCase().startsWith(base));
+    if (match) utterance.voice = match;
+  }
   window.speechSynthesis.speak(utterance);
 }

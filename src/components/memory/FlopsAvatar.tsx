@@ -12,7 +12,7 @@ export type FlopsMood = "idle" | "peek" | "think" | "happy" | "sad" | "sleepy";
 const FRAMES: Record<FlopsMood, FlopsAssetId[]> = {
   idle: ["ops_play"],
   peek: ["ops_play", "ops_worried_badge"],
-  think: ["ops_play", "ops_worried_badge", "ops_sleep"],
+  think: ["ops_play", "ops_worried_badge"],
   happy: ["ops_celebrate"],
   sad: ["ops_sad"],
   sleepy: ["ops_sleep"],
@@ -45,7 +45,7 @@ export function FlopsAvatar({
     if (frames.length < 2) return;
     const t = setInterval(
       () => setFrame((f) => (f + 1) % frames.length),
-      520
+      900
     );
     return () => clearInterval(t);
   }, [mood, frames.length]);

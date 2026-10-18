@@ -7,16 +7,17 @@ const COLORS = ["#1E9A58", "#F6C742", "#E84A43", "#33A8E4", "#D7B89C"];
 /** A short burst of clay-colored confetti. Mount it to play; remove to stop. */
 export function Confetti({ pieces = 28 }: { pieces?: number }) {
   // Positions are randomized once per mount — a fresh burst each celebration.
+  // All pieces are round dots: rotating squares smeared into colored streaks
+  // mid-fall and read as a rendering glitch rather than confetti.
   const bits = useMemo(
     () =>
       Array.from({ length: pieces }, (_, i) => ({
         id: i,
         left: Math.random() * 100,
-        delay: Math.random() * 0.35,
-        duration: 1.1 + Math.random() * 0.9,
+        delay: Math.random() * 0.3,
+        duration: 1.2 + Math.random() * 0.7,
         color: COLORS[i % COLORS.length],
-        size: 7 + Math.random() * 7,
-        rounded: Math.random() > 0.5,
+        size: 8 + Math.random() * 5,
       })),
     [pieces]
   );
@@ -33,7 +34,7 @@ export function Confetti({ pieces = 28 }: { pieces?: number }) {
             width: `${b.size}px`,
             height: `${b.size}px`,
             background: b.color,
-            borderRadius: b.rounded ? "9999px" : "2px",
+            borderRadius: "9999px",
             animation: `flops-confetti-fall ${b.duration}s ${b.delay}s ease-in forwards`,
           }}
         />

@@ -3,7 +3,7 @@
 /* FLOPS design tokens — warm cream, soft claymation, friendly rounding.
    Source: brand/design-tokens.json. */
 :root {
-  --background: #f8f2e8;
+  --background: #ffffff;
   --surface: #ffffff;
   --foreground: #1f2430;
   --muted: #696d75;
@@ -12,8 +12,9 @@
   --red: #e84a43;
   --blue: #33a8e4;
   --clay-beige: #d7b89c;
-  --border: #e6e1da;
-  --shadow-card: 0 5px 16px rgba(31, 36, 48, 0.07);
+  /* Slightly deeper on a white page so white cards still read as cards. */
+  --border: #e4e0d8;
+  --shadow-card: 0 6px 18px rgba(31, 36, 48, 0.1);
 }
 
 @theme inline {

@@ -23,12 +23,12 @@ type Phase = "peek" | "player" | "flops" | "finished";
 
 // Pacing — slow enough for a 5-year-old to follow each flip, brisk enough that
 // an adult never waits around.
-const THINK_MS = 850; // Flops "thinks" before reaching for a card
-const STEP_MS = 650; // gap between Flops's first and second flip
-const MATCH_PAUSE = 650; // beat before a matched pair celebrates
-const MATCH_HOLD = 850; // how long a matched pair stays before vanishing
-const MISS_HOLD = 1000; // how long a mismatch stays face-up before flipping back
-const FLIP_BACK = 650; // settle time after a mismatch before the next turn
+const THINK_MS = 1150; // Flops "thinks" before reaching for a card
+const STEP_MS = 800; // gap between Flops's first and second flip
+const MATCH_PAUSE = 700; // beat before a matched pair celebrates
+const MATCH_HOLD = 950; // how long a matched pair stays before vanishing
+const MISS_HOLD = 1100; // how long a mismatch stays face-up before flipping back
+const FLIP_BACK = 750; // settle time after a mismatch before the next turn
 
 const FLOPS_THINK = [
   "Хмм… где же пара?",
@@ -154,6 +154,9 @@ export function MemoryGame({
       later(MATCH_PAUSE, () => {
         setHighlight({ ids: [aId, bId], by });
         setShowConfetti(true);
+        // Let every dot finish its fall before unmounting — removing the burst
+        // mid-animation froze pieces into the colored streaks over the board.
+        later(2100, () => setShowConfetti(false));
         speak(a.country.name, "ru-RU");
         if (by === "player") {
           setMood("idle");
@@ -173,7 +176,6 @@ export function MemoryGame({
           prune(memory.current, updated.map(toAi));
           setFlipped([]);
           setHighlight(null);
-          setShowConfetti(false);
 
           if (by === "player") {
             playerRef.current += 1;
@@ -303,7 +305,7 @@ export function MemoryGame({
 
       {/* Поле */}
       <div className="relative">
-        {showConfetti && <Confetti pieces={30} />}
+        {showConfetti && <Confetti pieces={16} />}
         <div
           className="mx-auto grid w-full gap-2.5 sm:gap-3"
           style={{

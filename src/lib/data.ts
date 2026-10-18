@@ -456,6 +456,7 @@ const FULL_AS_LITE: CountryLite[] = COUNTRIES.map((c) => ({
   code: c.code,
   name: c.name,
   continent: c.continent,
+  capital: c.capital,
   ...FULL_FLAG_META[c.code],
 }));
 
@@ -502,6 +503,51 @@ export function pickCountries(count: number, filter: GameContinent): CountryLite
 /** How many countries are available per game-continent (for setup UI). */
 export function countByContinent(filter: GameContinent): number {
   return ALL_LITE.filter((c) => matchesContinent(c, filter)).length;
+}
+
+/** Every country that has a capital — the capitals-game pool (currently all). */
+export const ALL_WITH_CAPITAL: CountryLite[] = ALL_LITE.filter((c) => c.capital);
+
+/** Pick up to `count` countries (that have capitals) from a continent filter. */
+export function pickCapitalCountries(
+  count: number,
+  filter: GameContinent
+): CountryLite[] {
+  const pool = ALL_WITH_CAPITAL.filter((c) => matchesContinent(c, filter));
+  return shuffle(pool).slice(0, count);
+}
+
+export function capitalCountByContinent(filter: GameContinent): number {
+  return ALL_WITH_CAPITAL.filter((c) => matchesContinent(c, filter)).length;
+}
+
+/**
+ * Pick `n` wrong capitals for a target — other real countries, same continent
+ * first (plausibly confusable), topped up from anywhere. Distinct capitals only.
+ */
+export function pickCapitalDistractors(
+  target: CountryLite,
+  n = 3
+): CountryLite[] {
+  const used = new Set([target.capital]);
+  const take = (list: CountryLite[]) => {
+    const out: CountryLite[] = [];
+    for (const c of shuffle(list)) {
+      if (out.length >= n) break;
+      if (c.code === target.code || used.has(c.capital)) continue;
+      used.add(c.capital);
+      out.push(c);
+    }
+    return out;
+  };
+  const sameContinent = ALL_WITH_CAPITAL.filter(
+    (c) => c.continent === target.continent
+  );
+  const picked = take(sameContinent);
+  if (picked.length < n) {
+    picked.push(...take(ALL_WITH_CAPITAL).slice(0, n - picked.length));
+  }
+  return picked;
 }
 
 /** Rough number of countries in the world — denominator for the "visited %". */

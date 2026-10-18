@@ -25,7 +25,7 @@ export function CountryDetail({ code }: { code: string }) {
   return (
     <div className="flex flex-col gap-6 pb-16">
       <Link href="/world" className="text-sm font-semibold text-muted hover:text-foreground">
-        ← Все страны
+        ← Мой мир
       </Link>
 
       {/* Заголовок */}
@@ -143,7 +143,7 @@ export function CountryDetail({ code }: { code: string }) {
           <Image src={getFlopsAsset("ops_map")} alt="" width={96} height={96} className="h-24 w-24 object-contain flops-bob" />
           <p className="font-bold text-foreground">Подробности об этой стране скоро появятся</p>
           <p className="text-sm text-muted">
-            Опс уже собирает интересные факты, блюда и фразы. А пока ты можешь отметить
+            Флопс уже собирает интересные факты, блюда и фразы. А пока ты можешь отметить
             её как «Мечтаю побывать».
           </p>
         </div>
