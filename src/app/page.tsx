@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getFlopsAsset, FlopsAssetId } from "@/brand/flops-assets";
 import { useUserState } from "@/lib/store";
+import { speak } from "@/lib/speech";
 
 type MenuCard = {
   href: string;
@@ -106,7 +107,7 @@ export default function Home() {
           <Link
             key={card.href}
             href={card.href}
-            className="group relative flex items-center gap-4 rounded-[var(--radius-card)] border border-border bg-surface p-5 shadow-[var(--shadow-card)] transition-transform hover:-translate-y-0.5"
+            className="group relative flex items-center gap-4 rounded-[var(--radius-card)] border border-border bg-surface p-5 pr-16 shadow-[var(--shadow-card)] transition-transform hover:-translate-y-0.5"
           >
             <span className={`relative flex h-20 w-20 shrink-0 items-center justify-center rounded-[var(--radius-icon)] ${card.tint}`}>
               <Image src={getFlopsAsset(card.asset)} alt="" width={72} height={72} className="h-16 w-16 object-contain" />
@@ -120,6 +121,19 @@ export default function Home() {
               <span className="text-[21px] font-bold leading-tight text-foreground">{card.title}</span>
               <span className="text-sm text-muted">{card.description}</span>
             </span>
+            {/* Озвучка названия раздела — как с названиями стран, для нечитающих */}
+            <button
+              type="button"
+              aria-label={`Послушать: ${card.title}`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                speak(card.title, "ru-RU");
+              }}
+              className="absolute right-3 top-3 flex h-11 w-11 items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue hover:bg-brand-blue/20"
+            >
+              <Image src={getFlopsAsset("sound_speaker")} alt="" width={24} height={24} className="h-6 w-6 object-contain" />
+            </button>
           </Link>
         ))}
       </div>

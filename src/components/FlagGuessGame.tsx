@@ -47,6 +47,9 @@ export function FlagGuessGame({
   function choose(code: string) {
     if (answer || !target) return;
     setAnswer(code);
+    // Always say the correct country out loud — celebrates a right answer and,
+    // on a wrong one, tells a pre-reader which country it actually was.
+    speak(target.name, "ru-RU");
     if (code === target.code) {
       setCorrect((c) => c + 1);
       markCorrect(target.code);
