@@ -6,20 +6,6 @@ export type ContinentId =
   | "south_america"
   | "oceania";
 
-export type CategoryId =
-  | "loved_it" // Я там был, там круто
-  | "never_again" // Я там был — ни ногой больше
-  | "want_to_go" // Я там не был и очень хочу
-  | "dont_want"; // Я там не был и не хочу
-
-export interface CategoryDef {
-  id: CategoryId;
-  label: string;
-  shortLabel: string;
-  emoji: string;
-  color: string; // tailwind bg class for chips/badges
-}
-
 export interface Phrase {
   id: "hello" | "thanks" | "bye";
   label: string; // "Привет" / "Спасибо" / "Пока" — in Russian, for the UI
@@ -77,7 +63,8 @@ export interface Country extends CountryLite {
 }
 
 export interface UserCountryState {
-  category: CategoryId | null;
+  visited: boolean; // "Я тут был" — neutral, drives the visited-% and world map
+  wish: boolean; // "Мечтаю побывать" — a dream country
   likeCountry: boolean | null; // true = like, false = dislike, null = no opinion yet
   likeLanguage: boolean | null;
   seen: boolean; // has shown up in the game at least once

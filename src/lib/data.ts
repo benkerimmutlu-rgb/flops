@@ -504,6 +504,9 @@ export function countByContinent(filter: GameContinent): number {
   return ALL_LITE.filter((c) => matchesContinent(c, filter)).length;
 }
 
+/** Rough number of countries in the world — denominator for the "visited %". */
+export const WORLD_COUNTRY_TOTAL = 195;
+
 export const ALL_CONTINENT_IDS: ContinentId[] = [
   "europe",
   "asia",

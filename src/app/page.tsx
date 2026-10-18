@@ -39,9 +39,16 @@ export default function Home() {
       badge: repeatCount,
     },
     {
+      href: "/world",
+      title: "Мир",
+      description: "Читай про страны: флаги, еда, люди, фразы.",
+      asset: "world_people",
+      tint: "bg-brand-blue/10",
+    },
+    {
       href: "/categories",
-      title: "Знаю",
-      description: "Разложи знакомые страны по 4 полочкам путешествий.",
+      title: "Мои страны",
+      description: "Карта мира, страны мечты и где ты уже был.",
       asset: "map",
       tint: "bg-brand-yellow/15",
       badge: knownCount,

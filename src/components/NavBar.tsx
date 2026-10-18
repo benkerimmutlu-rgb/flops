@@ -9,8 +9,9 @@ const LINKS = [
   { href: "/", label: "Главная" },
   { href: "/flags", label: "Флаги" },
   { href: "/flags/repeat", label: "Повтори" },
-  { href: "/categories", label: "Знаю" },
   { href: "/learning", label: "Учу" },
+  { href: "/world", label: "Мир" },
+  { href: "/categories", label: "Мои страны" },
   { href: "/memory", label: "Меморина" },
   { href: "/capitals", label: "Столицы" },
 ];
@@ -32,12 +33,12 @@ export function NavBar() {
       <div className="mx-auto flex max-w-3xl items-center gap-1 overflow-x-auto px-4 py-3">
         <Link href="/" className="mr-3 shrink-0" aria-label="FLOPS — на главную">
           <Image
-            src={getFlopsAsset("flops_wordmark")}
+            src={getFlopsAsset("flops_wordmark", false)}
             alt="FLOPS"
-            width={104}
-            height={41}
+            width={146}
+            height={70}
             priority
-            className="h-7 w-auto object-contain"
+            className="h-8 w-auto object-contain"
           />
         </Link>
         {LINKS.map((link) => {

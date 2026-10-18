@@ -150,7 +150,13 @@ export function FlagGuessGame({
 
         {/* Фидбэк */}
         {answer && (
-          <Feedback correct={isCorrect} countryName={target.name} onNext={advance} last={step + 1 >= pool.length} />
+          <Feedback
+            correct={isCorrect}
+            code={target.code}
+            countryName={target.name}
+            onNext={advance}
+            last={step + 1 >= pool.length}
+          />
         )}
       </div>
 
@@ -165,11 +171,13 @@ export function FlagGuessGame({
 
 function Feedback({
   correct,
+  code,
   countryName,
   onNext,
   last,
 }: {
   correct: boolean;
+  code: string;
   countryName: string;
   onNext: () => void;
   last: boolean;
@@ -190,12 +198,17 @@ function Feedback({
           {correct ? " 🎉" : ". Попробуешь ещё в «Повтори» 🙂"}
         </p>
       </div>
-      <button
-        onClick={onNext}
-        className="rounded-full bg-brand-green px-7 py-3 text-[17px] font-bold text-white shadow-[var(--shadow-card)] active:scale-95"
-      >
-        {last ? "Готово →" : "Дальше →"}
-      </button>
+      <div className="flex w-full flex-col items-center gap-2">
+        <button
+          onClick={onNext}
+          className="rounded-full bg-brand-green px-7 py-3 text-[17px] font-bold text-white shadow-[var(--shadow-card)] active:scale-95"
+        >
+          {last ? "Готово →" : "Дальше →"}
+        </button>
+        <Link href={`/world/${code}`} className="text-sm font-semibold text-brand-blue hover:underline">
+          Узнать больше о стране →
+        </Link>
+      </div>
     </div>
   );
 }

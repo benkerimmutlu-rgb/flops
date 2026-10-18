@@ -1,14 +1,11 @@
-import { notFound } from "next/navigation";
-import { countryByCode } from "@/lib/data";
-import { CountryDetail } from "@/components/CountryDetail";
+import { redirect } from "next/navigation";
 
-export default async function CountryPage({
+// Country pages moved to the "Мир" section — keep old links working.
+export default async function LegacyCountryPage({
   params,
 }: {
   params: Promise<{ code: string }>;
 }) {
   const { code } = await params;
-  const country = countryByCode(code);
-  if (!country) notFound();
-  return <CountryDetail country={country} />;
+  redirect(`/world/${code}`);
 }

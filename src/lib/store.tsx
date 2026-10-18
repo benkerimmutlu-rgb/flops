@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { CategoryId, UserCountryState } from "./types";
+import { UserCountryState } from "./types";
 
 // Client-side, localStorage-backed state for the MVP's "first screens" pass.
 // Swap this for real persistence (Postgres, keyed by account) once auth exists —
@@ -10,11 +10,13 @@ import { CategoryId, UserCountryState } from "./types";
 
 type StateMap = Record<string, UserCountryState>;
 
-const STORAGE_KEY = "flops_user_state_v2"; // v1 lacked seen/known/inRepeat
+const STORAGE_KEY = "flops_user_state_v3"; // v3: positive-only visited/wish
+const LEGACY_KEY = "flops_user_state_v2"; // v2: had the 4-category system
 const BONES_KEY = "flops_bones_v1";
 
 const EMPTY_STATE: UserCountryState = {
-  category: null,
+  visited: false,
+  wish: false,
   likeCountry: null,
   likeLanguage: null,
   seen: false,
@@ -22,13 +24,39 @@ const EMPTY_STATE: UserCountryState = {
   inRepeat: false,
 };
 
-// Older saves (or partial writes) may miss the newer booleans — merge defaults
-// so the rest of the app can treat every field as present.
+// Older saves (or partial writes) may miss some booleans — merge defaults so the
+// rest of the app can treat every field as present.
 function normalize(raw: unknown): StateMap {
   if (!raw || typeof raw !== "object") return {};
   const out: StateMap = {};
   for (const [code, value] of Object.entries(raw as Record<string, unknown>)) {
     out[code] = { ...EMPTY_STATE, ...(value as Partial<UserCountryState>) };
+  }
+  return out;
+}
+
+// v2 → v3: drop the negative buckets, keep only positive intent.
+//   loved_it (был, круто) → visited + wish
+//   want_to_go (не был, хочу) → wish
+//   never_again (был, не хочу) → visited (neutral, no negativity kept)
+//   dont_want (не был, не хочу) → nothing
+function migrateLegacy(raw: unknown): StateMap {
+  if (!raw || typeof raw !== "object") return {};
+  const out: StateMap = {};
+  for (const [code, v] of Object.entries(raw as Record<string, unknown>)) {
+    const old = v as Partial<UserCountryState> & { category?: string };
+    const visited = old.category === "loved_it" || old.category === "never_again";
+    const wish = old.category === "loved_it" || old.category === "want_to_go";
+    out[code] = {
+      ...EMPTY_STATE,
+      visited,
+      wish,
+      likeCountry: old.likeCountry ?? null,
+      likeLanguage: old.likeLanguage ?? null,
+      seen: old.seen ?? false,
+      known: old.known ?? false,
+      inRepeat: old.inRepeat ?? false,
+    };
   }
   return out;
 }
@@ -51,7 +79,10 @@ function persistBones(n: number) {
 
 interface StoreValue {
   getState: (code: string) => UserCountryState;
-  setCategory: (code: string, category: CategoryId | null) => void;
+  /** "Я тут был" — neutral; drives the visited-% and the world map. */
+  setVisited: (code: string, value: boolean) => void;
+  /** "Мечтаю побывать" — a dream country. */
+  setWish: (code: string, value: boolean) => void;
   toggleLikeCountry: (code: string, value: boolean) => void;
   toggleLikeLanguage: (code: string, value: boolean) => void;
   /** Correct guess: country becomes "known", leaves the repeat stack, +bones. */
@@ -81,8 +112,19 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe load, see comment above
-      if (raw) setMap(normalize(JSON.parse(raw)));
+      if (raw) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe load
+        setMap(normalize(JSON.parse(raw)));
+      } else {
+        // First run on v3 — migrate an old v2 save if present.
+        const legacy = window.localStorage.getItem(LEGACY_KEY);
+        if (legacy) {
+          const migrated = migrateLegacy(JSON.parse(legacy));
+          persist(migrated);
+          // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time migration
+          setMap(migrated);
+        }
+      }
       const rawBones = window.localStorage.getItem(BONES_KEY);
       // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe load
       if (rawBones) setBones(Number(rawBones) || 0);
@@ -111,7 +153,8 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       all: map,
       bones,
       getState: (code) => map[code] ?? EMPTY_STATE,
-      setCategory: (code, category) => update(code, { category }),
+      setVisited: (code, value) => update(code, { visited: value }),
+      setWish: (code, value) => update(code, { wish: value }),
       toggleLikeCountry: (code, value) => update(code, { likeCountry: value }),
       toggleLikeLanguage: (code, value) => update(code, { likeLanguage: value }),
       markCorrect: (code, bonesReward = 1) => {
