@@ -17,9 +17,12 @@ type Variant = "learn" | "repeat";
 export function FlagGuessGame({
   pool,
   variant = "learn",
+  onRepeat,
 }: {
   pool: CountryLite[];
   variant?: Variant;
+  /** Repeat variant: restart the run in place with the current error stack. */
+  onRepeat?: () => void;
 }) {
   const { markCorrect, markWrong } = useUserState();
   const [step, setStep] = useState(0);
@@ -65,7 +68,7 @@ export function FlagGuessGame({
   }
 
   if (done) {
-    return <Results correct={correct} wrong={wrong} total={pool.length} variant={variant} />;
+    return <Results correct={correct} wrong={wrong} total={pool.length} variant={variant} onRepeat={onRepeat} />;
   }
 
   const isCorrect = answer === target.code;
@@ -218,11 +221,13 @@ function Results({
   wrong,
   total,
   variant,
+  onRepeat,
 }: {
   correct: number;
   wrong: number;
   total: number;
   variant: Variant;
+  onRepeat?: () => void;
 }) {
   return (
     <div className="flex flex-col items-center gap-5 rounded-[var(--radius-card)] border border-border bg-surface p-8 text-center shadow-[var(--shadow-card)]">
@@ -254,11 +259,22 @@ function Results({
             Ещё заход
           </Link>
         )}
-        {wrong > 0 && (
-          <Link href="/flags/repeat" className="rounded-full border border-border bg-surface px-6 py-3 text-center text-[17px] font-bold text-foreground hover:bg-black/[0.03]">
-            Повторить ошибки
-          </Link>
-        )}
+        {wrong > 0 &&
+          (onRepeat ? (
+            <button
+              onClick={onRepeat}
+              className="rounded-full border border-border bg-surface px-6 py-3 text-center text-[17px] font-bold text-foreground hover:bg-black/[0.03]"
+            >
+              Поработать над ошибками
+            </button>
+          ) : (
+            <Link
+              href="/flags/repeat"
+              className="rounded-full border border-border bg-surface px-6 py-3 text-center text-[17px] font-bold text-foreground hover:bg-black/[0.03]"
+            >
+              Поработать над ошибками
+            </Link>
+          ))}
         <Link href="/" className="rounded-full border border-border bg-surface px-6 py-3 text-center text-[17px] font-bold text-foreground hover:bg-black/[0.03]">
           На главную
         </Link>

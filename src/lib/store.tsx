@@ -124,6 +124,8 @@ interface StoreValue {
   bones: number;
   /** Lifetime bones earned — never decreases; drives Flops's rank. */
   bonesEarned: number;
+  /** True once the initial localStorage load has finished (avoids empty snapshots). */
+  hydrated: boolean;
   /** Accessory ids the player has bought. */
   owned: string[];
   /** The accessories Flops currently wears (one per single-slot, many "hold"). */
@@ -143,6 +145,7 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
   const [bonesEarned, setBonesEarned] = useState(0);
   const [owned, setOwned] = useState<string[]>([]);
   const [equipped, setEquipped] = useState<string[]>([]);
+  const [hydrated, setHydrated] = useState(false);
 
   // Облачная синхронизация (когда родитель вошёл и профиль создан).
   const { status: authStatus, user } = useAuth();
@@ -206,6 +209,8 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
     } catch {
       // ignore — private mode / blocked storage
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- marks end of hydration
+    setHydrated(true);
   }, []);
 
   // Текущее состояние прогресса одним объектом (для облака).
@@ -340,6 +345,7 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       all: map,
       bones,
       bonesEarned,
+      hydrated,
       owned,
       equipped,
       buyAccessory,
@@ -357,7 +363,7 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       clearRepeat: (code) => update(code, { inRepeat: false }),
       addBones: giveBones,
     };
-  }, [map, bones, bonesEarned, owned, equipped]);
+  }, [map, bones, bonesEarned, hydrated, owned, equipped]);
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }

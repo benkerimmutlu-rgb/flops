@@ -45,7 +45,7 @@ export default function LearningPage() {
         </Link>
         {repeatCount > 0 && (
           <Link href="/flags/repeat" className="rounded-full border border-border bg-surface px-6 py-3 text-[17px] font-bold text-foreground hover:bg-black/[0.03]">
-            Повтори ошибки ({repeatCount})
+            Поработать над ошибками ({repeatCount})
           </Link>
         )}
       </div>

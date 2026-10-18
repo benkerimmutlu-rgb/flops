@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { CountryLite } from "@/lib/types";
@@ -10,22 +10,32 @@ import { useUserState } from "@/lib/store";
 import { getFlopsAsset } from "@/brand/flops-assets";
 
 export default function RepeatPage() {
-  const { all } = useUserState();
+  const { all, hydrated } = useUserState();
   const [pool, setPool] = useState<CountryLite[] | null>(null);
+  const [round, setRound] = useState(0);
 
-  // Snapshot the repeat stack once, after mount, so answering a card doesn't
-  // reshuffle the run underneath the player. Codes with inRepeat=true only.
-  useEffect(() => {
-    const codes = Object.entries(all)
+  // Latest state via a ref so loadRound always reads the current error stack
+  // (not a stale closure), whether called on mount or from the restart button.
+  const allRef = useRef(all);
+  allRef.current = all;
+
+  function loadRound() {
+    const codes = Object.entries(allRef.current)
       .filter(([, s]) => s.inRepeat)
       .map(([code]) => code);
     const countries = codes
       .map(liteByCode)
       .filter((c): c is CountryLite => Boolean(c));
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- snapshot-after-mount
     setPool(shuffle(countries));
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional one-time snapshot
-  }, []);
+    setRound((r) => r + 1);
+  }
+
+  // Snapshot the stack once the store has hydrated (so a direct page load / reload
+  // doesn't snapshot an empty stack); the restart button re-snapshots it.
+  useEffect(() => {
+    if (hydrated) loadRound();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- snapshot once after hydration
+  }, [hydrated]);
 
   if (!pool) return null;
 
@@ -54,7 +64,12 @@ export default function RepeatPage() {
           </Link>
         </div>
       ) : (
-        <FlagGuessGame pool={pool} variant="repeat" />
+        <FlagGuessGame
+          key={round}
+          pool={pool}
+          variant="repeat"
+          onRepeat={loadRound}
+        />
       )}
     </div>
   );
