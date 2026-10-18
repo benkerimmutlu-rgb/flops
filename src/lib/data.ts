@@ -215,7 +215,7 @@ export const COUNTRIES: Country[] = [
   {
     code: "tr",
     name: "Турция",
-    continent: "asia",
+    continent: "europe",
     capital: "Анкара",
     flagMeaning:
       "Красный фон — традиционный цвет со времён Османской империи. Полумесяц и звезда — классические тюркские и исламские символы надежды и доброго пути.",
