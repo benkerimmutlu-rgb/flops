@@ -288,6 +288,13 @@ export const CLAY_FLAGS = new Set<string>([
   "mx", "my", "mz", "na", "ng", "nl", "np", "nz", "pa", "pe",
   "pg", "ph", "pk", "pl", "pt", "py", "ro", "rs", "ru", "rw",
   "sa", "ne", "ni", "om", "qa", "sd", "sc", "sb", "pw", "nr",
+  // Third batch — closing the world map from "Flags NEW"
+  "bj", "bw", "bf", "bi", "cv", "cf", "km", "cg", "cd", "dj",
+  "gq", "er", "sz", "ga", "gm", "gw", "ls", "lr", "ly", "st",
+  "sl", "so", "ss", "tg", "bh", "bt", "bn", "cy", "kg", "la",
+  "mm", "sy", "tl", "tm", "ps", "ad", "li", "mc", "me", "sm",
+  "va", "sv", "bz", "bs", "bb", "ag", "dm", "gd", "kn", "lc",
+  "tt", "gy", "sr", "vu", "fm", "mh", "ki", "tv",
 ]);
 
 /** Public URL for a flag — clay version (webp) when available, else stock PNG. */

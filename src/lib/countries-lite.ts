@@ -139,4 +139,75 @@ export const COUNTRIES_EXTRA: CountryLite[] = [
   { code: "sb", name: "Соломоновы Острова", continent: "oceania", capital: "Хониара", flagTags: ["blue", "green", "yellow", "stars", "diagonal"] },
   { code: "pw", name: "Палау", continent: "oceania", capital: "Нгерулмуд", flagTags: ["blue", "yellow", "circle"] },
   { code: "nr", name: "Науру", continent: "oceania", capital: "Ярен", flagTags: ["blue", "yellow", "star"] },
+
+  // ───────── Добавлены из «Flags NEW» (закрываем карту мира) ─────────
+  // Африка
+  { code: "bj", name: "Бенин", continent: "africa", capital: "Порто-Ново", flagTags: ["green", "yellow", "red", "pan-african"] },
+  { code: "bw", name: "Ботсвана", continent: "africa", capital: "Габороне", flagTags: ["blue", "black", "white", "stripes"] },
+  { code: "bf", name: "Буркина-Фасо", continent: "africa", capital: "Уагадугу", flagTags: ["red", "green", "yellow", "star", "pan-african"] },
+  { code: "bi", name: "Бурунди", continent: "africa", capital: "Гитега", flagTags: ["red", "green", "white", "stars", "x-shape"] },
+  { code: "cv", name: "Кабо-Верде", continent: "africa", capital: "Прая", flagTags: ["blue", "white", "red", "stars", "circle"] },
+  { code: "cf", name: "ЦАР", continent: "africa", capital: "Банги", flagTags: ["blue", "white", "green", "yellow", "red", "star"] },
+  { code: "km", name: "Коморы", continent: "africa", capital: "Морони", flagTags: ["yellow", "white", "red", "blue", "green", "crescent", "stars"] },
+  { code: "cg", name: "Конго", continent: "africa", capital: "Браззавиль", flagTags: ["green", "yellow", "red", "diagonal"] },
+  { code: "cd", name: "ДР Конго", continent: "africa", capital: "Киншаса", flagTags: ["blue", "red", "yellow", "star", "diagonal"] },
+  { code: "dj", name: "Джибути", continent: "africa", capital: "Джибути", flagTags: ["blue", "green", "white", "red", "star", "triangle"] },
+  { code: "gq", name: "Экваториальная Гвинея", continent: "africa", capital: "Малабо", flagTags: ["green", "white", "red", "blue", "coat-of-arms", "triangle"] },
+  { code: "er", name: "Эритрея", continent: "africa", capital: "Асмэра", flagTags: ["red", "green", "blue", "emblem", "triangle"] },
+  { code: "sz", name: "Эсватини", continent: "africa", capital: "Мбабане", flagTags: ["blue", "yellow", "red", "shield"] },
+  { code: "ga", name: "Габон", continent: "africa", capital: "Либревиль", flagTags: ["green", "yellow", "blue", "tricolor-h"] },
+  { code: "gm", name: "Гамбия", continent: "africa", capital: "Банжул", flagTags: ["red", "blue", "green", "white", "stripes"] },
+  { code: "gw", name: "Гвинея-Бисау", continent: "africa", capital: "Бисау", flagTags: ["red", "yellow", "green", "black", "star"], lookalikes: ["gn", "ml"] },
+  { code: "ls", name: "Лесото", continent: "africa", capital: "Масеру", flagTags: ["blue", "white", "green", "hat"] },
+  { code: "lr", name: "Либерия", continent: "africa", capital: "Монровия", flagTags: ["red", "white", "blue", "stripes", "star", "canton"], lookalikes: ["us"] },
+  { code: "ly", name: "Ливия", continent: "africa", capital: "Триполи", flagTags: ["red", "black", "green", "crescent", "star"] },
+  { code: "st", name: "Сан-Томе и Принсипи", continent: "africa", capital: "Сан-Томе", flagTags: ["green", "yellow", "red", "stars", "triangle"] },
+  { code: "sl", name: "Сьерра-Леоне", continent: "africa", capital: "Фритаун", flagTags: ["green", "white", "blue", "tricolor-h"] },
+  { code: "so", name: "Сомали", continent: "africa", capital: "Могадишо", flagTags: ["blue", "white", "star"] },
+  { code: "ss", name: "Южный Судан", continent: "africa", capital: "Джуба", flagTags: ["black", "red", "green", "white", "blue", "star", "triangle"] },
+  { code: "tg", name: "Того", continent: "africa", capital: "Ломе", flagTags: ["green", "yellow", "red", "star", "canton", "stripes"] },
+
+  // Азия
+  { code: "bh", name: "Бахрейн", continent: "asia", capital: "Манама", flagTags: ["red", "white", "serrated"], lookalikes: ["qa"] },
+  { code: "bt", name: "Бутан", continent: "asia", capital: "Тхимпху", flagTags: ["yellow", "orange", "dragon", "diagonal"] },
+  { code: "bn", name: "Бруней", continent: "asia", capital: "Бандар-Сери-Бегаван", flagTags: ["yellow", "black", "white", "red", "emblem", "diagonal"] },
+  { code: "cy", name: "Кипр", continent: "asia", capital: "Никосия", flagTags: ["white", "orange", "island", "olive"] },
+  { code: "kg", name: "Киргизия", continent: "asia", capital: "Бишкек", flagTags: ["red", "yellow", "sun"] },
+  { code: "la", name: "Лаос", continent: "asia", capital: "Вьентьян", flagTags: ["red", "blue", "white", "circle"] },
+  { code: "mm", name: "Мьянма", continent: "asia", capital: "Нейпьидо", flagTags: ["yellow", "green", "red", "star"] },
+  { code: "sy", name: "Сирия", continent: "asia", capital: "Дамаск", flagTags: ["red", "white", "black", "green", "stars", "pan-arab"] },
+  { code: "tl", name: "Восточный Тимор", continent: "asia", capital: "Дили", flagTags: ["red", "black", "yellow", "white", "star", "triangle"] },
+  { code: "tm", name: "Туркменистан", continent: "asia", capital: "Ашхабад", flagTags: ["green", "white", "red", "crescent", "stars", "carpet"] },
+  { code: "ps", name: "Палестина", continent: "asia", capital: "Рамалла", flagTags: ["black", "white", "green", "red", "pan-arab", "triangle"], lookalikes: ["jo", "sd"] },
+
+  // Европа
+  { code: "ad", name: "Андорра", continent: "europe", capital: "Андорра-ла-Велья", flagTags: ["blue", "yellow", "red", "tricolor-v", "coat-of-arms"], lookalikes: ["ro", "md"] },
+  { code: "li", name: "Лихтенштейн", continent: "europe", capital: "Вадуц", flagTags: ["blue", "red", "crown", "bicolor-h"] },
+  { code: "mc", name: "Монако", continent: "europe", capital: "Монако", flagTags: ["red", "white", "bicolor-h"], lookalikes: ["id", "pl"] },
+  { code: "me", name: "Черногория", continent: "europe", capital: "Подгорица", flagTags: ["red", "gold", "eagle", "coat-of-arms"] },
+  { code: "sm", name: "Сан-Марино", continent: "europe", capital: "Сан-Марино", flagTags: ["white", "blue", "coat-of-arms"] },
+  { code: "va", name: "Ватикан", continent: "europe", capital: "Ватикан", flagTags: ["yellow", "white", "keys", "emblem"] },
+
+  // Северная Америка
+  { code: "sv", name: "Сальвадор", continent: "north_america", capital: "Сан-Сальвадор", flagTags: ["blue", "white", "coat-of-arms", "stripes"] },
+  { code: "bz", name: "Белиз", continent: "north_america", capital: "Бельмопан", flagTags: ["blue", "red", "white", "coat-of-arms", "circle"] },
+  { code: "bs", name: "Багамы", continent: "north_america", capital: "Нассау", flagTags: ["blue", "yellow", "black", "triangle", "stripes"] },
+  { code: "bb", name: "Барбадос", continent: "north_america", capital: "Бриджтаун", flagTags: ["blue", "yellow", "trident"] },
+  { code: "ag", name: "Антигуа и Барбуда", continent: "north_america", capital: "Сент-Джонс", flagTags: ["red", "black", "white", "blue", "yellow", "sun", "triangle"] },
+  { code: "dm", name: "Доминика", continent: "north_america", capital: "Розо", flagTags: ["green", "cross", "red", "circle", "parrot"] },
+  { code: "gd", name: "Гренада", continent: "north_america", capital: "Сент-Джорджес", flagTags: ["red", "yellow", "green", "stars"] },
+  { code: "kn", name: "Сент-Китс и Невис", continent: "north_america", capital: "Бастер", flagTags: ["green", "red", "black", "yellow", "stars", "diagonal"] },
+  { code: "lc", name: "Сент-Люсия", continent: "north_america", capital: "Кастри", flagTags: ["blue", "yellow", "white", "black", "triangle"] },
+  { code: "tt", name: "Тринидад и Тобаго", continent: "north_america", capital: "Порт-оф-Спейн", flagTags: ["red", "black", "white", "diagonal"] },
+
+  // Южная Америка
+  { code: "gy", name: "Гайана", continent: "south_america", capital: "Джорджтаун", flagTags: ["green", "yellow", "red", "black", "white", "arrow"] },
+  { code: "sr", name: "Суринам", continent: "south_america", capital: "Парамарибо", flagTags: ["green", "white", "red", "star", "stripes"] },
+
+  // Океания
+  { code: "vu", name: "Вануату", continent: "oceania", capital: "Порт-Вила", flagTags: ["red", "green", "black", "yellow", "emblem", "y-shape"] },
+  { code: "fm", name: "Микронезия", continent: "oceania", capital: "Паликир", flagTags: ["blue", "white", "stars"] },
+  { code: "mh", name: "Маршалловы Острова", continent: "oceania", capital: "Маджуро", flagTags: ["blue", "white", "orange", "star", "diagonal"] },
+  { code: "ki", name: "Кирибати", continent: "oceania", capital: "Тарава", flagTags: ["red", "blue", "white", "sun", "bird", "waves"] },
+  { code: "tv", name: "Тувалу", continent: "oceania", capital: "Фунафути", flagTags: ["blue", "union-jack", "stars"], lookalikes: ["au", "nz"] },
 ];
