@@ -11,6 +11,7 @@ export type ShopCategoryId =
   | "sport"
   | "games"
   | "relax"
+  | "turkiye"
   | "summer"
   | "halloween";
 
@@ -28,6 +29,7 @@ export const SHOP_CATEGORIES: ShopCategory[] = [
   { id: "sport", label: "Спорт", emoji: "🥊", accent: "#E84A43" },
   { id: "games", label: "Игры", emoji: "🎮", accent: "#8257E6" },
   { id: "relax", label: "Уют", emoji: "🛋️", accent: "#C8863C" },
+  { id: "turkiye", label: "Турция", emoji: "🇹🇷", accent: "#E84A43" },
   { id: "summer", label: "Лето", emoji: "☀️", accent: "#F6C742" },
   { id: "halloween", label: "Хэллоуин", emoji: "🎃", accent: "#E8894A" },
 ];
@@ -44,12 +46,13 @@ export interface Accessory {
 
 const SHOP = "/assets/shop";
 
-// Низкие, «детские» лесенки цен.
-const L10 = [3, 4, 5, 6, 8, 10, 12, 15, 18, 22];
-const L11 = [3, 4, 5, 6, 8, 10, 12, 15, 18, 22, 26];
+// Цены: пол ~10, потолок 40 за самое классное. Так, чтобы пара вещей была по
+// силам, а на крутое нужно было поучиться ещё — вызов, а не «скупить за день».
+const L10 = [10, 12, 14, 16, 18, 22, 26, 30, 35, 40];
+const L11 = [10, 12, 14, 16, 18, 22, 26, 30, 34, 37, 40];
 const L30 = [
-  3, 3, 4, 4, 5, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26,
-  28, 30, 32, 35, 38, 42, 46, 50,
+  10, 10, 11, 11, 12, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26,
+  28, 30, 31, 32, 34, 35, 36, 37, 38, 39, 40,
 ];
 
 /** Собрать вещи категории из подпапки /assets/shop/<cat>/<prefix><n>.webp. */
@@ -62,13 +65,15 @@ function gen(
 ): Accessory[] {
   return names.map((name, i) => {
     const id = `${prefix}${i + 1}`;
-    const price = ladder[i];
+    const base = ladder[i];
+    // На распродаже реально дешевле: платишь ~60%, прежняя цена зачёркнута.
+    const price = discount ? Math.max(5, Math.round(base * 0.6)) : base;
     return {
       id,
       name,
       img: `${SHOP}/${cat}/${id}.webp`,
       price,
-      ...(discount ? { oldPrice: Math.round(price * 1.7) } : {}),
+      ...(discount ? { oldPrice: base } : {}),
       category: cat,
       active: true,
     };
@@ -77,21 +82,21 @@ function gen(
 
 export const ACCESSORIES: Accessory[] = [
   // ─── Вещи (базовые) ───
-  { id: "ball", name: "Мячик", img: `${SHOP}/ball.webp`, price: 3, category: "things", active: true },
-  { id: "bone", name: "Косточка", img: `${SHOP}/bone.webp`, price: 4, category: "things", active: true },
-  { id: "glasses", name: "Очки", img: `${SHOP}/glasses.webp`, price: 5, category: "things", active: true },
-  { id: "bowl", name: "Миска", img: `${SHOP}/bowl.webp`, price: 6, category: "things", active: true },
-  { id: "plant", name: "Растение", img: `${SHOP}/plant.webp`, price: 8, category: "things", active: true },
-  { id: "crown", name: "Корона", img: `${SHOP}/crown.webp`, price: 10, category: "things", active: true },
-  { id: "backpack", name: "Рюкзак", img: `${SHOP}/backpack.webp`, price: 12, category: "things", active: true },
-  { id: "camera", name: "Фотоаппарат", img: `${SHOP}/camera.webp`, price: 14, category: "things", active: true },
-  { id: "easel", name: "Мольберт", img: `${SHOP}/easel.webp`, price: 16, category: "things", active: true },
-  { id: "plane", name: "Самолётик", img: `${SHOP}/plane.webp`, price: 18, category: "things", active: true },
-  { id: "journal", name: "Дневник", img: `${SHOP}/journal.webp`, price: 20, category: "things", active: true },
-  { id: "postcards", name: "Открытки", img: `${SHOP}/postcards.webp`, price: 24, category: "things", active: true },
-  { id: "globe", name: "Глобус", img: `${SHOP}/globe.webp`, price: 28, category: "things", active: true },
-  { id: "chest", name: "Сундук", img: `${SHOP}/chest.webp`, price: 32, category: "things", active: true },
-  { id: "trophy", name: "Кубок", img: `${SHOP}/trophy.webp`, price: 38, category: "things", active: true },
+  { id: "ball", name: "Мячик", img: `${SHOP}/ball.webp`, price: 10, category: "things", active: true },
+  { id: "bone", name: "Косточка", img: `${SHOP}/bone.webp`, price: 11, category: "things", active: true },
+  { id: "glasses", name: "Очки", img: `${SHOP}/glasses.webp`, price: 12, category: "things", active: true },
+  { id: "bowl", name: "Миска", img: `${SHOP}/bowl.webp`, price: 14, category: "things", active: true },
+  { id: "plant", name: "Растение", img: `${SHOP}/plant.webp`, price: 16, category: "things", active: true },
+  { id: "crown", name: "Корона", img: `${SHOP}/crown.webp`, price: 18, category: "things", active: true },
+  { id: "backpack", name: "Рюкзак", img: `${SHOP}/backpack.webp`, price: 20, category: "things", active: true },
+  { id: "camera", name: "Фотоаппарат", img: `${SHOP}/camera.webp`, price: 22, category: "things", active: true },
+  { id: "easel", name: "Мольберт", img: `${SHOP}/easel.webp`, price: 25, category: "things", active: true },
+  { id: "plane", name: "Самолётик", img: `${SHOP}/plane.webp`, price: 28, category: "things", active: true },
+  { id: "journal", name: "Дневник", img: `${SHOP}/journal.webp`, price: 31, category: "things", active: true },
+  { id: "postcards", name: "Открытки", img: `${SHOP}/postcards.webp`, price: 34, category: "things", active: true },
+  { id: "globe", name: "Глобус", img: `${SHOP}/globe.webp`, price: 37, category: "things", active: true },
+  { id: "chest", name: "Сундук", img: `${SHOP}/chest.webp`, price: 39, category: "things", active: true },
+  { id: "trophy", name: "Кубок", img: `${SHOP}/trophy.webp`, price: 40, category: "things", active: true },
 
   // ─── Спорт 🥊 ───
   ...gen("sport", "sp",
@@ -106,6 +111,11 @@ export const ACCESSORIES: Accessory[] = [
   // ─── Уют 🛋️ ───
   ...gen("relax", "rx",
     ["Кресло", "Какао на столике", "Книжки", "Вязание", "Дневник", "Латте", "Лампа", "Полка", "Пуфик", "Плед"],
+    L10),
+
+  // ─── Турция 🇹🇷 ───
+  ...gen("turkiye", "tk",
+    ["Чай", "Симит", "Назар", "Часовая башня", "Бёрек", "Паром", "Чайка", "Зонтик", "Лукум", "Пальма"],
     L10),
 
   // ─── Лето ☀️ (скидки) ───
