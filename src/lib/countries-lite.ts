@@ -210,4 +210,16 @@ export const COUNTRIES_EXTRA: CountryLite[] = [
   { code: "mh", name: "Маршалловы Острова", continent: "oceania", capital: "Маджуро", flagTags: ["blue", "white", "orange", "star", "diagonal"] },
   { code: "ki", name: "Кирибати", continent: "oceania", capital: "Тарава", flagTags: ["red", "blue", "white", "sun", "bird", "waves"] },
   { code: "tv", name: "Тувалу", continent: "oceania", capital: "Фунафути", flagTags: ["blue", "union-jack", "stars"], lookalikes: ["au", "nz"] },
+
+  // ───────── Последние 10 из «Flags NEW» — карта мира собрана ─────────
+  { code: "mt", name: "Мальта", continent: "europe", capital: "Валлетта", flagTags: ["white", "red", "cross", "bicolor-v"] },
+  { code: "ye", name: "Йемен", continent: "asia", capital: "Сана", flagTags: ["red", "white", "black", "pan-arab", "tricolor-h"], lookalikes: ["eg", "iq", "sy"] },
+  { code: "zm", name: "Замбия", continent: "africa", capital: "Лусака", flagTags: ["green", "orange", "black", "red", "eagle", "stripes"] },
+  { code: "mv", name: "Мальдивы", continent: "asia", capital: "Мале", flagTags: ["red", "green", "white", "crescent"] },
+  { code: "tj", name: "Таджикистан", continent: "asia", capital: "Душанбе", flagTags: ["red", "white", "green", "crown", "stars"] },
+  { code: "mr", name: "Мавритания", continent: "africa", capital: "Нуакшот", flagTags: ["green", "yellow", "red", "crescent", "star"] },
+  { code: "mu", name: "Маврикий", continent: "africa", capital: "Порт-Луи", flagTags: ["red", "blue", "yellow", "green", "stripes"] },
+  { code: "mw", name: "Малави", continent: "africa", capital: "Лилонгве", flagTags: ["black", "red", "green", "sun"] },
+  { code: "vc", name: "Сент-Винсент и Гренадины", continent: "north_america", capital: "Кингстаун", flagTags: ["blue", "yellow", "green", "diamonds"] },
+  { code: "xk", name: "Косово", continent: "europe", capital: "Приштина", flagTags: ["blue", "yellow", "white", "map", "stars"] },
 ];

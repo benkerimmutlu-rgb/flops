@@ -295,6 +295,8 @@ export const CLAY_FLAGS = new Set<string>([
   "mm", "sy", "tl", "tm", "ps", "ad", "li", "mc", "me", "sm",
   "va", "sv", "bz", "bs", "bb", "ag", "dm", "gd", "kn", "lc",
   "tt", "gy", "sr", "vu", "fm", "mh", "ki", "tv",
+  // Final 10 — the whole world
+  "mt", "ye", "zm", "mv", "tj", "mr", "mu", "mw", "vc", "xk",
 ]);
 
 /** Public URL for a flag — clay version (webp) when available, else stock PNG. */
