@@ -48,11 +48,11 @@ const SHOP = "/assets/shop";
 
 // Цены: пол ~10, потолок 40 за самое классное. Так, чтобы пара вещей была по
 // силам, а на крутое нужно было поучиться ещё — вызов, а не «скупить за день».
-const L10 = [10, 12, 14, 16, 18, 22, 26, 30, 35, 40];
-const L11 = [10, 12, 14, 16, 18, 22, 26, 30, 34, 37, 40];
+const L10 = [10, 12, 14, 16, 18, 22, 28, 34, 42, 50];
+const L11 = [10, 12, 14, 16, 18, 22, 26, 32, 38, 44, 50];
 const L30 = [
-  10, 10, 11, 11, 12, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26,
-  28, 30, 31, 32, 34, 35, 36, 37, 38, 39, 40,
+  10, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36,
+  38, 40, 42, 44, 46, 48, 50, 52, 55, 58, 60,
 ];
 
 /** Собрать вещи категории из подпапки /assets/shop/<cat>/<prefix><n>.webp. */
@@ -93,10 +93,10 @@ export const ACCESSORIES: Accessory[] = [
   { id: "easel", name: "Мольберт", img: `${SHOP}/easel.webp`, price: 25, category: "things", active: true },
   { id: "plane", name: "Самолётик", img: `${SHOP}/plane.webp`, price: 28, category: "things", active: true },
   { id: "journal", name: "Дневник", img: `${SHOP}/journal.webp`, price: 31, category: "things", active: true },
-  { id: "postcards", name: "Открытки", img: `${SHOP}/postcards.webp`, price: 34, category: "things", active: true },
-  { id: "globe", name: "Глобус", img: `${SHOP}/globe.webp`, price: 37, category: "things", active: true },
-  { id: "chest", name: "Сундук", img: `${SHOP}/chest.webp`, price: 39, category: "things", active: true },
-  { id: "trophy", name: "Кубок", img: `${SHOP}/trophy.webp`, price: 40, category: "things", active: true },
+  { id: "postcards", name: "Открытки", img: `${SHOP}/postcards.webp`, price: 35, category: "things", active: true },
+  { id: "globe", name: "Глобус", img: `${SHOP}/globe.webp`, price: 42, category: "things", active: true },
+  { id: "chest", name: "Сундук", img: `${SHOP}/chest.webp`, price: 50, category: "things", active: true },
+  { id: "trophy", name: "Кубок", img: `${SHOP}/trophy.webp`, price: 60, category: "things", active: true },
 
   // ─── Спорт 🥊 ───
   ...gen("sport", "sp",

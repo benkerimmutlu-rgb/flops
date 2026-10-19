@@ -24,6 +24,17 @@ const LEGACY_KEY = "flops_user_state_v2"; // v2: had the 4-category system
 const BONES_KEY = "flops_bones_v1"; // spendable balance
 const EARNED_KEY = "flops_bones_earned_v1"; // lifetime earned (drives rank)
 const SHOP_KEY = "flops_shop_v1"; // { owned: string[], equipped: string | null }
+const EARN_KEY = "flops_earn_v1"; // { date: "YYYY-MM-DD", today: number } — дневная отдача
+
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
+// Награда за ответ по тому, сколько уже заработано сегодня (убывающая отдача).
+function rewardFor(earnedToday: number): number {
+  if (earnedToday < 12) return 3;
+  if (earnedToday < 30) return 2;
+  return 1;
+}
 
 const EMPTY_STATE: UserCountryState = {
   visited: false,
@@ -112,13 +123,19 @@ interface StoreValue {
   setWish: (code: string, value: boolean) => void;
   toggleLikeCountry: (code: string, value: boolean) => void;
   toggleLikeLanguage: (code: string, value: boolean) => void;
-  /** Correct guess: country becomes "known", leaves the repeat stack, +bones. */
-  markCorrect: (code: string, bonesReward?: number) => void;
+  /** Correct guess: country becomes "known", leaves the repeat stack (no bones). */
+  markCorrect: (code: string) => void;
   /** Wrong guess: country is seen and goes into the "Повтори" stack. */
   markWrong: (code: string) => void;
   /** Take a country out of the repeat stack without marking it known. */
   clearRepeat: (code: string) => void;
   addBones: (n: number) => void;
+  /**
+   * Награда за правильный ответ с убывающей за день отдачей (первые ответы
+   * ценнее). Начисляет и возвращает, сколько косточек дано. Сбрасывается каждый
+   * день — так награждается регулярность, а не один марафон.
+   */
+  earnReward: () => number;
   /** Spendable bones balance (goes down when buying in the shop). */
   bones: number;
   /** Lifetime bones earned — never decreases; drives Flops's rank. */
@@ -145,6 +162,9 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
   const { status: authStatus, user } = useAuth();
   const cloudLoaded = useRef(false);
   const saveTimer = useRef<number | null>(null);
+  // Дневная отдача (не часть основного прогресса — только для начисления).
+  const earnedToday = useRef(0);
+  const earnDate = useRef(todayStr());
 
   // Reading localStorage during render would desync server/client HTML on
   // hydration (the server has no browser storage to read), so this loads
@@ -188,6 +208,14 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
         const parsed = JSON.parse(rawShop) as { owned?: string[] };
         // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe load
         if (Array.isArray(parsed.owned)) setOwned(parsed.owned);
+      }
+      const rawEarn = window.localStorage.getItem(EARN_KEY);
+      if (rawEarn) {
+        const e = JSON.parse(rawEarn) as { date?: string; today?: number };
+        if (e.date === todayStr()) {
+          earnedToday.current = e.today ?? 0;
+          earnDate.current = e.date;
+        }
       }
     } catch {
       // ignore — private mode / blocked storage
@@ -301,6 +329,25 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
         return next;
       });
     }
+    function earnReward() {
+      const today = todayStr();
+      if (earnDate.current !== today) {
+        earnDate.current = today;
+        earnedToday.current = 0;
+      }
+      const reward = rewardFor(earnedToday.current);
+      earnedToday.current += reward;
+      try {
+        window.localStorage.setItem(
+          EARN_KEY,
+          JSON.stringify({ date: today, today: earnedToday.current })
+        );
+      } catch {
+        // ignore
+      }
+      giveBones(reward);
+      return reward;
+    }
     return {
       all: map,
       bones,
@@ -313,13 +360,12 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       setWish: (code, value) => update(code, { wish: value }),
       toggleLikeCountry: (code, value) => update(code, { likeCountry: value }),
       toggleLikeLanguage: (code, value) => update(code, { likeLanguage: value }),
-      markCorrect: (code, bonesReward = 1) => {
-        update(code, { seen: true, known: true, inRepeat: false });
-        giveBones(bonesReward);
-      },
+      markCorrect: (code) =>
+        update(code, { seen: true, known: true, inRepeat: false }),
       markWrong: (code) => update(code, { seen: true, inRepeat: true }),
       clearRepeat: (code) => update(code, { inRepeat: false }),
       addBones: giveBones,
+      earnReward,
     };
   }, [map, bones, bonesEarned, hydrated, owned]);
 

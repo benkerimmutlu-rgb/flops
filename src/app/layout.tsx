@@ -54,7 +54,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <AuthProvider>
           <UserStateProvider>
             <NavBar />
-            <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
+            <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8 pb-24 sm:pb-8">
               {children}
             </main>
           </UserStateProvider>

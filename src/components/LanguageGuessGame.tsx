@@ -23,12 +23,13 @@ export function LanguageGuessGame({
   pool: LanguagePhrase[];
   onRestart: () => void;
 }) {
-  const { addBones } = useUserState();
+  const { earnReward } = useUserState();
   const [queue, setQueue] = useState<LanguagePhrase[]>(pool);
   const [step, setStep] = useState(0);
   const [options, setOptions] = useState<CountryLite[]>([]);
   const [answerCode, setAnswerCode] = useState<string | null>(null);
   const [correct, setCorrect] = useState(0);
+  const [earned, setEarned] = useState(0);
   const [wrongList, setWrongList] = useState<LanguagePhrase[]>([]);
   const [done, setDone] = useState(false);
 
@@ -53,7 +54,7 @@ export function LanguageGuessGame({
       // Правильный ответ — озвучиваем перевод на русском.
       speak(target.ru, "ru-RU");
       setCorrect((c) => c + 1);
-      addBones(1);
+      setEarned((e) => e + earnReward());
     } else {
       // Ошибся — называем правильную страну вслух (для нечитающих).
       speak(targetCountry.name, "ru-RU");
@@ -80,6 +81,7 @@ export function LanguageGuessGame({
     return (
       <Results
         correct={correct}
+        earned={earned}
         wrong={wrongList.length}
         total={queue.length}
         onRepeat={wrongList.length > 0 ? repeatWrong : undefined}
@@ -249,12 +251,14 @@ function Feedback({
 
 function Results({
   correct,
+  earned,
   wrong,
   total,
   onRepeat,
   onRestart,
 }: {
   correct: number;
+  earned: number;
   wrong: number;
   total: number;
   onRepeat?: () => void;
@@ -273,7 +277,7 @@ function Results({
       <h2 className="text-2xl font-bold text-foreground">Заход окончен!</h2>
       <div className="flex items-center gap-2 text-lg font-bold">
         <Image src={getFlopsAsset("bone_currency")} alt="" width={28} height={28} className="h-7 w-7 object-contain" />
-        <span className="text-brand-green">+{correct}</span>
+        <span className="text-brand-green">+{earned}</span>
         <span className="text-muted">косточек</span>
       </div>
       <p className="text-muted">

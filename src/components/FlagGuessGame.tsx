@@ -24,12 +24,13 @@ export function FlagGuessGame({
   /** Repeat variant: restart the run in place with the current error stack. */
   onRepeat?: () => void;
 }) {
-  const { markCorrect, markWrong } = useUserState();
+  const { markCorrect, markWrong, earnReward } = useUserState();
   const [step, setStep] = useState(0);
   const [options, setOptions] = useState<CountryLite[]>([]);
   const [answer, setAnswer] = useState<string | null>(null);
   const [correct, setCorrect] = useState(0);
   const [wrong, setWrong] = useState(0);
+  const [earned, setEarned] = useState(0);
   const [done, setDone] = useState(false);
 
   const target = pool[step];
@@ -56,6 +57,7 @@ export function FlagGuessGame({
     if (code === target.code) {
       setCorrect((c) => c + 1);
       markCorrect(target.code);
+      setEarned((e) => e + earnReward());
     } else {
       setWrong((w) => w + 1);
       markWrong(target.code);
@@ -68,7 +70,7 @@ export function FlagGuessGame({
   }
 
   if (done) {
-    return <Results correct={correct} wrong={wrong} total={pool.length} variant={variant} onRepeat={onRepeat} />;
+    return <Results correct={correct} wrong={wrong} earned={earned} total={pool.length} variant={variant} onRepeat={onRepeat} />;
   }
 
   const isCorrect = answer === target.code;
@@ -219,12 +221,14 @@ function Feedback({
 function Results({
   correct,
   wrong,
+  earned,
   total,
   variant,
   onRepeat,
 }: {
   correct: number;
   wrong: number;
+  earned: number;
   total: number;
   variant: Variant;
   onRepeat?: () => void;
@@ -242,7 +246,7 @@ function Results({
       <h2 className="text-2xl font-bold text-foreground">Заход окончен!</h2>
       <div className="flex items-center gap-2 text-lg font-bold">
         <Image src={getFlopsAsset("bone_currency")} alt="" width={28} height={28} className="h-7 w-7 object-contain" />
-        <span className="text-brand-green">+{correct}</span>
+        <span className="text-brand-green">+{earned}</span>
         <span className="text-muted">косточек</span>
       </div>
       <p className="text-muted">
