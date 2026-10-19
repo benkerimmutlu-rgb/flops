@@ -127,7 +127,43 @@ export const ACCESSORIES: Accessory[] = [
   ...gen("halloween", "hw",
     ["Шляпа ведьмы", "Очки с мышами", "Плащ вампира", "Бабочка-мышь", "Ведёрко сладостей", "Котёл сладостей", "Метла", "Фонарь Джека", "Привидение", "Тыква-лежанка", "Маска крика"],
     L11),
+
+  // ─── Legacy: старые аксессуары (их больше не продаём, но у купивших они
+  // остаются в «Коллекции» — active:false). Нельзя удалять их id! ───
+  { id: "cap", name: "Кепка", img: `${SHOP}/legacy/cap.webp`, price: 20, category: "things", active: false },
+  { id: "scarf", name: "Шарфик", img: `${SHOP}/legacy/scarf.webp`, price: 30, category: "things", active: false },
+  { id: "bowtie", name: "Бабочка", img: `${SHOP}/legacy/bowtie.webp`, price: 60, category: "things", active: false },
+  { id: "party", name: "Колпак", img: `${SHOP}/legacy/party.webp`, price: 150, category: "things", active: false },
+  { id: "tophat", name: "Цилиндр", img: `${SHOP}/legacy/tophat.webp`, price: 180, category: "things", active: false },
+  { id: "medal", name: "Медаль", img: `${SHOP}/legacy/medal.webp`, price: 220, category: "things", active: false },
+  { id: "cape", name: "Плащ", img: `${SHOP}/legacy/cape.webp`, price: 280, category: "things", active: false },
 ];
+
+// Старые id → новые (хэллоуин переехал с hw_* на hw1..hw11; wizard стал cape).
+// Применяется при загрузке купленного, чтобы прошлые покупки не терялись.
+const OLD_ID_MAP: Record<string, string> = {
+  hw_witch_hat: "hw1",
+  hw_bat_glasses: "hw2",
+  hw_vampire_cape: "hw3",
+  hw_bat_bow: "hw4",
+  hw_candy_bucket: "hw5",
+  hw_cauldron: "hw6",
+  hw_broom: "hw7",
+  hw_jack: "hw8",
+  hw_ghost: "hw9",
+  hw_pumpkin_bed: "hw10",
+  wizard: "cape",
+};
+
+/** Привести старые id купленного к актуальным (и убрать дубли). */
+export function migrateOwnedIds(ids: string[]): string[] {
+  const out: string[] = [];
+  for (const id of ids) {
+    const mapped = OLD_ID_MAP[id] ?? id;
+    if (!out.includes(mapped)) out.push(mapped);
+  }
+  return out;
+}
 
 /** Активные вещи категории (то, что показываем на витрине), по возрастанию цены. */
 export function itemsByCategory(cat: ShopCategoryId): Accessory[] {

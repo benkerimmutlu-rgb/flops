@@ -11,6 +11,7 @@ import {
 import { UserCountryState } from "./types";
 import { useAuth } from "./auth";
 import { getBrowserSupabase } from "./supabase/client";
+import { migrateOwnedIds } from "./shop";
 
 // Client-side, localStorage-backed state for the MVP's "first screens" pass.
 // Swap this for real persistence (Postgres, keyed by account) once auth exists —
@@ -206,8 +207,12 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       const rawShop = window.localStorage.getItem(SHOP_KEY);
       if (rawShop) {
         const parsed = JSON.parse(rawShop) as { owned?: string[] };
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe load
-        if (Array.isArray(parsed.owned)) setOwned(parsed.owned);
+        if (Array.isArray(parsed.owned)) {
+          const migrated = migrateOwnedIds(parsed.owned);
+          // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe load
+          setOwned(migrated);
+          persistShop(migrated); // закрепляем новые id локально
+        }
       }
       const rawEarn = window.localStorage.getItem(EARN_KEY);
       if (rawEarn) {
@@ -264,7 +269,7 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
         persist(next);
         setBones(blob.bones ?? 0);
         setBonesEarned(blob.bonesEarned ?? 0);
-        setOwned(blob.owned ?? []);
+        setOwned(migrateOwnedIds(blob.owned ?? []));
       } else {
         await supabase
           .from("profiles")
