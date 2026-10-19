@@ -84,6 +84,28 @@ function migrateLegacy(raw: unknown): StateMap {
   return out;
 }
 
+// Слить две карты прогресса без потерь: по каждой стране логическое ИЛИ флагов,
+// а для мнений — любое ненулевое. Так синхронизация с облаком никогда не
+// «теряет» прогресс, а только дополняет.
+function mergeStateMaps(a: StateMap, b: StateMap): StateMap {
+  const out: StateMap = {};
+  const codes = new Set([...Object.keys(a), ...Object.keys(b)]);
+  for (const code of codes) {
+    const x = a[code] ?? EMPTY_STATE;
+    const y = b[code] ?? EMPTY_STATE;
+    out[code] = {
+      visited: x.visited || y.visited,
+      wish: x.wish || y.wish,
+      seen: x.seen || y.seen,
+      known: x.known || y.known,
+      inRepeat: x.inRepeat || y.inRepeat,
+      likeCountry: x.likeCountry ?? y.likeCountry,
+      likeLanguage: x.likeLanguage ?? y.likeLanguage,
+    };
+  }
+  return out;
+}
+
 function persist(next: StateMap) {
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
@@ -166,6 +188,15 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
   // Дневная отдача (не часть основного прогресса — только для начисления).
   const earnedToday = useRef(0);
   const earnDate = useRef(todayStr());
+  // Актуальные значения для асинхронного слияния с облаком (без устаревших замыканий).
+  const mapRef = useRef(map);
+  mapRef.current = map;
+  const bonesRef = useRef(bones);
+  bonesRef.current = bones;
+  const bonesEarnedRef = useRef(bonesEarned);
+  bonesEarnedRef.current = bonesEarned;
+  const ownedRef = useRef(owned);
+  ownedRef.current = owned;
 
   // Reading localStorage during render would desync server/client HTML on
   // hydration (the server has no browser storage to read), so this loads
@@ -234,9 +265,10 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
     return { countries: map, bones, bonesEarned, owned };
   }
 
-  // ── Облако: загрузка при входе ──
-  // При готовом профиле тянем прогресс из облака. Если в облаке пусто (новый
-  // профиль) — поднимаем туда локальный прогресс, чтобы ничего не потерялось.
+  // ── Облако: СЛИЯНИЕ при входе (не перезапись!) ──
+  // Берём объединение купленного и прогресса из облака и с устройства, чтобы
+  // ни одна покупка и ни один флаг не пропали из-за гонки или пустого облака.
+  // Затем эффект сохранения зальёт объединённое обратно в облако.
   useEffect(() => {
     if (authStatus !== "ready" || !user) {
       cloudLoaded.current = false;
@@ -258,24 +290,24 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
         bonesEarned?: number;
         owned?: string[];
       };
-      const hasCloud =
-        !!blob &&
-        ((blob.countries && Object.keys(blob.countries).length > 0) ||
-          (blob.bonesEarned ?? 0) > 0 ||
-          (blob.owned?.length ?? 0) > 0);
-      if (hasCloud) {
-        const next = normalize(blob.countries ?? {});
-        setMap(next);
-        persist(next);
-        setBones(blob.bones ?? 0);
-        setBonesEarned(blob.bonesEarned ?? 0);
-        setOwned(migrateOwnedIds(blob.owned ?? []));
-      } else {
-        await supabase
-          .from("profiles")
-          .update({ state: currentBlob(), updated_at: new Date().toISOString() })
-          .eq("id", user.id);
-      }
+      // Купленное — объединение (и с миграцией старых id).
+      const mergedOwned = Array.from(
+        new Set([
+          ...migrateOwnedIds(ownedRef.current),
+          ...migrateOwnedIds(blob.owned ?? []),
+        ])
+      );
+      setOwned(mergedOwned);
+      // Страны — слияние флагов.
+      const mergedMap = mergeStateMaps(
+        mapRef.current,
+        normalize(blob.countries ?? {})
+      );
+      setMap(mergedMap);
+      persist(mergedMap);
+      // Косточки — максимум (чтобы не потерять заработанное).
+      setBones(Math.max(bonesRef.current, blob.bones ?? 0));
+      setBonesEarned(Math.max(bonesEarnedRef.current, blob.bonesEarned ?? 0));
       cloudLoaded.current = true;
     })();
     return () => {
