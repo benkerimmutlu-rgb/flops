@@ -26,6 +26,8 @@ const BONES_KEY = "flops_bones_v1"; // spendable balance
 const EARNED_KEY = "flops_bones_earned_v1"; // lifetime earned (drives rank)
 const SHOP_KEY = "flops_shop_v1"; // { owned: string[], equipped: string | null }
 const EARN_KEY = "flops_earn_v1"; // { date: "YYYY-MM-DD", today: number } — дневная отдача
+const GIFT_KEY = "flops_gift_coconut_v1"; // подарок-извинение выдан на этом устройстве
+const GIFT_ID = "su9"; // Кокос из коллекции «Лето»
 
 function todayStr() {
   return new Date().toISOString().slice(0, 10);
@@ -165,6 +167,10 @@ interface StoreValue {
   bonesEarned: number;
   /** True once the initial localStorage load has finished (avoids empty snapshots). */
   hydrated: boolean;
+  /** Показать разовое окно-извинение с подарком (кокос) от FLOPS. */
+  giftPending: boolean;
+  /** Закрыть окно подарка. */
+  dismissGift: () => void;
   /** Item ids the player has bought (collection). */
   owned: string[];
   /** Buy a shop item if affordable and not already owned. */
@@ -180,6 +186,7 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
   const [bonesEarned, setBonesEarned] = useState(0);
   const [owned, setOwned] = useState<string[]>([]);
   const [hydrated, setHydrated] = useState(false);
+  const [giftPending, setGiftPending] = useState(false);
 
   // Облачная синхронизация (когда родитель вошёл и профиль создан).
   const { status: authStatus, user } = useAuth();
@@ -235,16 +242,22 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
         // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time seed
         setBonesEarned(balance);
       }
+      let loadedOwned: string[] = [];
       const rawShop = window.localStorage.getItem(SHOP_KEY);
       if (rawShop) {
         const parsed = JSON.parse(rawShop) as { owned?: string[] };
-        if (Array.isArray(parsed.owned)) {
-          const migrated = migrateOwnedIds(parsed.owned);
-          // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe load
-          setOwned(migrated);
-          persistShop(migrated); // закрепляем новые id локально
-        }
+        if (Array.isArray(parsed.owned)) loadedOwned = migrateOwnedIds(parsed.owned);
       }
+      // Подарок-извинение за сбой: один раз на устройство дарим кокос.
+      if (!window.localStorage.getItem(GIFT_KEY)) {
+        if (!loadedOwned.includes(GIFT_ID)) loadedOwned = [...loadedOwned, GIFT_ID];
+        window.localStorage.setItem(GIFT_KEY, "1");
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time gift
+        setGiftPending(true);
+      }
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe load
+      setOwned(loadedOwned);
+      persistShop(loadedOwned);
       const rawEarn = window.localStorage.getItem(EARN_KEY);
       if (rawEarn) {
         const e = JSON.parse(rawEarn) as { date?: string; today?: number };
@@ -390,6 +403,8 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       bones,
       bonesEarned,
       hydrated,
+      giftPending,
+      dismissGift: () => setGiftPending(false),
       owned,
       buyAccessory,
       getState: (code) => map[code] ?? EMPTY_STATE,
@@ -404,7 +419,7 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       addBones: giveBones,
       earnReward,
     };
-  }, [map, bones, bonesEarned, hydrated, owned]);
+  }, [map, bones, bonesEarned, hydrated, giftPending, owned]);
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }

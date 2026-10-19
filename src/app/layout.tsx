@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/lib/auth";
 import { UserStateProvider } from "@/lib/store";
 import { NavBar } from "@/components/NavBar";
+import { GiftBanner } from "@/components/GiftBanner";
 
 const nunitoSans = Nunito_Sans({
   variable: "--font-nunito",
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8 pb-24 sm:pb-8">
               {children}
             </main>
+            <GiftBanner />
           </UserStateProvider>
         </AuthProvider>
       </body>
