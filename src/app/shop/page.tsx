@@ -7,6 +7,7 @@ import { getFlopsAsset } from "@/brand/flops-assets";
 import {
   ACCESSORIES,
   SHOP_CATEGORIES,
+  activeCategories,
   itemsByCategory,
   rankForEarned,
   type Accessory,
@@ -42,7 +43,7 @@ export default function ShopPage() {
         <TabChip active={tab === "collection"} onClick={() => setTab("collection")}>
           🏆 Коллекция
         </TabChip>
-        {SHOP_CATEGORIES.map((c) => (
+        {activeCategories().map((c) => (
           <TabChip key={c.id} active={tab === c.id} onClick={() => setTab(c.id)}>
             {c.emoji} {c.label}
           </TabChip>
@@ -169,8 +170,13 @@ function CategoryGrid({
           return (
             <div
               key={a.id}
-              className="flex flex-col items-center gap-2 rounded-[var(--radius-card)] border border-border bg-surface p-4 text-center shadow-[var(--shadow-card)]"
+              className="relative flex flex-col items-center gap-2 rounded-[var(--radius-card)] border border-border bg-surface p-4 text-center shadow-[var(--shadow-card)]"
             >
+              {a.oldPrice && !isOwned && (
+                <span className="absolute -left-1.5 -top-1.5 rounded-full bg-brand-red px-2 py-0.5 text-[11px] font-bold text-white shadow">
+                  −{Math.round((1 - a.price / a.oldPrice) * 100)}%
+                </span>
+              )}
               {/* В магазине вещь — серый силуэт; цвет оживает в «Коллекции» */}
               <Image
                 src={a.img}
@@ -185,9 +191,12 @@ function CategoryGrid({
                 <span className="text-sm font-bold text-brand-green">Куплено ✓</span>
               ) : (
                 <>
-                  <span className="flex items-center gap-1 text-sm font-bold text-muted">
+                  <span className="flex items-center gap-1.5 text-sm font-bold text-muted">
                     <Image src={getFlopsAsset("bone_currency")} alt="" width={16} height={16} className="h-4 w-4 object-contain" />
-                    {a.price}
+                    {a.oldPrice && (
+                      <span className="font-semibold text-muted/60 line-through">{a.oldPrice}</span>
+                    )}
+                    <span className={a.oldPrice ? "text-brand-red" : ""}>{a.price}</span>
                   </span>
                   <button
                     onClick={() => onBuy(a.id, a.price)}
