@@ -9,7 +9,6 @@ import {
   useState,
 } from "react";
 import { UserCountryState } from "./types";
-import { accessoryById, SINGLE_SLOTS, ACCESSORIES } from "./shop";
 import { useAuth } from "./auth";
 import { getBrowserSupabase } from "./supabase/client";
 
@@ -97,9 +96,9 @@ function persistEarned(n: number) {
   }
 }
 
-function persistShop(owned: string[], equipped: string[]) {
+function persistShop(owned: string[]) {
   try {
-    window.localStorage.setItem(SHOP_KEY, JSON.stringify({ owned, equipped }));
+    window.localStorage.setItem(SHOP_KEY, JSON.stringify({ owned }));
   } catch {
     // ignore
   }
@@ -126,14 +125,10 @@ interface StoreValue {
   bonesEarned: number;
   /** True once the initial localStorage load has finished (avoids empty snapshots). */
   hydrated: boolean;
-  /** Accessory ids the player has bought. */
+  /** Item ids the player has bought (collection). */
   owned: string[];
-  /** The accessories Flops currently wears (one per single-slot, many "hold"). */
-  equipped: string[];
-  /** Buy an accessory if affordable and not already owned. */
+  /** Buy a shop item if affordable and not already owned. */
   buyAccessory: (id: string, price: number) => void;
-  /** Wear an owned accessory (or take it off if it's already on). */
-  equipAccessory: (id: string) => void;
   all: StateMap;
 }
 
@@ -144,7 +139,6 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
   const [bones, setBones] = useState(0);
   const [bonesEarned, setBonesEarned] = useState(0);
   const [owned, setOwned] = useState<string[]>([]);
-  const [equipped, setEquipped] = useState<string[]>([]);
   const [hydrated, setHydrated] = useState(false);
 
   // Облачная синхронизация (когда родитель вошёл и профиль создан).
@@ -191,20 +185,9 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       }
       const rawShop = window.localStorage.getItem(SHOP_KEY);
       if (rawShop) {
-        const parsed = JSON.parse(rawShop) as {
-          owned?: string[];
-          equipped?: string | string[] | null;
-        };
+        const parsed = JSON.parse(rawShop) as { owned?: string[] };
         // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe load
         if (Array.isArray(parsed.owned)) setOwned(parsed.owned);
-        // Older saves stored a single equipped id (or null); normalize to array.
-        const eq = Array.isArray(parsed.equipped)
-          ? parsed.equipped
-          : parsed.equipped
-          ? [parsed.equipped]
-          : [];
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe load
-        setEquipped(eq);
       }
     } catch {
       // ignore — private mode / blocked storage
@@ -215,7 +198,7 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
 
   // Текущее состояние прогресса одним объектом (для облака).
   function currentBlob() {
-    return { countries: map, bones, bonesEarned, owned, equipped };
+    return { countries: map, bones, bonesEarned, owned };
   }
 
   // ── Облако: загрузка при входе ──
@@ -241,7 +224,6 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
         bones?: number;
         bonesEarned?: number;
         owned?: string[];
-        equipped?: string[];
       };
       const hasCloud =
         !!blob &&
@@ -255,7 +237,6 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
         setBones(blob.bones ?? 0);
         setBonesEarned(blob.bonesEarned ?? 0);
         setOwned(blob.owned ?? []);
-        setEquipped(blob.equipped ?? []);
       } else {
         await supabase
           .from("profiles")
@@ -286,7 +267,7 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       if (saveTimer.current) window.clearTimeout(saveTimer.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- debounced push on state change
-  }, [map, bones, bonesEarned, owned, equipped, authStatus, user]);
+  }, [map, bones, bonesEarned, owned, authStatus, user]);
 
   const value = useMemo<StoreValue>(() => {
     function update(code: string, patch: Partial<UserCountryState>) {
@@ -313,33 +294,12 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       if (owned.includes(id) || bones < price) return;
       const nextOwned = [...owned, id];
       setOwned(nextOwned);
-      persistShop(nextOwned, equipped);
+      persistShop(nextOwned);
       setBones((b) => {
         const next = b - price;
         persistBones(next);
         return next;
       });
-    }
-    function equipAccessory(id: string) {
-      if (!owned.includes(id)) return;
-      const acc = accessoryById(id);
-      if (!acc) return;
-      let next: string[];
-      if (equipped.includes(id)) {
-        // Take it off.
-        next = equipped.filter((x) => x !== id);
-      } else if (SINGLE_SLOTS.includes(acc.slot)) {
-        // Single slot (head/eyes/neck): swap out whatever else is in that slot.
-        const sameSlot = ACCESSORIES.filter((a) => a.slot === acc.slot).map(
-          (a) => a.id
-        );
-        next = [...equipped.filter((x) => !sameSlot.includes(x)), id];
-      } else {
-        // "Hold" slot: add alongside.
-        next = [...equipped, id];
-      }
-      setEquipped(next);
-      persistShop(owned, next);
     }
     return {
       all: map,
@@ -347,9 +307,7 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       bonesEarned,
       hydrated,
       owned,
-      equipped,
       buyAccessory,
-      equipAccessory,
       getState: (code) => map[code] ?? EMPTY_STATE,
       setVisited: (code, value) => update(code, { visited: value }),
       setWish: (code, value) => update(code, { wish: value }),
@@ -363,7 +321,7 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       clearRepeat: (code) => update(code, { inRepeat: false }),
       addBones: giveBones,
     };
-  }, [map, bones, bonesEarned, hydrated, owned, equipped]);
+  }, [map, bones, bonesEarned, hydrated, owned]);
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }

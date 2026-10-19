@@ -1,19 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth";
 import { getFlopsAsset } from "@/brand/flops-assets";
 
 export default function LoginPage() {
-  const { configured, sendMagicLink } = useAuth();
+  const router = useRouter();
+  const { configured, status, sendMagicLink, verifyCode } = useAuth();
   const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function submit(e: React.FormEvent) {
+  // После успешного входа уводим на онбординг или на главную.
+  useEffect(() => {
+    if (status === "ready") router.replace("/");
+    else if (status === "no_profile") router.replace("/onboarding");
+  }, [status, router]);
+
+  async function send(e: React.FormEvent) {
     e.preventDefault();
     if (!email.trim()) return;
     setBusy(true);
@@ -22,6 +31,17 @@ export default function LoginPage() {
     setBusy(false);
     if (error) setError(error);
     else setSent(true);
+  }
+
+  async function verify(e: React.FormEvent) {
+    e.preventDefault();
+    if (code.trim().length < 4) return;
+    setBusy(true);
+    setError(null);
+    const { error } = await verifyCode(email.trim(), code);
+    setBusy(false);
+    if (error) setError("Неверный код. Проверьте и попробуйте ещё раз.");
+    // при успехе редирект сделает эффект выше
   }
 
   return (
@@ -44,19 +64,9 @@ export default function LoginPage() {
       {!configured ? (
         <div className="rounded-[var(--radius-card)] border border-border bg-surface p-5 text-muted shadow-[var(--shadow-card)]">
           Облако пока не подключено. Прогресс сохраняется на этом устройстве.
-          Вход появится после настройки Supabase (см. инструкцию для деплоя).
         </div>
-      ) : sent ? (
-        <div className="flex flex-col items-center gap-3 rounded-[var(--radius-card)] border border-border bg-surface p-6 shadow-[var(--shadow-card)]">
-          <Image src={getFlopsAsset("ops_celebrate")} alt="" width={96} height={96} className="h-24 w-24 object-contain flops-pop" />
-          <p className="text-lg font-bold text-foreground">Письмо отправлено! ✉️</p>
-          <p className="text-muted">
-            Откройте ссылку из письма на <b className="text-foreground">{email}</b> — и
-            вы войдёте. Можно закрыть эту вкладку.
-          </p>
-        </div>
-      ) : (
-        <form onSubmit={submit} className="flex w-full flex-col gap-3">
+      ) : !sent ? (
+        <form onSubmit={send} className="flex w-full flex-col gap-3">
           <input
             type="email"
             required
@@ -71,11 +81,46 @@ export default function LoginPage() {
             disabled={busy}
             className="rounded-full bg-brand-green px-8 py-4 text-xl font-bold text-white shadow-[var(--shadow-card)] active:scale-95 disabled:opacity-60"
           >
-            {busy ? "Отправляю…" : "Получить ссылку для входа"}
+            {busy ? "Отправляю…" : "Получить код на почту"}
           </button>
           <p className="text-xs text-muted">
-            Без пароля — мы пришлём ссылку на почту. Email нужен только родителю.
+            Без пароля — пришлём код из письма. Email нужен только родителю.
           </p>
+        </form>
+      ) : (
+        <form onSubmit={verify} className="flex w-full flex-col gap-3">
+          <p className="text-[15px] text-muted">
+            Отправили код на <b className="text-foreground">{email}</b>. Введите его
+            сюда (проверьте и «Спам»).
+          </p>
+          <input
+            inputMode="numeric"
+            autoComplete="one-time-code"
+            required
+            value={code}
+            onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 8))}
+            placeholder="Код из письма"
+            className="w-full rounded-full border border-border bg-surface px-5 py-3 text-center text-2xl font-bold tracking-[0.3em] text-foreground outline-none placeholder:text-base placeholder:font-normal placeholder:tracking-normal placeholder:text-muted focus:border-brand-green"
+          />
+          {error && <p className="text-sm font-semibold text-brand-red">{error}</p>}
+          <button
+            type="submit"
+            disabled={busy}
+            className="rounded-full bg-brand-green px-8 py-4 text-xl font-bold text-white shadow-[var(--shadow-card)] active:scale-95 disabled:opacity-60"
+          >
+            {busy ? "Проверяю…" : "Войти"}
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setSent(false);
+              setCode("");
+              setError(null);
+            }}
+            className="text-sm font-semibold text-muted hover:text-foreground"
+          >
+            Изменить почту / отправить снова
+          </button>
         </form>
       )}
 

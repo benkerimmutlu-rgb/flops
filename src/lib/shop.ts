@@ -1,40 +1,34 @@
-// Магазин Флопса — косметические аксессуары, которые покупаются за косточки.
-// Аксессуары показываются эмодзи (не требуют отдельных ассетов) и «надеваются»
-// на Флопса на главной. Цены растут, чтобы было ради чего копить: дешёвые вещи
-// по силам за пару заходов, дорогие — долгая цель.
-
-// Куда вещь надевается на Флопса. На каждый «одиночный» слот (голова/глаза/шея)
-// можно надеть только одну вещь; «в лапках» (hold) — сколько угодно.
-export type AccessorySlot = "head" | "face" | "neck" | "hold";
+// Магазин Флопса — коллекционные «вещи» (не одежда), которые покупаются за
+// косточки. В витрине вещь серая (не куплена) и становится цветной после
+// покупки. На мопса ничего не надевается. Цены растут, чтобы было ради чего
+// копить: дешёвые по силам за пару заходов, дорогие — долгая цель.
 
 export interface Accessory {
   id: string;
   name: string;
-  emoji: string; // для текстовой подписи «что надето»
-  img: string; // пластилиновый PNG для картинок и «образа»
+  img: string; // пластилиновый PNG вещи
   price: number;
-  slot: AccessorySlot;
 }
 
 const SHOP = "/assets/shop";
 
 export const ACCESSORIES: Accessory[] = [
-  { id: "cap", name: "Кепка", emoji: "🧢", img: `${SHOP}/cap.webp`, price: 20, slot: "head" },
-  { id: "scarf", name: "Шарфик", emoji: "🧣", img: `${SHOP}/scarf.webp`, price: 30, slot: "neck" },
-  { id: "glasses", name: "Очки", emoji: "🕶️", img: `${SHOP}/glasses.webp`, price: 45, slot: "face" },
-  { id: "bowtie", name: "Бабочка", emoji: "🎀", img: `${SHOP}/bowtie.webp`, price: 60, slot: "neck" },
-  { id: "ball", name: "Мячик", emoji: "⚽", img: `${SHOP}/ball.webp`, price: 75, slot: "hold" },
-  { id: "backpack", name: "Рюкзак", emoji: "🎒", img: `${SHOP}/backpack.webp`, price: 95, slot: "hold" },
-  { id: "camera", name: "Фотоаппарат", emoji: "📸", img: `${SHOP}/camera.webp`, price: 120, slot: "hold" },
-  { id: "party", name: "Колпак", emoji: "🥳", img: `${SHOP}/party.webp`, price: 150, slot: "head" },
-  { id: "tophat", name: "Цилиндр", emoji: "🎩", img: `${SHOP}/tophat.webp`, price: 180, slot: "head" },
-  { id: "medal", name: "Медаль", emoji: "🏅", img: `${SHOP}/medal.webp`, price: 220, slot: "hold" },
-  { id: "cape", name: "Плащ", emoji: "🦸", img: `${SHOP}/cape.webp`, price: 280, slot: "neck" },
-  { id: "crown", name: "Корона", emoji: "👑", img: `${SHOP}/crown.webp`, price: 350, slot: "head" },
+  { id: "ball", name: "Мячик", img: `${SHOP}/ball.webp`, price: 20 },
+  { id: "bone", name: "Косточка", img: `${SHOP}/bone.webp`, price: 30 },
+  { id: "glasses", name: "Очки", img: `${SHOP}/glasses.webp`, price: 45 },
+  { id: "bowl", name: "Миска", img: `${SHOP}/bowl.webp`, price: 60 },
+  { id: "plant", name: "Растение", img: `${SHOP}/plant.webp`, price: 75 },
+  { id: "crown", name: "Корона", img: `${SHOP}/crown.webp`, price: 95 },
+  { id: "backpack", name: "Рюкзак", img: `${SHOP}/backpack.webp`, price: 120 },
+  { id: "camera", name: "Фотоаппарат", img: `${SHOP}/camera.webp`, price: 150 },
+  { id: "easel", name: "Мольберт", img: `${SHOP}/easel.webp`, price: 180 },
+  { id: "plane", name: "Самолётик", img: `${SHOP}/plane.webp`, price: 220 },
+  { id: "journal", name: "Дневник", img: `${SHOP}/journal.webp`, price: 280 },
+  { id: "postcards", name: "Открытки", img: `${SHOP}/postcards.webp`, price: 350 },
+  { id: "globe", name: "Глобус", img: `${SHOP}/globe.webp`, price: 450 },
+  { id: "chest", name: "Сундук", img: `${SHOP}/chest.webp`, price: 550 },
+  { id: "trophy", name: "Кубок", img: `${SHOP}/trophy.webp`, price: 700 },
 ];
-
-/** Slots that hold at most one item (so Flops never wears two hats at once). */
-export const SINGLE_SLOTS: AccessorySlot[] = ["head", "face", "neck"];
 
 export function accessoryById(id: string | null | undefined): Accessory | undefined {
   if (!id) return undefined;

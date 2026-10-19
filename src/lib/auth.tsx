@@ -29,8 +29,13 @@ interface AuthValue {
   configured: boolean;
   user: User | null;
   profile: ChildProfile | null;
-  /** Отправить ссылку для входа на email (magic-link). */
+  /** Отправить на email код для входа (6 цифр). */
   sendMagicLink: (email: string) => Promise<{ error: string | null }>;
+  /** Подтвердить вход кодом из письма (работает и в установленном PWA). */
+  verifyCode: (
+    email: string,
+    token: string
+  ) => Promise<{ error: string | null }>;
   /** Создать профиль ребёнка (имя + страна) после входа. */
   createProfile: (
     name: string,
@@ -105,8 +110,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const { error } = await supabase.auth.signInWithOtp({
           email,
           options: {
+            // Ссылку оставляем как запасной вариант, но основной путь — код.
             emailRedirectTo: `${window.location.origin}/auth/callback`,
           },
+        });
+        return { error: error?.message ?? null };
+      },
+      async verifyCode(email: string, token: string) {
+        const supabase = getBrowserSupabase();
+        if (!supabase) return { error: "Облако не настроено" };
+        const { error } = await supabase.auth.verifyOtp({
+          email,
+          token: token.trim(),
+          type: "email",
         });
         return { error: error?.message ?? null };
       },

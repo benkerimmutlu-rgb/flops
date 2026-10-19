@@ -7,7 +7,6 @@ import { useUserState } from "@/lib/store";
 import { useAuth } from "@/lib/auth";
 import { speak } from "@/lib/speech";
 import { rankForEarned } from "@/lib/shop";
-import { FlopsDressed } from "@/components/FlopsDressed";
 import { FlagImage, FLAG_VIEWBOX } from "@/lib/flags";
 import { liteByCode } from "@/lib/data";
 
@@ -21,12 +20,11 @@ type MenuCard = {
 };
 
 export default function Home() {
-  const { all, bones, bonesEarned, equipped } = useUserState();
+  const { all, bones, bonesEarned } = useUserState();
 
   const knownCount = Object.values(all).filter((s) => s.known).length;
   const visitedCount = Object.values(all).filter((s) => s.visited).length;
   const rp = rankForEarned(bonesEarned);
-  const hasOutfit = equipped.length > 0;
 
   // «Повтори» и «Учу» больше не отдельные карточки — они живут блоками внутри
   // «Флагов». Порядок совпадает с меню.
@@ -74,20 +72,16 @@ export default function Home() {
       {/* Приветствие + аккаунт */}
       <Greeting />
 
-      {/* Центральный персонаж — в своём образе, если что-то надето */}
+      {/* Центральный персонаж */}
       <div className="flex justify-center">
-        {hasOutfit ? (
-          <FlopsDressed size={208} />
-        ) : (
-          <Image
-            src={getFlopsAsset("ops_explorer")}
-            alt="Мопс Флопс — путешественник с рюкзаком"
-            width={240}
-            height={240}
-            priority
-            className="h-44 w-44 object-contain drop-shadow-[0_12px_24px_rgba(31,36,48,0.12)] flops-bob sm:h-52 sm:w-52"
-          />
-        )}
+        <Image
+          src={getFlopsAsset("ops_explorer")}
+          alt="Мопс Флопс — путешественник с рюкзаком"
+          width={240}
+          height={240}
+          priority
+          className="h-44 w-44 object-contain drop-shadow-[0_12px_24px_rgba(31,36,48,0.12)] flops-bob sm:h-52 sm:w-52"
+        />
       </div>
 
       {/* Косточки, ранг и магазин */}
