@@ -1,17 +1,28 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { useUserState } from "@/lib/store";
 import { getFlopsAsset } from "@/brand/flops-assets";
-import { ACCESSORIES, rankForEarned } from "@/lib/shop";
+import {
+  ACCESSORIES,
+  SHOP_CATEGORIES,
+  itemsByCategory,
+  rankForEarned,
+  type Accessory,
+} from "@/lib/shop";
+
+type Tab = "collection" | (typeof SHOP_CATEGORIES)[number]["id"];
 
 export default function ShopPage() {
   const { bones, bonesEarned, owned, buyAccessory } = useUserState();
   const { rank } = rankForEarned(bonesEarned);
-  const ownedCount = ACCESSORIES.filter((a) => owned.includes(a.id)).length;
+  const [tab, setTab] = useState<Tab>("collection");
+
+  const ownedItems = ACCESSORIES.filter((a) => owned.includes(a.id));
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       {/* Заголовок + баланс */}
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -26,54 +37,149 @@ export default function ShopPage() {
         </div>
       </div>
 
-      {/* Коллекция */}
+      {/* Вкладки */}
+      <div className="flex gap-2 overflow-x-auto pb-1">
+        <TabChip active={tab === "collection"} onClick={() => setTab("collection")}>
+          🏆 Коллекция
+        </TabChip>
+        {SHOP_CATEGORIES.map((c) => (
+          <TabChip key={c.id} active={tab === c.id} onClick={() => setTab(c.id)}>
+            {c.emoji} {c.label}
+          </TabChip>
+        ))}
+      </div>
+
+      {tab === "collection" ? (
+        <Collection
+          ownedItems={ownedItems}
+          total={ACCESSORIES.length}
+          rank={`${rank.emoji} ${rank.name}`}
+        />
+      ) : (
+        <CategoryGrid
+          items={itemsByCategory(tab)}
+          owned={owned}
+          bones={bones}
+          onBuy={buyAccessory}
+        />
+      )}
+    </div>
+  );
+}
+
+function TabChip({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`shrink-0 rounded-full border px-4 py-2 text-[15px] font-bold transition-colors ${
+        active
+          ? "border-brand-green bg-brand-green text-white"
+          : "border-border bg-surface text-muted hover:bg-black/[0.03]"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+/** Коллекция — радостный Флопс и только купленные вещи, в цвете. */
+function Collection({
+  ownedItems,
+  total,
+  rank,
+}: {
+  ownedItems: Accessory[];
+  total: number;
+  rank: string;
+}) {
+  return (
+    <div className="flex flex-col gap-5">
       <section className="flex items-center gap-4 rounded-[var(--radius-card)] border border-border bg-brand-yellow/10 p-5 shadow-[var(--shadow-card)]">
         <Image
           src={getFlopsAsset("ops_celebrate")}
-          alt="Флопс"
+          alt="Флопс рад"
           width={88}
           height={88}
           className="h-20 w-20 shrink-0 object-contain flops-bob"
         />
         <div>
-          <p className="text-[17px] font-bold text-foreground">
-            {rank.emoji} {rank.name}
-          </p>
+          <p className="text-[17px] font-bold text-foreground">{rank}</p>
           <p className="text-sm text-muted">
-            Собрано вещей: <b className="text-foreground">{ownedCount}</b> из{" "}
-            {ACCESSORIES.length}. Покупай — и они оживают цветом!
+            Моя коллекция: <b className="text-foreground">{ownedItems.length}</b> из{" "}
+            {total} вещей.
           </p>
         </div>
       </section>
 
-      {/* Витрина */}
+      {ownedItems.length === 0 ? (
+        <div className="flex flex-col items-center gap-2 rounded-[var(--radius-card)] border border-dashed border-border p-8 text-center text-muted">
+          <p className="font-bold text-foreground">Пока пусто</p>
+          <p>Загляни во вкладки магазина и купи первую вещь — она появится тут в цвете!</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+          {ownedItems.map((a) => (
+            <div
+              key={a.id}
+              className="flex flex-col items-center gap-1.5 rounded-[var(--radius-card)] border border-brand-green/40 bg-surface p-3 text-center shadow-[var(--shadow-card)]"
+            >
+              <Image src={a.img} alt={a.name} width={72} height={72} className="h-16 w-16 object-contain" />
+              <span className="text-xs font-bold text-foreground">{a.name}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Вкладка категории — вещи серые (силуэты), покупаются; цвет откроется в коллекции. */
+function CategoryGrid({
+  items,
+  owned,
+  bones,
+  onBuy,
+}: {
+  items: Accessory[];
+  owned: string[];
+  bones: number;
+  onBuy: (id: string, price: number) => void;
+}) {
+  if (items.length === 0) {
+    return (
+      <div className="rounded-[var(--radius-card)] border border-dashed border-border p-8 text-center text-muted">
+        Скоро здесь появятся вещи 🙂
+      </div>
+    );
+  }
+  return (
+    <>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-        {ACCESSORIES.map((a) => {
+        {items.map((a) => {
           const isOwned = owned.includes(a.id);
           const canAfford = bones >= a.price;
           return (
             <div
               key={a.id}
-              className={`flex flex-col items-center gap-2 rounded-[var(--radius-card)] border bg-surface p-4 text-center shadow-[var(--shadow-card)] ${
-                isOwned ? "border-brand-green/40" : "border-border"
-              }`}
+              className="flex flex-col items-center gap-2 rounded-[var(--radius-card)] border border-border bg-surface p-4 text-center shadow-[var(--shadow-card)]"
             >
+              {/* В магазине вещь — серый силуэт; цвет оживает в «Коллекции» */}
               <Image
                 src={a.img}
                 alt={a.name}
                 width={88}
                 height={88}
-                className={`h-20 w-20 object-contain transition ${
-                  isOwned ? "" : "grayscale opacity-45"
-                }`}
+                className="h-20 w-20 object-contain opacity-70 grayscale"
               />
-              <span
-                className={`text-[15px] font-bold ${
-                  isOwned ? "text-foreground" : "text-muted"
-                }`}
-              >
-                {a.name}
-              </span>
+              <span className="text-[15px] font-bold text-muted">{a.name}</span>
 
               {isOwned ? (
                 <span className="text-sm font-bold text-brand-green">Куплено ✓</span>
@@ -84,7 +190,7 @@ export default function ShopPage() {
                     {a.price}
                   </span>
                   <button
-                    onClick={() => buyAccessory(a.id, a.price)}
+                    onClick={() => onBuy(a.id, a.price)}
                     disabled={!canAfford}
                     className={`w-full rounded-full px-3 py-2 text-sm font-bold transition-colors ${
                       canAfford
@@ -100,10 +206,9 @@ export default function ShopPage() {
           );
         })}
       </div>
-
-      <p className="text-center text-xs text-muted">
-        Косточки зарабатываются в играх: «Флаги», «Столицы», «Языки» и «Меморина».
+      <p className="mt-3 text-center text-xs text-muted">
+        В магазине вещи серые — цвет они обретают в твоей «Коллекции» после покупки.
       </p>
-    </div>
+    </>
   );
 }

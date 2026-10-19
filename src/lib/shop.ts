@@ -3,32 +3,67 @@
 // покупки. На мопса ничего не надевается. Цены растут, чтобы было ради чего
 // копить: дешёвые по силам за пару заходов, дорогие — долгая цель.
 
+// Категории-вкладки магазина. Масштабируется: добавил новую категорию (сезон)
+// — появилась новая вкладка. Купленное из любой категории собирается в «Коллекции».
+export type ShopCategoryId = "things" | "halloween";
+
+export interface ShopCategory {
+  id: ShopCategoryId;
+  label: string;
+  emoji: string;
+  accent: string; // цветовой акцент вкладки
+}
+
+export const SHOP_CATEGORIES: ShopCategory[] = [
+  { id: "things", label: "Вещи", emoji: "🎒", accent: "var(--green)" },
+  { id: "halloween", label: "Хэллоуин", emoji: "🎃", accent: "#E8894A" },
+];
+
 export interface Accessory {
   id: string;
   name: string;
   img: string; // пластилиновый PNG вещи
   price: number;
+  category: ShopCategoryId;
 }
 
 const SHOP = "/assets/shop";
+const HW = "/assets/shop/halloween";
 
 export const ACCESSORIES: Accessory[] = [
-  { id: "ball", name: "Мячик", img: `${SHOP}/ball.webp`, price: 20 },
-  { id: "bone", name: "Косточка", img: `${SHOP}/bone.webp`, price: 30 },
-  { id: "glasses", name: "Очки", img: `${SHOP}/glasses.webp`, price: 45 },
-  { id: "bowl", name: "Миска", img: `${SHOP}/bowl.webp`, price: 60 },
-  { id: "plant", name: "Растение", img: `${SHOP}/plant.webp`, price: 75 },
-  { id: "crown", name: "Корона", img: `${SHOP}/crown.webp`, price: 95 },
-  { id: "backpack", name: "Рюкзак", img: `${SHOP}/backpack.webp`, price: 120 },
-  { id: "camera", name: "Фотоаппарат", img: `${SHOP}/camera.webp`, price: 150 },
-  { id: "easel", name: "Мольберт", img: `${SHOP}/easel.webp`, price: 180 },
-  { id: "plane", name: "Самолётик", img: `${SHOP}/plane.webp`, price: 220 },
-  { id: "journal", name: "Дневник", img: `${SHOP}/journal.webp`, price: 280 },
-  { id: "postcards", name: "Открытки", img: `${SHOP}/postcards.webp`, price: 350 },
-  { id: "globe", name: "Глобус", img: `${SHOP}/globe.webp`, price: 450 },
-  { id: "chest", name: "Сундук", img: `${SHOP}/chest.webp`, price: 550 },
-  { id: "trophy", name: "Кубок", img: `${SHOP}/trophy.webp`, price: 700 },
+  // ─── Обычные вещи ───
+  { id: "ball", name: "Мячик", img: `${SHOP}/ball.webp`, price: 20, category: "things" },
+  { id: "bone", name: "Косточка", img: `${SHOP}/bone.webp`, price: 30, category: "things" },
+  { id: "glasses", name: "Очки", img: `${SHOP}/glasses.webp`, price: 45, category: "things" },
+  { id: "bowl", name: "Миска", img: `${SHOP}/bowl.webp`, price: 60, category: "things" },
+  { id: "plant", name: "Растение", img: `${SHOP}/plant.webp`, price: 75, category: "things" },
+  { id: "crown", name: "Корона", img: `${SHOP}/crown.webp`, price: 95, category: "things" },
+  { id: "backpack", name: "Рюкзак", img: `${SHOP}/backpack.webp`, price: 120, category: "things" },
+  { id: "camera", name: "Фотоаппарат", img: `${SHOP}/camera.webp`, price: 150, category: "things" },
+  { id: "easel", name: "Мольберт", img: `${SHOP}/easel.webp`, price: 180, category: "things" },
+  { id: "plane", name: "Самолётик", img: `${SHOP}/plane.webp`, price: 220, category: "things" },
+  { id: "journal", name: "Дневник", img: `${SHOP}/journal.webp`, price: 280, category: "things" },
+  { id: "postcards", name: "Открытки", img: `${SHOP}/postcards.webp`, price: 350, category: "things" },
+  { id: "globe", name: "Глобус", img: `${SHOP}/globe.webp`, price: 450, category: "things" },
+  { id: "chest", name: "Сундук", img: `${SHOP}/chest.webp`, price: 550, category: "things" },
+  { id: "trophy", name: "Кубок", img: `${SHOP}/trophy.webp`, price: 700, category: "things" },
+
+  // ─── Сезонные: Хэллоуин 🎃 ───
+  { id: "hw_ghost", name: "Привидение", img: `${HW}/ghost.webp`, price: 40, category: "halloween" },
+  { id: "hw_bat_glasses", name: "Очки с мышами", img: `${HW}/bat_glasses.webp`, price: 60, category: "halloween" },
+  { id: "hw_bat_bow", name: "Бабочка-мышь", img: `${HW}/bat_bow.webp`, price: 80, category: "halloween" },
+  { id: "hw_broom", name: "Метла", img: `${HW}/broom.webp`, price: 110, category: "halloween" },
+  { id: "hw_witch_hat", name: "Шляпа ведьмы", img: `${HW}/witch_hat.webp`, price: 140, category: "halloween" },
+  { id: "hw_vampire_cape", name: "Плащ вампира", img: `${HW}/vampire_cape.webp`, price: 180, category: "halloween" },
+  { id: "hw_candy_bucket", name: "Ведёрко сладостей", img: `${HW}/candy_bucket.webp`, price: 230, category: "halloween" },
+  { id: "hw_cauldron", name: "Котёл сладостей", img: `${HW}/cauldron.webp`, price: 300, category: "halloween" },
+  { id: "hw_pumpkin_bed", name: "Тыква-лежанка", img: `${HW}/pumpkin_bed.webp`, price: 400, category: "halloween" },
+  { id: "hw_jack", name: "Фонарь Джека", img: `${HW}/jack_lantern.webp`, price: 500, category: "halloween" },
 ];
+
+export function itemsByCategory(cat: ShopCategoryId): Accessory[] {
+  return ACCESSORIES.filter((a) => a.category === cat).sort((x, y) => x.price - y.price);
+}
 
 export function accessoryById(id: string | null | undefined): Accessory | undefined {
   if (!id) return undefined;
