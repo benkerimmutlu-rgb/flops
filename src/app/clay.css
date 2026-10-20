@@ -40,3 +40,15 @@
 #flops-room .room-actor[data-pose=sleep] .room-face-occlusion{clip-path:ellipse(31% 20% at 34% 66%)}
 #flops-room .room-outfit-head{position:absolute;inset:0;pointer-events:none;z-index:5}
 #flops-room .room-outfit-head .room-object img{filter:drop-shadow(0 2px 1px #48322120)}
+/* Compact, consistent clay tools: one clear pictogram per action. */
+#flops-room .room-edit{gap:8px;padding:14px 0 4px}
+#flops-room .room-edit button,#flops-room #room-wear,#flops-room #room-seat{width:48px;height:48px;min-height:48px;padding:6px;border-radius:16px 18px 15px 17px}
+#flops-room .room-edit svg{width:36px;height:36px}
+#flops-room .room-selected-image{width:34px;height:42px;margin-right:2px}
+#flops-room .room-depth-label{margin:0 0 0 auto;gap:2px;padding:3px;border-radius:16px}
+#flops-room .room-depth-label button{width:44px;height:44px;min-height:44px;padding:4px;background-color:#e5d9bf;box-shadow:none}
+#flops-room #room-wear,#flops-room #room-seat,#flops-room #room-surface{background-color:#cbdcb6}
+#flops-room #room-remove{background-color:#e7c6b4}
+#flops-room .room-pose-picture{width:36px;height:36px}
+#flops-room .room-pose-picture>img{width:42px;height:46px;left:-3px;top:-5px}
+#flops-room .room-pose-picture>svg{width:16px;height:24px;right:-4px;bottom:-2px}

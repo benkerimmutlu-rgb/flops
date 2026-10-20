@@ -72,6 +72,7 @@ function Setup({ onStart }: { onStart: (count: number, cont: GameContinent) => v
           {COUNTS.map((n) => (
             <button
               key={n}
+              aria-pressed={count === n}
               onClick={() => setCount(n)}
               className={`rounded-[var(--radius-icon)] border py-5 text-2xl font-bold transition-colors ${
                 count === n
@@ -92,6 +93,7 @@ function Setup({ onStart }: { onStart: (count: number, cont: GameContinent) => v
           {CONTINENTS.map((c) => (
             <button
               key={c.id}
+              aria-pressed={cont === c.id}
               onClick={() => setCont(c.id)}
               className={`rounded-full border px-5 py-2.5 text-[17px] font-bold transition-colors ${
                 cont === c.id

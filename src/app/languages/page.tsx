@@ -61,6 +61,7 @@ function Setup({ onStart }: { onStart: (count: number) => void }) {
           {COUNTS.map((n) => (
             <button
               key={n}
+              aria-pressed={count === n}
               onClick={() => setCount(n)}
               className={`rounded-[var(--radius-icon)] border py-5 text-2xl font-bold transition-colors ${
                 count === n

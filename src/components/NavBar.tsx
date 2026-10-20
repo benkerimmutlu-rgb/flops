@@ -29,7 +29,7 @@ export function NavBar() {
   return (
     <>
       {/* Верхняя полоса: логотип + ссылки (ссылки только на широком экране) */}
-      <nav aria-label="Основная навигация" className="sticky top-0 z-10 border-b border-border bg-background/90 backdrop-blur">
+      <nav aria-label="Основная навигация" className="flops-topbar border-b border-border bg-background/95 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 px-4 py-3">
           <Link href="/" className="shrink-0" aria-label="FLOPS — на главную">
             <Image
@@ -41,7 +41,7 @@ export function NavBar() {
               className="h-8 w-auto object-contain"
             />
           </Link>
-          <div className="hidden items-center gap-1 sm:flex">
+          <div className="flops-desktop-links items-center gap-1">
             {LINKS.map((link) => {
               const active = isActive(pathname, link.href);
               return (

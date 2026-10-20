@@ -10,9 +10,10 @@ export const ROOM_MARKUP = `<div id="flops-room" lang="ru" data-auto="off">
  </div>
  <div class="room-edit" role="toolbar" aria-label="Действия с выбранным предметом" hidden>
   <img id="room-selected-image" alt="" class="room-selected-image"><strong id="room-selected" class="room-sr"></strong>
+  ${action('room-wear','Надеть',roomIcon('wear'),true)}${action('room-seat','Сесть',posePicture('sit'),true)}${action('room-surface','На стол',roomIcon('surface'),true)}
+  <button type="button" class="room-action" data-corner="left" aria-label="Стол в левый угол" title="Стол в левый угол" hidden>${roomIcon('leftCorner')}</button><button type="button" class="room-action" data-corner="right" aria-label="Стол в правый угол" title="Стол в правый угол" hidden>${roomIcon('rightCorner')}</button>
+  ${action('room-smaller','Уменьшить',roomIcon('smaller'))}${action('room-larger','Увеличить',roomIcon('larger'))}${action('room-rotate','Повернуть',roomIcon('rotate'))}${action('room-remove','Убрать в коллекцию',roomIcon('remove'))}
   <div class="room-depth-label" role="group" aria-label="Расстояние">${[[.64,'У стены'],[.78,'Посередине'],[.92,'Ближе']].map(([value,label],i)=>`<button type="button" data-depth="${value}" aria-label="${label}" title="${label}" aria-pressed="false">${depthPicture(i)}</button>`).join('')}</div>
-  ${action('room-smaller','Уменьшить',roomIcon('smaller'))}${action('room-larger','Увеличить',roomIcon('larger'))}${action('room-rotate','Повернуть',roomIcon('rotate'))}
-  ${action('room-wear','Надеть',posePicture('stand','down'),true)}${action('room-seat','Сесть',posePicture('sit'),true)}${action('room-surface','На стол',roomIcon('surface'),true)}${action('room-remove','Убрать в коллекцию',roomIcon('remove'))}
  </div>
  <div class="room-inventory" aria-label="Купленные вещи"></div>
  <p class="room-empty" hidden>В коллекции пока пусто</p>

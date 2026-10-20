@@ -86,6 +86,13 @@ function gen(
 }
 
 export const ACCESSORIES: Accessory[] = [
+  {"id": "gaming_mouse", "name": "Игровая мышка", "img": "/assets/clay/room-items/gaming_mouse.webp", "price": 18, "category": "games", "active": true},
+  {"id": "gaming_keyboard", "name": "Игровая клавиатура", "img": "/assets/clay/room-items/gaming_keyboard.webp", "price": 28, "category": "games", "active": true},
+  {"id": "chips_day", "name": "Чипсодень", "img": "/assets/clay/room-items/chips_day.webp", "price": 16, "category": "things", "active": true},
+  {"id": "window_ilica", "name": "Окно в Чешме — пляж Ilıca", "img": "/assets/clay/room-items/window_ilica.webp", "price": 32, "category": "windows", "active": true},
+  {"id": "strandmon", "name": "Кресло STRANDMON", "img": "/assets/clay/room-items/strandmon.webp", "price": 42, "category": "relax", "active": true},
+  {"id": "yoga_mat", "name": "Коврик для йоги", "img": "/assets/clay/room-items/yoga_mat.webp", "price": 18, "category": "sport", "active": true},
+  {"id": "hourglass", "name": "Песочные часы", "img": "/assets/clay/room-items/hourglass.webp", "price": 24, "category": "things", "active": true},
   // ─── Вещи (базовые) ───
   { id: "ball", name: "Мячик", img: `${SHOP}/ball.webp`, price: 10, category: "things", active: true },
   { id: "bone", name: "Косточка", img: `${SHOP}/bone.webp`, price: 11, category: "things", active: true },

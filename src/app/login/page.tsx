@@ -69,6 +69,8 @@ export default function LoginPage() {
         <form onSubmit={send} className="flex w-full flex-col gap-3">
           <input
             type="email"
+            aria-label="Email родителя"
+            autoComplete="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -95,6 +97,7 @@ export default function LoginPage() {
           </p>
           <input
             inputMode="numeric"
+            aria-label="Код из письма"
             autoComplete="one-time-code"
             required
             value={code}

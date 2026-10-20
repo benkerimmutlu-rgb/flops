@@ -86,3 +86,11 @@
   .shop-section, .shop-section-icon { transition: none; }
   .shop-section:hover .shop-section-icon { transform: none; }
 }
+/* Two compact rows leave the products visible; swipe reveals the other sections. */
+@media(max-width:899px){
+ .shop-sections{grid-template-rows:repeat(2,80px);grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:86px;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:#a4b98b #e9dfc4;padding-bottom:12px}
+ .shop-section{min-height:0;flex-direction:column;padding:5px 3px;gap:2px;scroll-snap-align:start;border-radius:18px 20px 17px 19px}
+ .shop-section-icon{width:42px;height:42px}
+ .shop-section>span{font-size:12px}
+}
+@media(min-width:900px){.shop-sections{grid-template-columns:repeat(11,minmax(0,1fr))}.shop-section-icon{width:52px;height:52px}.shop-section{min-height:100px}}

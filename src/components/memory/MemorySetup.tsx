@@ -54,6 +54,7 @@ export function MemorySetup({
             return (
               <button
                 key={id}
+                aria-pressed={active}
                 onClick={() => setDifficulty(id)}
                 style={
                   active
@@ -82,6 +83,7 @@ export function MemorySetup({
           {CONTINENTS.map((c) => (
             <button
               key={c.id}
+              aria-pressed={continent === c.id}
               onClick={() => setContinent(c.id)}
               className={`rounded-full border px-5 py-2.5 text-[17px] font-bold transition-colors ${
                 continent === c.id

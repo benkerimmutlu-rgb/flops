@@ -1,0 +1,70 @@
+{
+  "mode": "built-in image_gen, transparent_background=true",
+  "normalization": "512 square, aspect ratio and alpha preserved",
+  "assets": [
+    {
+      "id": "gaming_mouse",
+      "name": "Игровая мышка",
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent product sprite for FLOPS children's handmade plasticine game. All parts are sculpted matte modelling clay with soft rounded edges, subtle fingerprints and warm studio lighting. One clearly readable object, whole object centered inside square canvas with 10% transparent margins. Slight three-quarter front view. Real transparency, no floor, no ground shadow, no text, no watermark or unrelated objects. A chunky teal and dark navy gaming computer mouse, two big buttons and scroll wheel, a soft rainbow RGB light strip around its lower edge and one little clay lightning emblem. Short curved cable curls neatly beside it. Friendly tactile miniature, visibly mouse-shaped.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-4ed56179-032f-478b-abff-367d76b79576.png"
+    },
+    {
+      "id": "gaming_keyboard",
+      "name": "Игровая клавиатура",
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent product sprite for FLOPS children's handmade plasticine game. All parts are sculpted matte modelling clay with soft rounded edges, subtle fingerprints and warm studio lighting. One clearly readable object, whole object centered inside square canvas with 10% transparent margins. Slight three-quarter front view. Real transparency, no floor, no ground shadow, no text, no watermark or unrelated objects. A compact chunky gaming keyboard seen from slightly above, dark navy rounded case, thick raised keycaps, subtle pastel rainbow RGB light underneath keys, teal spacebar, a few coral and lilac accent keys. Simple clean grid, no letters or printed text. A short cable behind. Wide landscape silhouette, no mouse.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-a966c3ec-49e6-423d-b365-35aa021323c7.png"
+    },
+    {
+      "id": "chips_day",
+      "name": "Чипсодень",
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent product sprite for FLOPS children's handmade plasticine game. All parts are sculpted matte modelling clay with soft rounded edges, subtle fingerprints and warm studio lighting. One clearly readable object, whole object centered inside square canvas with 10% transparent margins. Slight three-quarter front view. Real transparency, no floor, no ground shadow, no text, no watermark or unrelated objects. One inseparable cozy snack set: a small red cola can with silver pull tab and a cream wavy stripe, beside an open golden orange bag of potato chips with a simple raised potato slice emblem and several thick clay potato crisps peeking out. Can and packet nestle together as one compact product. No brand lettering, no plate, no extra drinks. Recognizably cola and chips together.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-e4291cff-e1fa-4680-a82e-8d72eb8df77f.png"
+    },
+    {
+      "id": "window_ilica",
+      "name": "Окно в Чешме",
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent product sprite for FLOPS children's handmade plasticine game. All parts are sculpted matte modelling clay with soft rounded edges, subtle fingerprints and warm studio lighting. One clearly readable object, whole object centered inside square canvas with 10% transparent margins. Slight three-quarter front view. Real transparency, no floor, no ground shadow, no text, no watermark or unrelated objects. One front-facing thick cream clay window frame with softly arched top and lower windowsill, matching a handmade clay dollhouse. INSIDE the window is a peaceful view of Ilica beach in Cesme, Turkey: the broad very pale fine sand beach and shallow translucent turquoise Aegean water fading into deep blue, gently curving coastline, low white Aegean houses in the distance, two small beach umbrellas on the sand, warm blue sky. No tower or big city. A tiny Turkish red flag with white crescent and star sits on lower right windowsill. All scenery stays inside the single generous opening, no crossbars, no wall outside the frame.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-9b37b283-b854-4cc6-b57e-f74e58e68048.png"
+    },
+    {
+      "id": "strandmon",
+      "name": "Кресло STRANDMON",
+      "ref": "/var/folders/1k/jpmcx1_9059b80qbs8h3klpc0000gn/T/TemporaryItems/NSIRD_screencaptureui_LIzcN7/Снимок экрана — 2026-10-20 в 21.08.25.png",
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent product sprite for FLOPS children's handmade plasticine game. All parts are sculpted matte modelling clay with soft rounded edges, subtle fingerprints and warm studio lighting. One clearly readable object, whole object centered inside square canvas with 10% transparent margins. Slight three-quarter front view. Real transparency, no floor, no ground shadow, no text, no watermark or unrelated objects. Reference image is the exact chair design and COLOR to recreate as a clay miniature. IKEA STRANDMON wingback armchair, deep burnt rust / dark brick terracotta red upholstery exactly like reference, NOT bright orange, not yellow. Tall softly rounded winged back, curved rolled armrests, row of shallow tuft buttons across back, plump separate seat cushion and four short natural pale wooden tapered legs. Front view with only very slight three-quarter angle, broad empty seat visible for a small pug to sit on. Entire empty chair, no dog or blanket. Preserve characteristic STRANDMON proportions. Remove all screenshot text and background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-9d7ab6d2-c3d6-4201-a537-11ad921b2ac0.png"
+    },
+    {
+      "id": "yoga_mat",
+      "name": "Коврик для йоги",
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent product sprite for FLOPS children's handmade plasticine game. All parts are sculpted matte modelling clay with soft rounded edges, subtle fingerprints and warm studio lighting. One clearly readable object, whole object centered inside square canvas with 10% transparent margins. Slight three-quarter front view. Real transparency, no floor, no ground shadow, no text, no watermark or unrelated objects. A single soft muted sage/teal yoga mat, UNROLLED flat in perspective, a gently curled end along the far short edge, subtle clay ridges for texture, rounded corners. Wide long rectangle lying flat, front short edge nearest viewer. No person, no fitness props, no floor outside it. A tiny pale clay lotus emboss near one corner.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-5d43eead-8ddc-4ab5-bcb2-9d60b22c0f0e.png"
+    },
+    {
+      "id": "hourglass",
+      "name": "Песочные часы",
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent product sprite for FLOPS children's handmade plasticine game. All parts are sculpted matte modelling clay with soft rounded edges, subtle fingerprints and warm studio lighting. One clearly readable object, whole object centered inside square canvas with 10% transparent margins. Slight three-quarter front view. Real transparency, no floor, no ground shadow, no text, no watermark or unrelated objects. One elegant charming FRONT-FACING miniature hourglass frame, symmetric and upright. Warm honey-gold rounded wooden clay top and bottom disks, two slim terracotta side pillars. Two clear very lightly blue glass bulbs meet at a narrow central neck; the glass is EMPTY and transparent, no sand inside (sand will be animated separately in the game). Clear spacious central bulbs easy to see through, no dark fill. A small golden star ornament on top disk. The disks sit near 15% and 85% canvas height, glass neck EXACTLY at canvas center, glass silhouette runs from x35 to65%, y23 to77%. Flat front view so animation can line up. No perspective skew.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-87876e96-73f3-4448-b559-3b27606267e5.png"
+    },
+    {
+      "id": "scream_mask_fit",
+      "name": "Маска крика — примерка",
+      "ref": "/Users/cyrilmogilnik/Desktop/FLOPS/app/public/assets/clay/room-items/hw11.webp",
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent product sprite for FLOPS children's handmade plasticine game. All parts are sculpted matte modelling clay with soft rounded edges, subtle fingerprints and warm studio lighting. One clearly readable object, whole object centered inside square canvas with 10% transparent margins. Slight three-quarter front view. Real transparency, no floor, no ground shadow, no text, no watermark or unrelated objects. Input is the mask's style and identity reference, not its narrow silhouette. Create a FULL FACE wearable white scream mask for a broad round cute pug face: substantially WIDER at forehead and cheeks, broad oval upper face, tapering only slightly toward chin, long black screaming oval mouth, two slanted dark eye hollows. Completely opaque white clay across forehead, cheeks, nose and mouth, so a dog's entire face is hidden. No holes with transparency inside eyes or mouth: these are opaque dark clay insets. No dog or fur, no hood, no straps, no neck. Straight on face, almost round broad cheeks, whole mask occupies 82% width and 86% height of square. Same friendly matte clay material as reference.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-b81f2b0a-b7da-4ac6-a05c-85f570d964f1.png"
+    },
+    {
+      "id": "cape_back_fan",
+      "name": "Плащ героя — спинка",
+      "ref": "/Users/cyrilmogilnik/Desktop/FLOPS/app/public/assets/clay/room-items/cape.webp",
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent product sprite for FLOPS children's handmade plasticine game. All parts are sculpted matte modelling clay with soft rounded edges, subtle fingerprints and warm studio lighting. One clearly readable object, whole object centered inside square canvas with 10% transparent margins. Slight three-quarter front view. Real transparency, no floor, no ground shadow, no text, no watermark or unrelated objects. Supplied superhero cape is a color/material reference. Render ONLY its BACK draped cape fabric, spread WIDELY left and right so it will remain visible on both sides of a chubby pug composited in FRONT of the center. Bright red outer fabric, blue lining, golden rounded hem, soft sculpted vertical folds. A shallow fan silhouette: width about twice its height, shoulders meet at narrow upper center, two flared side wings slope gently down, curved hem. No front collar, clasp or head hole. Symmetric front-on view of the broad spread cape; fabric width 90% of canvas, height only 42%, centered vertically. Matte clay rather than fabric photo, no dog.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-8891a063-3ee7-4914-afc6-f05c5c1cce3b.png"
+    },
+    {
+      "id": "vampire_back_fan",
+      "name": "Плащ вампира — спинка",
+      "ref": "/Users/cyrilmogilnik/Desktop/FLOPS/app/public/assets/clay/room-items/hw3.webp",
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent product sprite for FLOPS children's handmade plasticine game. All parts are sculpted matte modelling clay with soft rounded edges, subtle fingerprints and warm studio lighting. One clearly readable object, whole object centered inside square canvas with 10% transparent margins. Slight three-quarter front view. Real transparency, no floor, no ground shadow, no text, no watermark or unrelated objects. Supplied vampire cape is a color/material reference. Render ONLY BACK draped cape fabric spread WIDELY to both sides to show around a chubby pug composited in FRONT of its center. Deep plum purple outside and rich crimson red inside, broad curved soft hem, subtle big sculpted folds. Shallow fan silhouette: width about twice height, two shoulder tips meet at narrow upper center, sides flare out. No front clasp, no tall collar, no body or dog. Front-on symmetric broad spread miniature cape: width 90% of square canvas, height 42%, centered vertically.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-816ed96c-db63-4254-8c78-3fa48293492c.png"
+    }
+  ]
+}

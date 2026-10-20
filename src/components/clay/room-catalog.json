@@ -943,5 +943,57 @@
     "img": "/assets/clay/room-items/sport_wall_bar.webp",
     "kind": "wall",
     "size": 0.27
+  },
+  {
+    "id": "gaming_mouse",
+    "name": "Игровая мышка",
+    "img": "/assets/clay/room-items/gaming_mouse.webp",
+    "kind": "surface",
+    "size": 0.1,
+    "anchorY": 0.95
+  },
+  {
+    "id": "gaming_keyboard",
+    "name": "Игровая клавиатура",
+    "img": "/assets/clay/room-items/gaming_keyboard.webp",
+    "kind": "surface",
+    "size": 0.23,
+    "anchorY": 0.74
+  },
+  {
+    "id": "chips_day",
+    "name": "Чипсодень",
+    "img": "/assets/clay/room-items/chips_day.webp",
+    "kind": "surface",
+    "size": 0.15
+  },
+  {
+    "id": "window_ilica",
+    "name": "Окно в Чешме — пляж Ilıca",
+    "img": "/assets/clay/room-items/window_ilica.webp",
+    "kind": "wall",
+    "size": 0.3
+  },
+  {
+    "id": "strandmon",
+    "name": "Кресло STRANDMON",
+    "img": "/assets/clay/room-items/strandmon.webp",
+    "kind": "seat",
+    "size": 0.34
+  },
+  {
+    "id": "yoga_mat",
+    "name": "Коврик для йоги",
+    "img": "/assets/clay/room-items/yoga_mat.webp",
+    "kind": "floor",
+    "size": 0.36,
+    "anchorY": 0.82
+  },
+  {
+    "id": "hourglass",
+    "name": "Песочные часы",
+    "img": "/assets/clay/room-items/hourglass.webp",
+    "kind": "surface",
+    "size": 0.15
   }
 ]

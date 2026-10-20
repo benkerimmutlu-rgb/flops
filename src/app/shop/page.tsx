@@ -1,9 +1,12 @@
 "use client";
 
+import { ShopItemImage } from '@/components/ShopItemImage';
+
 import { useState, type CSSProperties, type KeyboardEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import "./shop.css";
+import { SHOP_RELEASE } from "@/lib/shop-release";
 import { DailyVisitBadge } from "@/components/DailyVisitBadge";
 import { useUserState } from "@/lib/store";
 import { getFlopsAsset } from "@/brand/flops-assets";
@@ -16,8 +19,9 @@ import {
   type Accessory,
 } from "@/lib/shop";
 
-type Tab = "collection" | (typeof SHOP_CATEGORIES)[number]["id"];
+type Tab = "new" | "collection" | (typeof SHOP_CATEGORIES)[number]["id"];
 const sections = [
+  { id: "new" as const, label: "Новинки", image: "/assets/clay/room-items/hourglass.webp", color: "#e8d99c" },
   { id: "collection" as const, label: "Коллекция", image: "/assets/clay/room-items/chest.webp", color: "#d0ddc0" },
   ...activeCategories(),
 ];
@@ -27,7 +31,8 @@ function navigateSections(event: KeyboardEvent<HTMLDivElement>) {
   const index = tabs.indexOf(event.target as HTMLButtonElement);
   if (index < 0) return;
   const columns = getComputedStyle(event.currentTarget).gridTemplateColumns.split(" ").length;
-  const delta: Record<string, number> = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: columns, ArrowUp: -columns };
+  const byColumn = getComputedStyle(event.currentTarget).gridAutoFlow.includes("column");
+  const delta: Record<string, number> = { ArrowRight: byColumn ? 2 : 1, ArrowLeft: byColumn ? -2 : -1, ArrowDown: byColumn ? 1 : columns, ArrowUp: byColumn ? -1 : -columns };
   let next: number;
   if (event.key === "Home") next = 0;
   else if (event.key === "End") next = tabs.length - 1;
@@ -41,7 +46,7 @@ function navigateSections(event: KeyboardEvent<HTMLDivElement>) {
 export default function ShopPage() {
   const { bones, bonesEarned, owned, buyAccessory } = useUserState();
   const { rank } = rankForEarned(bonesEarned);
-  const [tab, setTab] = useState<Tab>("collection");
+  const [tab, setTab] = useState<Tab>("new");
 
   const ownedItems = ACCESSORIES.filter((a) => owned.includes(a.id));
 
@@ -76,7 +81,7 @@ export default function ShopPage() {
             tabIndex={tab === section.id ? 0 : -1}
             className="shop-section"
             style={{ "--section-color": section.color } as CSSProperties}
-            onClick={() => setTab(section.id)}
+            onClick={event => { setTab(section.id); event.currentTarget.scrollIntoView({ block: "nearest", inline: "nearest" }); }}
           >
             <Image src={section.image} alt="" width={72} height={72} className="shop-section-icon" />
             <span>{section.label}</span>
@@ -93,7 +98,7 @@ export default function ShopPage() {
         />
       ) : (
         <CategoryGrid
-          items={itemsByCategory(tab)}
+          items={tab === "new" ? ACCESSORIES.filter(item => SHOP_RELEASE.items.includes(item.id)) : itemsByCategory(tab)}
           owned={owned}
           bones={bones}
           onBuy={buyAccessory}
@@ -145,7 +150,7 @@ function Collection({
               key={a.id}
               className="flex flex-col items-center gap-1.5 rounded-[var(--radius-card)] border border-brand-green/40 bg-surface p-3 text-center shadow-[var(--shadow-card)]"
             >
-              <Image src={a.img} alt={a.name} width={72} height={72} className="h-16 w-16 object-contain" />
+              <ShopItemImage id={a.id} src={a.img} name={a.name} small />
               <span className="text-xs font-bold text-foreground">{a.name}</span>
             </div>
           ))}
@@ -191,13 +196,7 @@ function CategoryGrid({
                 </span>
               )}
               {/* Цветной пластилиновый предмет; покупка отмечается отдельно. */}
-              <Image
-                src={a.img}
-                alt={a.name}
-                width={88}
-                height={88}
-                className="h-28 w-28 object-contain"
-              />
+              <ShopItemImage id={a.id} src={a.img} name={a.name} />
               <span className="text-[15px] font-bold text-foreground">{a.name}</span>
 
               {isOwned ? (
@@ -212,6 +211,7 @@ function CategoryGrid({
                     <span className={a.oldPrice ? "text-brand-red" : ""}>{a.price}</span>
                   </span>
                   <button
+                    aria-label={`Купить: ${a.name}, ${a.price} косточек`}
                     onClick={() => onBuy(a.id, a.price)}
                     disabled={!canAfford}
                     className={`w-full rounded-full px-3 py-2 text-sm font-bold transition-colors ${

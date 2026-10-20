@@ -17,7 +17,7 @@ export interface RoomSnapshot {
   room: RoomId;
   layout: Record<RoomId, RoomLayout>;
 }
-export interface RoomCatalogItem { id: string; name: string; img: string; kind: string; size: number; wearX?: number; wearY?: number; wearRotation?: number }
+export interface RoomCatalogItem { id: string; name: string; img: string; kind: string; size: number; anchorY?: number; wearX?: number; wearY?: number; wearRotation?: number }
 export interface RoomMountOptions {
   catalog: RoomCatalogItem[];
   rooms: Record<RoomId, string>;

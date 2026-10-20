@@ -153,10 +153,10 @@ test('fitting replaces only competing fitted clothing and round-trips without gr
   assert.equal('owned' in normalizeRoom(room), false);
 });
 
-test('all eight windows and the sports bar are purchasable wall items with real assets', () => {
+test('all nine windows and the sports bar are purchasable wall items with real assets', () => {
   const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
   const windows = ACCESSORIES.filter(i => i.category === 'windows');
-  assert.equal(windows.length, 8);
+  assert.equal(windows.length, 9);
   assert.equal(new Set(ACCESSORIES.map(i => i.id)).size, ACCESSORIES.length);
   for (const item of [...windows, ACCESSORIES.find(i => i.id === 'sport_wall_bar')]) {
     assert.ok(item.active && item.price > 0);
@@ -176,4 +176,52 @@ test('all pose-specific garment layers exist separately from the shop thumbnails
     }
   }
   assert.notEqual(ACCESSORIES.find(i => i.id === 'sp1').img, wearableFit(catalog.find(i => i.id === 'sp1'), 'stand').parts[0].img);
+});
+
+const { onDesk, deskCorner } = load(path.resolve(__dirname, '../src/components/clay/room-placement.js'));
+test('laptop follows desk in either corner at mobile and desktop aspect ratios, with bounded tabletop drag', () => {
+  for (const side of ['left', 'right']) for (const aspect of [1.15, 1.5]) {
+    const width = .42 * (.68 + (.80 - .58) * 1.2);
+    const desk = { ...deskCorner(side, width) };
+    const at = onDesk(desk, width, aspect, { mountX: 0, mountY: 0 });
+    assert.ok(desk.x - width / 2 >= .024 && desk.x + width / 2 <= .976);
+    assert.equal(at.x, desk.x);
+    assert.ok(at.y < desk.y);
+    assert.ok(Math.abs((desk.y - at.y) / (width * aspect) - .52) < 1e-9);
+    const moved = onDesk({ ...desk, x: desk.x + .1 }, width, aspect, { mountX: 0, mountY: 0 });
+    assert.ok(Math.abs(moved.x - at.x - .1) < 1e-9);
+    const extreme = onDesk(desk, width, aspect, { mountX: 99, mountY: -99 });
+    assert.ok(Math.abs(extreme.x - desk.x - .28 * width) < 1e-9);
+    assert.ok(Math.abs(extreme.y - (desk.y - .60 * width * aspect)) < 1e-9);
+  }
+});
+
+const { SHOP_RELEASE, shouldShowRelease } = load(path.resolve(__dirname, '../src/lib/shop-release.ts'));
+test('new shop release has seven usable purchased-only products and announces once per version', () => {
+  const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
+  assert.equal(SHOP_RELEASE.items.length, 7);
+  for (const id of SHOP_RELEASE.items) {
+    const product = ACCESSORIES.find(i => i.id === id), room = catalog.find(i => i.id === id);
+    assert.ok(product.active && product.price > 0 && room);
+    assert.ok(fs.existsSync(path.resolve(__dirname, '../public' + product.img)));
+    const saved = emptyRoom(); saved.layout.blue.items = [{ id, x: .5, y: .8, scale: 1, rotation: 0 }];
+    assert.deepEqual(normalizeRoom(saved), saved);
+    assert.equal('owned' in normalizeRoom(saved), false);
+  }
+  assert.equal(shouldShowRelease(null), true);
+  assert.equal(shouldShowRelease(SHOP_RELEASE.id), false);
+  assert.equal(shouldShowRelease('earlier-release'), true);
+});
+
+test('full-face mask uses the head layer and broad cape has front and back pieces in every pose', () => {
+  const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
+  for (const pose of ['stand', 'sit', 'sleep']) {
+    const mask = wearableFit(catalog.find(i => i.id === 'hw11'), pose);
+    assert.equal(mask.layer, 'head');
+    assert.ok(mask.parts[0].size >= .7);
+    assert.match(mask.parts[0].img, /scream_mask_fit/);
+    const cape = wearableFit(catalog.find(i => i.id === 'hw3'), pose);
+    assert.equal(cape.layer, 'back');
+    assert.ok(cape.parts[0].size >= 1 && cape.frontParts.length);
+  }
 });

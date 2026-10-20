@@ -19,7 +19,7 @@
   align-items: center;
   justify-content: center;
   min-width: 0;
-  min-height: 62px;
+  min-height: 58px;
   gap: 4px;
   padding: 5px 0;
   color: #4c5944;
@@ -41,7 +41,7 @@
 
 .link:active { transform: translateY(2px) scale(1.02,.96); }
 .link:focus-visible { outline: 3px solid #357793; outline-offset: 1px; }
-.icon { width: 34px; height: 34px; object-fit: contain; filter: drop-shadow(0 2px 1px #705e3824); pointer-events: none; }
+.icon { width: 31px; height: 31px; object-fit: contain; filter: drop-shadow(0 2px 1px #705e3824); pointer-events: none; }
 .label { font-size: 10px; font-weight: 800; line-height: 1.2; white-space: nowrap; }
 
 .memory { position: relative; display: block; width: 34px; height: 34px; }
@@ -63,5 +63,5 @@
 .memory i::after { content: ''; position: absolute; inset: 8px 5px; border-radius: 48% 52% 44% 56%; background: #c3a366; box-shadow: inset 1px 1px 2px #8f74312e; }
 
 @media (max-width: 359px) { .label { font-size: 9px; } }
-@media (min-width: 640px) { .mobile { display: none; } }
+@media (min-width: 960px) { .mobile { display: none; } }
 @media (prefers-reduced-motion: reduce) { .link { transition: none; } }

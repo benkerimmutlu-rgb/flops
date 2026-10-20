@@ -1,3 +1,5 @@
+import { hourglassSand } from './hourglass.js';
+import { onDesk, deskCorner } from './room-placement.js';
 import { roomPose, isSleepSeat } from './room-poses.js';
 import { wearableFit, wearGroup, fitOutfit } from './wardrobe.js';
 import { roomIcon, posePicture } from './room-icons.js';
@@ -42,7 +44,7 @@ export function mountRoom(root, options) {
         return null; return selected === 'pug' ? current().pug : [...current().items, ...current().outfit].find(o => o.id === selected); }
     function parentOf(o) { return o.parent ? current().items.find(p => p.id === o.parent && p.id !== o.id && permitted().has(p.id)) : null; }
     function itemWidth(o) { const item = byId.get(o.id), parent = parentOf(o); return item.size * o.scale * (item.kind === 'wall' ? 1 : depth(parent ? parent.y : o.y)) * (parent ? parent.scale : 1); }
-    function coordinates(o) { const p = parentOf(o); return p ? { x: p.x + (o.mountX || 0) * itemWidth(p), y: p.y - itemWidth(p) * stage.clientWidth / stage.clientHeight * (.60 - (o.mountY || 0)) } : { x: o.x, y: o.y }; }
+    function coordinates(o) { const p = parentOf(o); return p ? onDesk(p, itemWidth(p), stage.clientWidth / stage.clientHeight, o) : { x: o.x, y: o.y }; }
     function say(text) { root.querySelector('#room-status').textContent = text; }
     function select(id) { selected = id; updateEdit(); renderObjects(); }
     function action(id, label, picture) { const button = root.querySelector('#' + id); button.setAttribute('aria-label', label); button.title = label; button.innerHTML = picture; }
@@ -54,13 +56,14 @@ export function mountRoom(root, options) {
         root.querySelector('.room-depth-label').hidden = item?.kind === 'wear' || item?.kind === 'wall' || !!parentOf(o);
         const nearest = [.64, .78, .92].reduce((a, b) => Math.abs(b - o.y) < Math.abs(a - o.y) ? b : a);
         root.querySelectorAll('[data-depth]').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.depth) === nearest)));
+        root.querySelectorAll('[data-corner]').forEach(b => b.hidden = selected !== 'gm36');
         const gettingUp = current().pug.seat === selected || selected === 'pug';
         root.querySelector('#room-seat').hidden = !(item?.kind === 'seat' || (selected === 'pug' && current().pug.seat));
         action('room-seat', gettingUp ? 'Встать' : isSleepSeat(selected) ? 'Лечь' : 'Сесть', posePicture(gettingUp ? 'stand' : isSleepSeat(selected) ? 'sleep' : 'sit', gettingUp ? 'up' : 'down'));
         root.querySelector('#room-surface').hidden = !(item?.kind === 'surface' && current().items.some(p => p.id === 'gm36' && permitted().has(p.id)));
         action('room-surface', o.parent ? 'На пол' : 'На стол', roomIcon(o.parent ? 'down' : 'surface'));
         root.querySelector('#room-wear').hidden = item?.kind !== 'wear';
-        action('room-wear', wearGroup(selected) === 'blanket' ? 'Укрыть' : 'Надеть', `<span class="room-dress-picture"><img src="${item?.img || '/assets/clay/room-pug-stand.webp'}" alt="">${roomIcon('down')}${posePicture(currentPose())}</span>`);
+        action('room-wear', wearGroup(selected) === 'blanket' ? 'Укрыть' : 'Надеть', roomIcon(wearGroup(selected) === 'blanket' ? 'cover' : 'wear'));
         root.querySelector('#room-remove').hidden = selected === 'pug';
         action('room-remove', item?.kind === 'wear' ? 'Снять' : 'Убрать в коллекцию', roomIcon('remove'));
         root.querySelector('#room-rotate').hidden = selected === 'pug' || item?.kind === 'seat' || selected === 'gm36';
@@ -97,8 +100,8 @@ export function mountRoom(root, options) {
             wearTransform(front, o); front.replaceChildren(...wearPieces(fit.frontParts));
         } else front?.remove();
     }
-    function styleObject(b, o, wear) { const item = byId.get(o.id); if (wear && o.fitted) { styleWear(b, o); return; } outfit.querySelector(`[data-wear-front="${o.id}"]`)?.remove(); if (wear && b.parentElement !== headOutfit) headOutfit.append(b); b.classList.remove('room-fitted'); b.setAttribute('aria-pressed', String(selected === o.id)); const at = wear ? o : coordinates(o); b.style.left = at.x * 100 + '%'; b.style.top = at.y * 100 + '%'; b.style.width = (wear ? o.scale * item.size : itemWidth(o)) * 100 + '%'; b.style.transform = (wear ? 'translate(-50%,-50%)' : 'translate(-50%,-100%)') + ' rotate(' + o.rotation + 'deg)'; b.style.zIndex = String(wear ? 10 : item.kind === 'wall' ? 1 : Math.round((parentOf(o)?.y ?? o.y) * 10000) + (parentOf(o) ? 5 : 0)); }
-    function objectButton(o, wear) { const item = byId.get(o.id), b = document.createElement('button'); b.type = 'button'; b.className = 'room-object'; b.dataset.id = o.id; b.setAttribute('aria-label', item.name); b.setAttribute('aria-pressed', String(selected === o.id)); const img = document.createElement('img'); img.src = item.img; img.alt = ''; img.draggable = false; b.append(img); styleObject(b, o, wear); listen(b, 'pointerdown', e => begin(e, o.id, wear)); listen(b, 'click', () => select(o.id)); listen(b, 'keydown', e => moveKey(e, o.id)); return b; }
+    function styleObject(b, o, wear) { const item = byId.get(o.id); if (wear && o.fitted) { styleWear(b, o); return; } outfit.querySelector(`[data-wear-front="${o.id}"]`)?.remove(); if (wear && b.parentElement !== headOutfit) headOutfit.append(b); b.classList.remove('room-fitted'); b.setAttribute('aria-pressed', String(selected === o.id)); const at = wear ? o : coordinates(o); b.style.left = at.x * 100 + '%'; b.style.top = at.y * 100 + '%'; b.style.width = (wear ? o.scale * item.size : itemWidth(o)) * 100 + '%'; b.style.transform = (wear ? 'translate(-50%,-50%)' : `translate(-50%,-${(item.anchorY ?? 1) * 100}%)`) + ' rotate(' + o.rotation + 'deg)'; b.style.zIndex = String(wear ? 10 : item.kind === 'wall' ? 1 : Math.round((parentOf(o)?.y ?? o.y) * 10000) + (parentOf(o) ? 5 : 0)); }
+    function objectButton(o, wear) { const item = byId.get(o.id), b = document.createElement('button'); b.type = 'button'; b.className = 'room-object'; b.dataset.id = o.id; b.setAttribute('aria-label', item.name); b.setAttribute('aria-pressed', String(selected === o.id)); const img = document.createElement('img'); img.src = item.img; img.alt = ''; img.draggable = false; if (o.id === 'hourglass') { const clock = document.createElement('span'); clock.className = 'clay-hourglass'; clock.append(img); clock.insertAdjacentHTML('beforeend', hourglassSand()); b.append(clock); } else b.append(img); styleObject(b, o, wear); listen(b, 'pointerdown', e => begin(e, o.id, wear)); listen(b, 'click', () => select(o.id)); listen(b, 'keydown', e => moveKey(e, o.id)); return b; }
     function renderObjects() {
         const pose = currentPose(), image = root.querySelector('.kids-mascot-fallback'), face = root.querySelector('.room-face-occlusion');
         image.src = '/assets/clay/room-pug-' + pose + '.webp'; image.dataset.pose = pose; face.src = image.src; actor.dataset.pose = pose;
@@ -177,8 +180,8 @@ export function mountRoom(root, options) {
         drag.x = o.x;
         drag.y = o.y;
     } const wall = byId.get(drag.id)?.kind === 'wall'; const dx = (e.clientX - drag.startX) / drag.rect.width, dy = (e.clientY - drag.startY) / drag.rect.height; if (drag.parent) {
-        o.mountX = clamp(drag.mountX + dx / itemWidth(drag.parent), -.45, .45);
-        o.mountY = clamp(drag.mountY + dy / (itemWidth(drag.parent) * stage.clientWidth / stage.clientHeight), -.20, .22);
+        o.mountX = clamp(drag.mountX + dx / itemWidth(drag.parent), -.28, .28);
+        o.mountY = clamp(drag.mountY + dy / (itemWidth(drag.parent) * stage.clientWidth / stage.clientHeight), -.08, .08);
         renderObjects();
         return;
     } o.x = clamp(drag.x + dx, drag.wear ? -.1 : .06, drag.wear ? 1.1 : .94); o.y = clamp(drag.y + dy, drag.wear ? -.1 : wall ? .2 : .59, drag.wear ? 1.1 : wall ? .66 : .97); renderObjects(); });
@@ -194,8 +197,8 @@ export function mountRoom(root, options) {
         return; e.preventDefault(); selected = id; const o = find(); if (!o)
         return; if (id === 'pug')
         releasePug(); const wear = byId.get(id)?.kind === 'wear', wall = byId.get(id)?.kind === 'wall'; if (parentOf(o)) {
-        o.mountX = clamp((o.mountX || 0) + directions[e.key][0], -.45, .45);
-        o.mountY = clamp((o.mountY || 0) + directions[e.key][1], -.20, .22);
+        o.mountX = clamp((o.mountX || 0) + directions[e.key][0], -.28, .28);
+        o.mountY = clamp((o.mountY || 0) + directions[e.key][1], -.08, .08);
         render();
         save();
         root.querySelector(`[data-id="${id}"]`)?.focus();
@@ -204,6 +207,7 @@ export function mountRoom(root, options) {
         o.seat = null; render(); save(); root.querySelector(id === 'pug' ? '.kids-mascot' : `[data-id="${id}"]`)?.focus(); }
     root.querySelectorAll('[data-room]').forEach(b => listen(b, 'click', () => { room = b.dataset.room; selected = null; root.dispatchEvent(new CustomEvent('kids:pose', { detail: 'sit' })); render(); save(); }));
     root.querySelectorAll('[data-depth]').forEach(button => listen(button, 'click', () => { const o = find(); if (!o || ['wear', 'wall'].includes(byId.get(selected)?.kind)) return; if (selected === 'pug') releasePug(); o.y = Number(button.dataset.depth); render(); save(); }));
+    root.querySelectorAll('[data-corner]').forEach(b => listen(b, 'click', () => { const o = find(); if (selected !== 'gm36' || !o) return; o.y = .80; Object.assign(o, deskCorner(b.dataset.corner, itemWidth(o))); render(); save(); }));
     listen(root.querySelector('#room-wear'), 'click', () => { const o = find(); if (!o || byId.get(selected)?.kind !== 'wear') return; current().outfit = fitOutfit(current().outfit, selected); render(); save(); say(wearGroup(selected) === 'blanket' ? 'Флопс укрыт' : 'Надето на Флопса'); });
     for (const [id, factor] of [['room-smaller', .9], ['room-larger', 1.1]])
         listen(root.querySelector('#' + id), 'click', () => { const o = find(); if (o) {
@@ -248,7 +252,7 @@ export function mountRoom(root, options) {
         o.mountX = 0;
         o.mountY = 0;
     } render(); save(); });
-    const observer = new ResizeObserver(positionPug);
+    const observer = new ResizeObserver(renderObjects);
     observer.observe(stage);
     clean();
     render();

@@ -58,22 +58,13 @@ export default function MyWorldPage() {
         </div>
       </div>
 
-      {/* Пояснение для взрослых */}
-      <section className="rounded-[var(--radius-card)] border border-border bg-brand-blue/[0.06] p-4">
-        <p className="text-[15px] font-bold text-foreground">
-          Для взрослых — играйте сами или вместе с ребёнком
+      <details className="rounded-[var(--radius-card)] border border-border bg-brand-blue/[0.06] p-4">
+        <summary className="cursor-pointer font-bold text-foreground">Как пользоваться картой</summary>
+        <p className="mt-3 text-[15px] leading-relaxed text-muted">
+          Найди страну и отметь «Был» или «Мечтаю» — она закрасится на карте.
+          Нажми на название, чтобы узнать о стране больше.
         </p>
-        <p className="mt-1 text-[15px] leading-relaxed text-muted">
-          Этот раздел и для взрослых: отмечайте страны для себя — как личный
-          travel-дневник — или заполняйте его вместе с ребёнком. У каждой страны
-          две отметки: <b className="text-brand-green">«Был»</b> и{" "}
-          <b className="text-brand-blue">«Мечтаю»</b>. Нажимайте их прямо в списке —
-          карта мира закрашивается (зелёным — где побывали, синим — куда хотите), а
-          сверху растёт процент открытого мира. А если нажать на{" "}
-          <b className="text-foreground">название страны</b>, откроется рассказ о
-          ней: флаг, еда, люди и фразы.
-        </p>
-      </section>
+      </details>
 
       {/* Карта + прогресс */}
       <section className="flex flex-col gap-4 rounded-[var(--radius-card)] border border-border bg-surface p-5 shadow-[var(--shadow-card)]">
@@ -94,6 +85,7 @@ export default function MyWorldPage() {
         type="search"
         value={q}
         onChange={(e) => setQ(e.target.value)}
+        aria-label="Найти страну"
         placeholder="Найти страну…"
         className="w-full rounded-full border border-border bg-surface px-5 py-3 text-[17px] text-foreground outline-none placeholder:text-muted focus:border-brand-green"
       />
