@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useUserState } from "@/lib/store";
 import { getFlopsAsset } from "@/brand/flops-assets";
 import {
@@ -28,9 +29,9 @@ export default function ShopPage() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-[28px] font-bold leading-tight text-foreground">
-            Магазин Флопса
+            Магазин
           </h1>
-          <p className="text-muted">Копи косточки в играх и собирай вещи Флопса.</p>
+          <Link href="/room" className="inline-flex min-h-11 items-center font-bold text-brand-green">Домик →</Link>
         </div>
         <div className="flex shrink-0 items-center gap-2 rounded-full bg-surface px-3.5 py-2 shadow-[var(--shadow-card)]">
           <Image src={getFlopsAsset("bone_currency")} alt="Косточки" width={26} height={26} className="h-6 w-6 object-contain" />
@@ -177,15 +178,15 @@ function CategoryGrid({
                   −{Math.round((1 - a.price / a.oldPrice) * 100)}%
                 </span>
               )}
-              {/* В магазине вещь — серый силуэт; цвет оживает в «Коллекции» */}
+              {/* Цветной пластилиновый предмет; покупка отмечается отдельно. */}
               <Image
                 src={a.img}
                 alt={a.name}
                 width={88}
                 height={88}
-                className="h-20 w-20 object-contain opacity-70 grayscale"
+                className="h-28 w-28 object-contain"
               />
-              <span className="text-[15px] font-bold text-muted">{a.name}</span>
+              <span className="text-[15px] font-bold text-foreground">{a.name}</span>
 
               {isOwned ? (
                 <span className="text-sm font-bold text-brand-green">Куплено ✓</span>
@@ -215,9 +216,6 @@ function CategoryGrid({
           );
         })}
       </div>
-      <p className="mt-3 text-center text-xs text-muted">
-        В магазине вещи серые — цвет они обретают в твоей «Коллекции» после покупки.
-      </p>
     </>
   );
 }

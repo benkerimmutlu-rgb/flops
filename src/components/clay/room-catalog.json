@@ -1,0 +1,779 @@
+[
+  {
+    "id": "ball",
+    "name": "Мячик",
+    "img": "/assets/clay/room-items/ball.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "bone",
+    "name": "Косточка",
+    "img": "/assets/clay/room-items/bone.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "glasses",
+    "name": "Очки",
+    "img": "/assets/clay/room-items/glasses.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "bowl",
+    "name": "Миска",
+    "img": "/assets/clay/room-items/bowl.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "plant",
+    "name": "Растение",
+    "img": "/assets/clay/room-items/plant.webp",
+    "kind": "floor",
+    "size": 0.22
+  },
+  {
+    "id": "crown",
+    "name": "Корона",
+    "img": "/assets/clay/room-items/crown.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "backpack",
+    "name": "Рюкзак",
+    "img": "/assets/clay/room-items/backpack.webp",
+    "kind": "wear",
+    "size": 0.7
+  },
+  {
+    "id": "camera",
+    "name": "Фотоаппарат",
+    "img": "/assets/clay/room-items/camera.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "easel",
+    "name": "Мольберт",
+    "img": "/assets/clay/room-items/easel.webp",
+    "kind": "floor",
+    "size": 0.22
+  },
+  {
+    "id": "plane",
+    "name": "Самолётик",
+    "img": "/assets/clay/room-items/plane.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "journal",
+    "name": "Дневник",
+    "img": "/assets/clay/room-items/journal.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "postcards",
+    "name": "Открытки",
+    "img": "/assets/clay/room-items/postcards.webp",
+    "kind": "wall",
+    "size": 0.17
+  },
+  {
+    "id": "globe",
+    "name": "Глобус",
+    "img": "/assets/clay/room-items/globe.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "chest",
+    "name": "Сундук",
+    "img": "/assets/clay/room-items/chest.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "trophy",
+    "name": "Кубок",
+    "img": "/assets/clay/room-items/trophy.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "sp1",
+    "name": "Перчатки",
+    "img": "/assets/clay/room-items/sp1.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "sp2",
+    "name": "Гиря",
+    "img": "/assets/clay/room-items/sp2.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "sp3",
+    "name": "Гантели",
+    "img": "/assets/clay/room-items/sp3.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "sp4",
+    "name": "Кроссовки",
+    "img": "/assets/clay/room-items/sp4.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "sp5",
+    "name": "Дорожка",
+    "img": "/assets/clay/room-items/sp5.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "sp6",
+    "name": "Груша",
+    "img": "/assets/clay/room-items/sp6.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "sp7",
+    "name": "Боксёрки",
+    "img": "/assets/clay/room-items/sp7.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "sp8",
+    "name": "Ринг",
+    "img": "/assets/clay/room-items/sp8.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "sp9",
+    "name": "Бинты",
+    "img": "/assets/clay/room-items/sp9.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "sp10",
+    "name": "Шлем",
+    "img": "/assets/clay/room-items/sp10.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "gm1",
+    "name": "Бластер",
+    "img": "/assets/clay/room-items/gm1.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm2",
+    "name": "Звезда-кубок",
+    "img": "/assets/clay/room-items/gm2.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm3",
+    "name": "Сундук самоцветов",
+    "img": "/assets/clay/room-items/gm3.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm4",
+    "name": "Самоцветы",
+    "img": "/assets/clay/room-items/gm4.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm5",
+    "name": "Вертушка",
+    "img": "/assets/clay/room-items/gm5.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm6",
+    "name": "Кактус",
+    "img": "/assets/clay/room-items/gm6.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm7",
+    "name": "Ковбойка",
+    "img": "/assets/clay/room-items/gm7.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "gm8",
+    "name": "Газировка",
+    "img": "/assets/clay/room-items/gm8.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm9",
+    "name": "Джойстик",
+    "img": "/assets/clay/room-items/gm9.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm10",
+    "name": "Боевой автобус",
+    "img": "/assets/clay/room-items/gm10.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm11",
+    "name": "Неваляшка",
+    "img": "/assets/clay/room-items/gm11.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm12",
+    "name": "Лама",
+    "img": "/assets/clay/room-items/gm12.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm13",
+    "name": "Кирка",
+    "img": "/assets/clay/room-items/gm13.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm14",
+    "name": "Сундук с золотом",
+    "img": "/assets/clay/room-items/gm14.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm15",
+    "name": "Ящик с припасами",
+    "img": "/assets/clay/room-items/gm15.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm16",
+    "name": "Бластер-луч",
+    "img": "/assets/clay/room-items/gm16.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm17",
+    "name": "Портал",
+    "img": "/assets/clay/room-items/gm17.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm18",
+    "name": "Зельеварня",
+    "img": "/assets/clay/room-items/gm18.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm19",
+    "name": "НЛО",
+    "img": "/assets/clay/room-items/gm19.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm20",
+    "name": "Робот",
+    "img": "/assets/clay/room-items/gm20.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm21",
+    "name": "Самокат",
+    "img": "/assets/clay/room-items/gm21.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm22",
+    "name": "Бантик",
+    "img": "/assets/clay/room-items/gm22.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "gm23",
+    "name": "Планшет",
+    "img": "/assets/clay/room-items/gm23.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm24",
+    "name": "Микрофон",
+    "img": "/assets/clay/room-items/gm24.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm25",
+    "name": "Наушники",
+    "img": "/assets/clay/room-items/gm25.webp",
+    "kind": "wear",
+    "size": 0.78
+  },
+  {
+    "id": "gm26",
+    "name": "Бумбокс",
+    "img": "/assets/clay/room-items/gm26.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm27",
+    "name": "Диско-шар",
+    "img": "/assets/clay/room-items/gm27.webp",
+    "kind": "wall",
+    "size": 0.17
+  },
+  {
+    "id": "gm28",
+    "name": "Кроссовки",
+    "img": "/assets/clay/room-items/gm28.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "gm29",
+    "name": "Книжка",
+    "img": "/assets/clay/room-items/gm29.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "gm30",
+    "name": "Сумочка",
+    "img": "/assets/clay/room-items/gm30.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "gm31",
+    "name": "Ноутбук",
+    "img": "/assets/clay/room-items/gm31.webp",
+    "kind": "surface",
+    "size": 0.23
+  },
+  {
+    "id": "gm32",
+    "name": "PlayStation 5",
+    "img": "/assets/clay/room-items/gm32.webp",
+    "kind": "surface",
+    "size": 0.17
+  },
+  {
+    "id": "gm33",
+    "name": "Игровой компьютер с подсветкой",
+    "img": "/assets/clay/room-items/gm33.webp",
+    "kind": "surface",
+    "size": 0.17
+  },
+  {
+    "id": "gm34",
+    "name": "Xbox Series X",
+    "img": "/assets/clay/room-items/gm34.webp",
+    "kind": "surface",
+    "size": 0.17
+  },
+  {
+    "id": "gm35",
+    "name": "Игровые наушники",
+    "img": "/assets/clay/room-items/gm35.webp",
+    "kind": "wear",
+    "size": 0.78
+  },
+  {
+    "id": "gm36",
+    "name": "Стол для гейминга",
+    "img": "/assets/clay/room-items/gm36.webp",
+    "kind": "floor",
+    "size": 0.42
+  },
+  {
+    "id": "gm37",
+    "name": "Игровой монитор",
+    "img": "/assets/clay/room-items/gm37.webp",
+    "kind": "surface",
+    "size": 0.23
+  },
+  {
+    "id": "gm38",
+    "name": "Игровой стул",
+    "img": "/assets/clay/room-items/gm38.webp",
+    "kind": "seat",
+    "size": 0.31
+  },
+  {
+    "id": "rx1",
+    "name": "Кресло",
+    "img": "/assets/clay/room-items/rx1.webp",
+    "kind": "seat",
+    "size": 0.31
+  },
+  {
+    "id": "rx2",
+    "name": "Какао на столике",
+    "img": "/assets/clay/room-items/rx2.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "rx3",
+    "name": "Книжки",
+    "img": "/assets/clay/room-items/rx3.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "rx4",
+    "name": "Вязание",
+    "img": "/assets/clay/room-items/rx4.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "rx5",
+    "name": "Дневник",
+    "img": "/assets/clay/room-items/rx5.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "rx6",
+    "name": "Латте",
+    "img": "/assets/clay/room-items/rx6.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "rx7",
+    "name": "Лампа",
+    "img": "/assets/clay/room-items/rx7.webp",
+    "kind": "floor",
+    "size": 0.22
+  },
+  {
+    "id": "rx8",
+    "name": "Полка",
+    "img": "/assets/clay/room-items/rx8.webp",
+    "kind": "wall",
+    "size": 0.17
+  },
+  {
+    "id": "rx9",
+    "name": "Пуфик",
+    "img": "/assets/clay/room-items/rx9.webp",
+    "kind": "seat",
+    "size": 0.31
+  },
+  {
+    "id": "rx10",
+    "name": "Плед",
+    "img": "/assets/clay/room-items/rx10.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "tk1",
+    "name": "Чай",
+    "img": "/assets/clay/room-items/tk1.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "tk2",
+    "name": "Симит",
+    "img": "/assets/clay/room-items/tk2.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "tk3",
+    "name": "Назар",
+    "img": "/assets/clay/room-items/tk3.webp",
+    "kind": "wall",
+    "size": 0.17
+  },
+  {
+    "id": "tk4",
+    "name": "Часовая башня",
+    "img": "/assets/clay/room-items/tk4.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "tk5",
+    "name": "Бёрек",
+    "img": "/assets/clay/room-items/tk5.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "tk6",
+    "name": "Паром",
+    "img": "/assets/clay/room-items/tk6.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "tk7",
+    "name": "Чайка",
+    "img": "/assets/clay/room-items/tk7.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "tk8",
+    "name": "Зонтик",
+    "img": "/assets/clay/room-items/tk8.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "tk9",
+    "name": "Лукум",
+    "img": "/assets/clay/room-items/tk9.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "tk10",
+    "name": "Пальма",
+    "img": "/assets/clay/room-items/tk10.webp",
+    "kind": "floor",
+    "size": 0.22
+  },
+  {
+    "id": "su1",
+    "name": "Ведёрко",
+    "img": "/assets/clay/room-items/su1.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "su2",
+    "name": "Пляжный мяч",
+    "img": "/assets/clay/room-items/su2.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "su3",
+    "name": "Ракушка",
+    "img": "/assets/clay/room-items/su3.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "su4",
+    "name": "Морская звезда",
+    "img": "/assets/clay/room-items/su4.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "su5",
+    "name": "Круг",
+    "img": "/assets/clay/room-items/su5.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "su6",
+    "name": "Сёрф",
+    "img": "/assets/clay/room-items/su6.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "su7",
+    "name": "Зонт",
+    "img": "/assets/clay/room-items/su7.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "su8",
+    "name": "Замок из песка",
+    "img": "/assets/clay/room-items/su8.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "su9",
+    "name": "Кокос",
+    "img": "/assets/clay/room-items/su9.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "su10",
+    "name": "Очки от солнца",
+    "img": "/assets/clay/room-items/su10.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "hw1",
+    "name": "Шляпа ведьмы",
+    "img": "/assets/clay/room-items/hw1.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "hw2",
+    "name": "Очки с мышами",
+    "img": "/assets/clay/room-items/hw2.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "hw3",
+    "name": "Плащ вампира",
+    "img": "/assets/clay/room-items/hw3.webp",
+    "kind": "wear",
+    "size": 0.7
+  },
+  {
+    "id": "hw4",
+    "name": "Бабочка-мышь",
+    "img": "/assets/clay/room-items/hw4.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "hw5",
+    "name": "Ведёрко сладостей",
+    "img": "/assets/clay/room-items/hw5.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "hw6",
+    "name": "Котёл сладостей",
+    "img": "/assets/clay/room-items/hw6.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "hw7",
+    "name": "Метла",
+    "img": "/assets/clay/room-items/hw7.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "hw8",
+    "name": "Фонарь Джека",
+    "img": "/assets/clay/room-items/hw8.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "hw9",
+    "name": "Привидение",
+    "img": "/assets/clay/room-items/hw9.webp",
+    "kind": "floor",
+    "size": 0.17
+  },
+  {
+    "id": "hw10",
+    "name": "Тыква-лежанка",
+    "img": "/assets/clay/room-items/hw10.webp",
+    "kind": "seat",
+    "size": 0.31
+  },
+  {
+    "id": "hw11",
+    "name": "Маска крика",
+    "img": "/assets/clay/room-items/hw11.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "cap",
+    "name": "Кепка",
+    "img": "/assets/clay/room-items/cap.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "scarf",
+    "name": "Шарфик",
+    "img": "/assets/clay/room-items/scarf.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "bowtie",
+    "name": "Бабочка",
+    "img": "/assets/clay/room-items/bowtie.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "party",
+    "name": "Колпак",
+    "img": "/assets/clay/room-items/party.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "tophat",
+    "name": "Цилиндр",
+    "img": "/assets/clay/room-items/tophat.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "medal",
+    "name": "Медаль",
+    "img": "/assets/clay/room-items/medal.webp",
+    "kind": "wear",
+    "size": 0.48
+  },
+  {
+    "id": "cape",
+    "name": "Плащ",
+    "img": "/assets/clay/room-items/cape.webp",
+    "kind": "wear",
+    "size": 0.7
+  }
+]

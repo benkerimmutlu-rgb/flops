@@ -12,6 +12,7 @@ import { UserCountryState } from "./types";
 import { useAuth } from "./auth";
 import { getBrowserSupabase } from "./supabase/client";
 import { migrateOwnedIds } from "./shop";
+import { emptyRoom, newerRoom, normalizeRoom, type RoomSnapshot } from "./room";
 
 // Client-side, localStorage-backed state for the MVP's "first screens" pass.
 // Swap this for real persistence (Postgres, keyed by account) once auth exists —
@@ -27,6 +28,7 @@ const EARNED_KEY = "flops_bones_earned_v1"; // lifetime earned (drives rank)
 const SHOP_KEY = "flops_shop_v1"; // { owned: string[], equipped: string | null }
 const EARN_KEY = "flops_earn_v1"; // { date: "YYYY-MM-DD", today: number } — дневная отдача
 const GIFT_KEY = "flops_gift_coconut_v1"; // подарок-извинение выдан на этом устройстве
+const ROOM_KEY = "flops_room_v1";
 const GIFT_ID = "su9"; // Кокос из коллекции «Лето»
 
 function todayStr() {
@@ -175,6 +177,9 @@ interface StoreValue {
   owned: string[];
   /** Buy a shop item if affordable and not already owned. */
   buyAccessory: (id: string, price: number) => void;
+  roomData: RoomSnapshot;
+  roomHydrated: boolean;
+  setRoomData: (snapshot: RoomSnapshot) => void;
   all: StateMap;
 }
 
@@ -186,6 +191,10 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
   const [bonesEarned, setBonesEarned] = useState(0);
   const [owned, setOwned] = useState<string[]>([]);
   const [hydrated, setHydrated] = useState(false);
+  const [roomData, setRoomDataState] = useState<RoomSnapshot>(emptyRoom);
+  const [roomHydrated, setRoomHydrated] = useState(false);
+  const roomScope = useRef("guest");
+  const roomRef = useRef(roomData);
   const [giftPending, setGiftPending] = useState(false);
 
   // Облачная синхронизация (когда родитель вошёл и профиль создан).
@@ -197,13 +206,16 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
   const earnDate = useRef(todayStr());
   // Актуальные значения для асинхронного слияния с облаком (без устаревших замыканий).
   const mapRef = useRef(map);
-  mapRef.current = map;
   const bonesRef = useRef(bones);
-  bonesRef.current = bones;
   const bonesEarnedRef = useRef(bonesEarned);
-  bonesEarnedRef.current = bonesEarned;
   const ownedRef = useRef(owned);
-  ownedRef.current = owned;
+  useEffect(() => {
+    roomRef.current = roomData;
+    mapRef.current = map;
+    bonesRef.current = bones;
+    bonesEarnedRef.current = bonesEarned;
+    ownedRef.current = owned;
+  }, [roomData, map, bones, bonesEarned, owned]);
 
   // Reading localStorage during render would desync server/client HTML on
   // hydration (the server has no browser storage to read), so this loads
@@ -224,22 +236,22 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
         if (legacy) {
           const migrated = migrateLegacy(JSON.parse(legacy));
           persist(migrated);
-          // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time migration
+
           setMap(migrated);
         }
       }
       const rawBones = window.localStorage.getItem(BONES_KEY);
       const balance = rawBones ? Number(rawBones) || 0 : 0;
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe load
+
       if (rawBones) setBones(balance);
       const rawEarned = window.localStorage.getItem(EARNED_KEY);
       // Older saves have no "earned" total — seed it from the current balance so
       // existing players don't start back at rank zero.
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe load
+
       if (rawEarned) setBonesEarned(Number(rawEarned) || 0);
       else if (balance > 0) {
         persistEarned(balance);
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time seed
+
         setBonesEarned(balance);
       }
       let loadedOwned: string[] = [];
@@ -252,10 +264,10 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       if (!window.localStorage.getItem(GIFT_KEY)) {
         if (!loadedOwned.includes(GIFT_ID)) loadedOwned = [...loadedOwned, GIFT_ID];
         window.localStorage.setItem(GIFT_KEY, "1");
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time gift
+
         setGiftPending(true);
       }
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe load
+
       setOwned(loadedOwned);
       persistShop(loadedOwned);
       const rawEarn = window.localStorage.getItem(EARN_KEY);
@@ -269,13 +281,26 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
     } catch {
       // ignore — private mode / blocked storage
     }
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- marks end of hydration
+
     setHydrated(true);
   }, []);
 
+  // Each account keeps its own room; guest layouts never overwrite another account.
+  useEffect(() => {
+    if (authStatus === "loading") return;
+    const scope = user?.id ?? "guest";
+    roomScope.current = scope;
+    let saved = emptyRoom();
+    try { saved = normalizeRoom(JSON.parse(localStorage.getItem(`${ROOM_KEY}:${scope}`) || "null")); } catch { /* empty room */ }
+    roomRef.current = saved;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- account-scoped browser hydration
+    setRoomDataState(saved);
+    setRoomHydrated(true);
+  }, [authStatus, user?.id]);
+
   // Текущее состояние прогресса одним объектом (для облака).
   function currentBlob() {
-    return { countries: map, bones, bonesEarned, owned };
+    return { countries: map, bones, bonesEarned, owned, roomData };
   }
 
   // ── Облако: СЛИЯНИЕ при входе (не перезапись!) ──
@@ -283,6 +308,7 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
   // ни одна покупка и ни один флаг не пропали из-за гонки или пустого облака.
   // Затем эффект сохранения зальёт объединённое обратно в облако.
   useEffect(() => {
+    cloudLoaded.current = false;
     if (authStatus !== "ready" || !user) {
       cloudLoaded.current = false;
       return;
@@ -291,17 +317,18 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
     if (!supabase) return;
     let active = true;
     (async () => {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("profiles")
         .select("state")
         .eq("id", user.id)
         .maybeSingle();
-      if (!active) return;
+      if (!active || error) return;
       const blob = (data?.state ?? {}) as {
         countries?: StateMap;
         bones?: number;
         bonesEarned?: number;
         owned?: string[];
+        roomData?: RoomSnapshot;
       };
       // Купленное — объединение (и с миграцией старых id).
       const mergedOwned = Array.from(
@@ -311,6 +338,11 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
         ])
       );
       setOwned(mergedOwned);
+      persistShop(mergedOwned);
+      const mergedRoom = newerRoom(roomRef.current, blob.roomData);
+      roomRef.current = mergedRoom;
+      setRoomDataState(mergedRoom);
+      try { localStorage.setItem(`${ROOM_KEY}:${user.id}`, JSON.stringify(mergedRoom)); } catch { /* storage unavailable */ }
       // Страны — слияние флагов.
       const mergedMap = mergeStateMaps(
         mapRef.current,
@@ -322,30 +354,32 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       setBones(Math.max(bonesRef.current, blob.bones ?? 0));
       setBonesEarned(Math.max(bonesEarnedRef.current, blob.bonesEarned ?? 0));
       cloudLoaded.current = true;
-    })();
+    })().catch(() => console.warn("FLOPS: cloud unavailable; local progress retained"));
     return () => {
       active = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- run on login, not on every edit
+
   }, [authStatus, user]);
 
   // ── Облако: сохранение изменений (с задержкой) ──
   useEffect(() => {
-    if (authStatus !== "ready" || !user || !cloudLoaded.current) return;
+    if (authStatus !== "ready" || !user || !cloudLoaded.current || !roomHydrated || roomScope.current !== user.id) return;
     const supabase = getBrowserSupabase();
     if (!supabase) return;
     if (saveTimer.current) window.clearTimeout(saveTimer.current);
     saveTimer.current = window.setTimeout(() => {
-      supabase
-        .from("profiles")
-        .update({ state: currentBlob(), updated_at: new Date().toISOString() })
-        .eq("id", user.id);
+      void (async () => {
+        const { error } = await supabase.from("profiles")
+          .update({ state: currentBlob(), updated_at: new Date().toISOString() })
+          .eq("id", user.id);
+        if (error) console.warn("FLOPS: cloud save failed; local progress retained");
+      })().catch(() => console.warn("FLOPS: cloud unavailable; local progress retained"));
     }, 800);
     return () => {
       if (saveTimer.current) window.clearTimeout(saveTimer.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- debounced push on state change
-  }, [map, bones, bonesEarned, owned, authStatus, user]);
+  }, [map, bones, bonesEarned, owned, roomData, roomHydrated, authStatus, user]);
 
   const value = useMemo<StoreValue>(() => {
     function update(code: string, patch: Partial<UserCountryState>) {
@@ -399,6 +433,14 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       return reward;
     }
     return {
+      roomData,
+      roomHydrated,
+      setRoomData: (snapshot: RoomSnapshot) => {
+        const next = normalizeRoom(snapshot);
+        roomRef.current = next;
+        setRoomDataState(next);
+        try { localStorage.setItem(`${ROOM_KEY}:${roomScope.current}`, JSON.stringify(next)); } catch { /* storage unavailable */ }
+      },
       all: map,
       bones,
       bonesEarned,
@@ -419,7 +461,7 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       addBones: giveBones,
       earnReward,
     };
-  }, [map, bones, bonesEarned, hydrated, giftPending, owned]);
+  }, [map, bones, bonesEarned, hydrated, giftPending, owned, roomData, roomHydrated]);
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }

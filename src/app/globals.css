@@ -3,8 +3,8 @@
 /* FLOPS design tokens — warm cream, soft claymation, friendly rounding.
    Source: brand/design-tokens.json. */
 :root {
-  --background: #ffffff;
-  --surface: #ffffff;
+  --background: #d4ddc8;
+  --surface: #f4e7cd;
   --foreground: #1f2430;
   --muted: #696d75;
   --green: #1e9a58;
@@ -13,7 +13,7 @@
   --blue: #33a8e4;
   --clay-beige: #d7b89c;
   /* Slightly deeper on a white page so white cards still read as cards. */
-  --border: #e4e0d8;
+  --border: #cbbd9e;
   --shadow-card: 0 6px 18px rgba(31, 36, 48, 0.1);
 }
 
@@ -41,9 +41,24 @@
    fight the claymation illustrations, which are drawn on light. */
 body {
   background: var(--background);
+  background-image: url('/assets/clay/surface.webp');
+  background-size: 720px;
+  background-blend-mode: soft-light;
   color: var(--foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+}
+
+.bg-surface {
+  background-image: url('/assets/clay/surface.webp');
+  background-blend-mode: soft-light;
+  background-size: 620px;
+  box-shadow: inset 2px 3px 5px #fff8, inset -2px -4px 5px #8f785322, 0 4px 0 #b8a77c44;
+}
+button, a { -webkit-tap-highlight-color: transparent; }
+button[class*="transition"], a[class*="transition"] { transition-duration: .8s; }
+@media (prefers-reduced-motion: reduce) {
+  button[class*="transition"], a[class*="transition"] { transition-duration: 0s; }
 }
 
 h1,

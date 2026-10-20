@@ -15,6 +15,7 @@ const LINKS = [
   { href: "/memory", label: "Меморина", icon: "🧩" },
   { href: "/world", label: "Мой мир", icon: "🌍" },
   { href: "/shop", label: "Магазин", icon: "🛍️" },
+  { href: "/room", label: "Домик", icon: "🏠" },
 ];
 
 function isActive(pathname: string, href: string) {
@@ -23,11 +24,12 @@ function isActive(pathname: string, href: string) {
 
 export function NavBar() {
   const pathname = usePathname();
+  if (pathname === "/") return null;
   return (
     <>
       {/* Верхняя полоса: логотип + ссылки (ссылки только на широком экране) */}
       <nav className="sticky top-0 z-10 border-b border-border bg-background/90 backdrop-blur">
-        <div className="mx-auto flex max-w-3xl items-center justify-between gap-2 px-4 py-3">
+        <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 px-4 py-3">
           <Link href="/" className="shrink-0" aria-label="FLOPS — на главную">
             <Image
               src={getFlopsAsset("flops_wordmark", false)}

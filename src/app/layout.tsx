@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Nunito_Sans, Rubik } from "next/font/google";
 import "./globals.css";
+import "./clay.css";
+import { AppShell } from "@/components/AppShell";
 import { AuthProvider } from "@/lib/auth";
 import { UserStateProvider } from "@/lib/store";
 import { NavBar } from "@/components/NavBar";
@@ -55,9 +57,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <AuthProvider>
           <UserStateProvider>
             <NavBar />
-            <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8 pb-24 sm:pb-8">
-              {children}
-            </main>
+            <AppShell>{children}</AppShell>
             <GiftBanner />
           </UserStateProvider>
         </AuthProvider>
