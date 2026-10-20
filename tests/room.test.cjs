@@ -21,6 +21,18 @@ function load(file) {
 }
 const { emptyRoom, normalizeRoom, newerRoom } = load(path.resolve(__dirname, '../src/lib/room.ts'));
 const { ACCESSORIES } = load(path.resolve(__dirname, '../src/lib/shop.ts'));
+const { roomPose } = load(path.resolve(__dirname, '../src/components/clay/room-poses.js'));
+
+test('each room has its own base pose and furniture overrides it until the pug gets up', () => {
+  const poses = { peach: 'stand', blue: 'sit', sage: 'sleep' };
+  for (const [room, pose] of Object.entries(poses)) {
+    assert.equal(roomPose(room, null), pose);
+    assert.equal(roomPose(room, 'rx1'), 'sit');
+    assert.equal(roomPose(room, 'gm38'), 'sit');
+    assert.equal(roomPose(room, 'hw10'), 'sleep');
+    assert.equal(roomPose(room, null), pose);
+  }
+});
 
 test('new rooms are empty and independent', () => {
   const data = emptyRoom();

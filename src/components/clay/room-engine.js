@@ -1,3 +1,5 @@
+import { roomPose } from './room-poses.js';
+
 /** @param {HTMLElement} root @param {import('@/lib/room').RoomMountOptions} options */
 export function mountRoom(root, options) {
     const controller = new AbortController();
@@ -22,14 +24,14 @@ export function mountRoom(root, options) {
     function clamp(n, a, b, f = a) { return Number.isFinite(n) ? Math.max(a, Math.min(b, n)) : f; }
     restore(options.saved);
     function state() { return { version: 1, updatedAt: Date.now(), room, layout }; }
-    function save() { const outfit = current().outfit; for (const v of Object.values(layout))
-        v.outfit = outfit.map(o => ({ ...o })); lastEmitted = structuredClone(state()); options.onChange(lastEmitted); }
+    // Each room has its own pose and free clothing placement.
+    function save() { lastEmitted = structuredClone(state()); options.onChange(lastEmitted); }
     function current() { return layout[room]; }
     function permitted() { return new Set(owned); }
     function clean() { for (const v of Object.values(layout)) {
         v.items = v.items.filter(o => byId.has(o.id) && byId.get(o.id).kind !== 'wear');
         v.outfit = v.outfit.filter(o => byId.has(o.id) && byId.get(o.id).kind === 'wear');
-        if (!v.items.some(o => o.id === v.pug.seat))
+        if (!v.items.some(o => o.id === v.pug.seat && byId.get(o.id)?.kind === 'seat'))
             v.pug.seat = null;
     } }
     function depth(y) { return .68 + (y - .58) * 1.2; }
@@ -48,7 +50,7 @@ export function mountRoom(root, options) {
         if (seat) {
             const sw = itemWidth(seat);
             x = seat.x;
-            y = seat.y - sw * stage.clientWidth / stage.clientHeight * (seat.id === 'gm38' ? .30 : .28);
+            y = seat.y - sw * stage.clientWidth / stage.clientHeight * (seat.id === 'hw10' ? .16 : seat.id === 'gm38' ? .30 : .28);
             const baseWidth = sw * (seat.id === 'gm38' ? .70 : .83);
             w = baseWidth * p.scale;
             y += (w - baseWidth) * .074 * stage.clientWidth / stage.clientHeight;
@@ -81,6 +83,7 @@ export function mountRoom(root, options) {
             if (v.pug.seat === o.id) {
                 const front = document.createElement('div');
                 front.className = 'room-front';
+                if (o.id === 'hw10') front.style.clipPath = 'inset(80% 0 0 0)';
                 front.style.left = o.x * 100 + '%';
                 front.style.top = o.y * 100 + '%';
                 front.style.width = itemWidth(o) * 100 + '%';
@@ -117,7 +120,7 @@ export function mountRoom(root, options) {
         listen(b, 'click', () => add(id));
         tray.append(b);
     } root.querySelector('.room-empty').hidden = owned.length > 0; }
-    function render() { const image = root.querySelector('.kids-mascot-fallback'); image.src = '/assets/clay/pose-' + (current().pug.seat === 'hw10' ? 'sleep' : 'sit') + '.webp'; stage.style.backgroundImage = `url('${rooms[room]}')`; root.dataset.room = room; root.querySelectorAll('[data-room]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.room === room))); renderObjects(); renderTray(); updateEdit(); }
+    function render() { const image = root.querySelector('.kids-mascot-fallback'); const seat = current().items.find(o => o.id === current().pug.seat && permitted().has(o.id)); const pose = roomPose(room, seat?.id || null); image.src = '/assets/clay/room-pug-' + pose + '.webp'; image.dataset.pose = pose; stage.style.backgroundImage = `url('${rooms[room]}')`; root.dataset.room = room; root.querySelectorAll('[data-room]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.room === room))); renderObjects(); renderTray(); updateEdit(); }
     function add(id) { if (!permitted().has(id))
         return; const item = byId.get(id), list = item.kind === 'wear' ? current().outfit : current().items; if (list.some(o => o.id === id))
         return; list.push({ id, x: item.kind === 'wear' ? .5 : .34, y: item.kind === 'wear' ? .32 : item.kind === 'wall' ? .46 : .81, scale: 1, rotation: 0 }); selected = id; render(); save(); say(item.name + ' — ' + (item.kind === 'wear' ? 'на Флопсе' : 'в комнате')); }
