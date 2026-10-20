@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "test": "node --test tests/*.test.cjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -17,6 +18,7 @@
     "react-dom": "19.3.0"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.10",
     "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^20",

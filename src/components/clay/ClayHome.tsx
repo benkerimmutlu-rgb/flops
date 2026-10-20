@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useUserState } from "@/lib/store";
 import { useAuth } from "@/lib/auth";
 import { mountPoseMotion } from "./pose-motion";
+import { DailyVisitBadge } from "../DailyVisitBadge";
 
 const cards = [
   { href: "/flags", title: "Флаги", image: "/assets/navigation/globe.webp", color: "green" },
@@ -35,6 +36,7 @@ export function ClayHome() {
       <div className="kids-tools">
         <Link className="kids-house" href="/room">Домик</Link>
         {auth.configured && (auth.status === "ready" ? <button className="kids-account" onClick={auth.signOut}>Выйти</button> : <Link className="kids-account" href={auth.status === "no_profile" ? "/onboarding" : "/login"}>Войти</Link>)}
+        <div className="kids-visit"><DailyVisitBadge /></div>
         <div className="kids-balance" aria-label={`${bones} косточек`}>
           {/* eslint-disable-next-line @next/next/no-img-element -- small clay icon */}
           <img src="/assets/rewards/bone_currency.webp" alt="" /><span>{bones}</span>

@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -13,6 +14,9 @@ import { useAuth } from "./auth";
 import { getBrowserSupabase } from "./supabase/client";
 import { migrateOwnedIds } from "./shop";
 import { emptyRoom, newerRoom, normalizeRoom, type RoomSnapshot } from "./room";
+import { readWallet, writeWallet, WALLET_KEY } from "./wallet";
+import { useDailyVisits, type VisitConfirmation } from "./use-daily-visits";
+import { reconcileVisitBalance, type DailyVisit } from "./daily-visits";
 
 // Client-side, localStorage-backed state for the MVP's "first screens" pass.
 // Swap this for real persistence (Postgres, keyed by account) once auth exists —
@@ -23,8 +27,6 @@ type StateMap = Record<string, UserCountryState>;
 
 const STORAGE_KEY = "flops_user_state_v3"; // v3: positive-only visited/wish
 const LEGACY_KEY = "flops_user_state_v2"; // v2: had the 4-category system
-const BONES_KEY = "flops_bones_v1"; // spendable balance
-const EARNED_KEY = "flops_bones_earned_v1"; // lifetime earned (drives rank)
 const SHOP_KEY = "flops_shop_v1"; // { owned: string[], equipped: string | null }
 const EARN_KEY = "flops_earn_v1"; // { date: "YYYY-MM-DD", today: number } — дневная отдача
 const GIFT_KEY = "flops_gift_coconut_v1"; // подарок-извинение выдан на этом устройстве
@@ -118,22 +120,6 @@ function persist(next: StateMap) {
   }
 }
 
-function persistBones(n: number) {
-  try {
-    window.localStorage.setItem(BONES_KEY, String(n));
-  } catch {
-    // ignore
-  }
-}
-
-function persistEarned(n: number) {
-  try {
-    window.localStorage.setItem(EARNED_KEY, String(n));
-  } catch {
-    // ignore
-  }
-}
-
 function persistShop(owned: string[]) {
   try {
     window.localStorage.setItem(SHOP_KEY, JSON.stringify({ owned }));
@@ -167,6 +153,8 @@ interface StoreValue {
   bones: number;
   /** Lifetime bones earned — never decreases; drives Flops's rank. */
   bonesEarned: number;
+  dailyVisit: DailyVisit | null;
+  visitNotice: { id: number; reward: number; restarted: boolean };
   /** True once the initial localStorage load has finished (avoids empty snapshots). */
   hydrated: boolean;
   /** Показать разовое окно-извинение с подарком (кокос) от FLOPS. */
@@ -209,6 +197,36 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
   const bonesRef = useRef(bones);
   const bonesEarnedRef = useRef(bonesEarned);
   const ownedRef = useRef(owned);
+  const visitApplied = useRef(0);
+  useEffect(() => { visitApplied.current = user ? readWallet().visitApplied[user.id] || 0 : 0; }, [user]);
+  const reconcileVisitCredit = useCallback((total: number, remoteBones?: number, remoteEarned?: number) => {
+    if (!user || !Number.isSafeInteger(total) || total < 0) return;
+    const wallet = readWallet();
+    const applied = visitApplied.current;
+    const result = reconcileVisitBalance({ bones: bonesRef.current, bonesEarned: bonesEarnedRef.current, applied }, total,
+      { bones: remoteBones || 0, bonesEarned: remoteEarned || 0 });
+    const nextBones = result.bones, nextEarned = result.bonesEarned;
+    bonesRef.current = nextBones; bonesEarnedRef.current = nextEarned;
+    visitApplied.current = Math.max(applied, total);
+    setBones(nextBones); setBonesEarned(nextEarned);
+    try { writeWallet({ ...wallet, bones: nextBones, bonesEarned: nextEarned,
+      visitApplied: { ...wallet.visitApplied, [user.id]: Math.max(applied, total) } }); } catch { /* cloud remains authoritative */ }
+  }, [user]);
+  const onVisitConfirmed = useCallback((confirmation: VisitConfirmation) => {
+    if (confirmation.kind === "cloud") {
+      reconcileVisitCredit(confirmation.total);
+    } else {
+      bonesRef.current = confirmation.wallet.bones;
+      bonesEarnedRef.current = confirmation.wallet.bonesEarned;
+      visitApplied.current = user ? confirmation.wallet.visitApplied[user.id] || 0 : 0;
+      setBones(confirmation.wallet.bones); setBonesEarned(confirmation.wallet.bonesEarned);
+    }
+  }, [reconcileVisitCredit, user]);
+  const { visit: dailyVisit, notice: visitNotice } = useDailyVisits({
+    scope: user?.id || "guest",
+    enabled: hydrated && ["ready", "anon", "disabled"].includes(authStatus),
+    onConfirmed: onVisitConfirmed,
+  });
   useEffect(() => {
     roomRef.current = roomData;
     mapRef.current = map;
@@ -240,20 +258,10 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
           setMap(migrated);
         }
       }
-      const rawBones = window.localStorage.getItem(BONES_KEY);
-      const balance = rawBones ? Number(rawBones) || 0 : 0;
-
-      if (rawBones) setBones(balance);
-      const rawEarned = window.localStorage.getItem(EARNED_KEY);
-      // Older saves have no "earned" total — seed it from the current balance so
-      // existing players don't start back at rank zero.
-
-      if (rawEarned) setBonesEarned(Number(rawEarned) || 0);
-      else if (balance > 0) {
-        persistEarned(balance);
-
-        setBonesEarned(balance);
-      }
+      const wallet = readWallet();
+      const balance = wallet.bones;
+      setBones(balance);
+      setBonesEarned(wallet.bonesEarned);
       let loadedOwned: string[] = [];
       const rawShop = window.localStorage.getItem(SHOP_KEY);
       if (rawShop) {
@@ -300,7 +308,8 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
 
   // Текущее состояние прогресса одним объектом (для облака).
   function currentBlob() {
-    return { countries: map, bones, bonesEarned, owned, roomData };
+    return { countries: map, bones, bonesEarned, owned, roomData,
+      visitRewardTotal: visitApplied.current };
   }
 
   // ── Облако: СЛИЯНИЕ при входе (не перезапись!) ──
@@ -329,6 +338,7 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
         bonesEarned?: number;
         owned?: string[];
         roomData?: RoomSnapshot;
+        visitRewardTotal?: number;
       };
       // Купленное — объединение (и с миграцией старых id).
       const mergedOwned = Array.from(
@@ -351,37 +361,59 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       setMap(mergedMap);
       persist(mergedMap);
       // Косточки — максимум (чтобы не потерять заработанное).
-      setBones(Math.max(bonesRef.current, blob.bones ?? 0));
-      setBonesEarned(Math.max(bonesEarnedRef.current, blob.bonesEarned ?? 0));
+      reconcileVisitCredit(blob.visitRewardTotal || 0, blob.bones, blob.bonesEarned);
       cloudLoaded.current = true;
     })().catch(() => console.warn("FLOPS: cloud unavailable; local progress retained"));
     return () => {
       active = false;
     };
 
-  }, [authStatus, user]);
+  }, [authStatus, user, reconcileVisitCredit]);
 
   // ── Облако: сохранение изменений (с задержкой) ──
   useEffect(() => {
     if (authStatus !== "ready" || !user || !cloudLoaded.current || !roomHydrated || roomScope.current !== user.id) return;
     const supabase = getBrowserSupabase();
     if (!supabase) return;
+    let active = true;
     if (saveTimer.current) window.clearTimeout(saveTimer.current);
     saveTimer.current = window.setTimeout(() => {
       void (async () => {
-        const { error } = await supabase.from("profiles")
-          .update({ state: currentBlob(), updated_at: new Date().toISOString() })
-          .eq("id", user.id);
+        const state = currentBlob();
+        const { data, error } = await supabase.rpc("save_progress_with_visits", { p_state: state });
+        if (!active) return;
+        // Preserve ordinary progress while the additive database migration is awaiting activation.
+        if (error?.code === "PGRST202") {
+          await supabase.from("profiles").update({ state, updated_at: new Date().toISOString() }).eq("id", user.id);
+          return;
+        }
         if (error) console.warn("FLOPS: cloud save failed; local progress retained");
+        else if (data) reconcileVisitCredit(data.visitRewardTotal || 0);
       })().catch(() => console.warn("FLOPS: cloud unavailable; local progress retained"));
     }, 800);
     return () => {
+      active = false;
       if (saveTimer.current) window.clearTimeout(saveTimer.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- debounced push on state change
   }, [map, bones, bonesEarned, owned, roomData, roomHydrated, authStatus, user]);
 
   const value = useMemo<StoreValue>(() => {
+    function freshWallet() {
+      // Catch another tab's confirmed receipt before applying a local purchase/answer.
+      const wallet = readWallet();
+      try {
+        if (localStorage.getItem(WALLET_KEY)) {
+          bonesRef.current = wallet.bones; bonesEarnedRef.current = wallet.bonesEarned;
+          visitApplied.current = user ? wallet.visitApplied[user.id] || 0 : 0;
+        }
+      } catch { /* use in-memory balances */ }
+      return wallet;
+    }
+    function persistWallet(b: number, e: number, wallet: ReturnType<typeof readWallet>) {
+      try { writeWallet({ ...wallet, bones: b, bonesEarned: e, visitApplied: user
+        ? { ...wallet.visitApplied, [user.id]: visitApplied.current } : wallet.visitApplied }); } catch { /* session-only wallet */ }
+    }
     function update(code: string, patch: Partial<UserCountryState>) {
       setMap((m) => {
         const next = { ...m, [code]: { ...(m[code] ?? EMPTY_STATE), ...patch } };
@@ -391,27 +423,23 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
     }
     function giveBones(n: number) {
       if (n <= 0) return;
-      setBones((b) => {
-        const next = b + n;
-        persistBones(next);
-        return next;
-      });
-      setBonesEarned((e) => {
-        const next = e + n;
-        persistEarned(next);
-        return next;
-      });
+      const wallet = freshWallet();
+      const next = bonesRef.current + n, earned = bonesEarnedRef.current + n;
+      bonesRef.current = next; bonesEarnedRef.current = earned;
+      setBones(next); setBonesEarned(earned);
+      persistWallet(next, earned, wallet);
     }
     function buyAccessory(id: string, price: number) {
-      if (owned.includes(id) || bones < price) return;
-      const nextOwned = [...owned, id];
+      const wallet = freshWallet();
+      if (ownedRef.current.includes(id) || bonesRef.current < price) return;
+      const nextOwned = [...ownedRef.current, id];
+      ownedRef.current = nextOwned;
       setOwned(nextOwned);
       persistShop(nextOwned);
-      setBones((b) => {
-        const next = b - price;
-        persistBones(next);
-        return next;
-      });
+      const next = bonesRef.current - price;
+      bonesRef.current = next;
+      setBones(next); setBonesEarned(bonesEarnedRef.current);
+      persistWallet(next, bonesEarnedRef.current, wallet);
     }
     function earnReward() {
       const today = todayStr();
@@ -433,6 +461,8 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       return reward;
     }
     return {
+      dailyVisit,
+      visitNotice,
       roomData,
       roomHydrated,
       setRoomData: (snapshot: RoomSnapshot) => {
@@ -461,7 +491,7 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       addBones: giveBones,
       earnReward,
     };
-  }, [map, bones, bonesEarned, hydrated, giftPending, owned, roomData, roomHydrated]);
+  }, [map, bones, bonesEarned, hydrated, giftPending, owned, roomData, roomHydrated, dailyVisit, visitNotice, user]);
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }

@@ -4,6 +4,7 @@ import { useState, type CSSProperties, type KeyboardEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import "./shop.css";
+import { DailyVisitBadge } from "@/components/DailyVisitBadge";
 import { useUserState } from "@/lib/store";
 import { getFlopsAsset } from "@/brand/flops-assets";
 import {
@@ -47,16 +48,19 @@ export default function ShopPage() {
   return (
     <div className="shop-page flex flex-col gap-6">
       {/* Заголовок + баланс */}
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-[28px] font-bold leading-tight text-foreground">
             Магазин
           </h1>
           <Link href="/room" className="inline-flex min-h-11 items-center font-bold text-brand-green">Домик →</Link>
         </div>
+        <div className="flex shrink-0 items-center gap-3">
+        <DailyVisitBadge />
         <div className="flex shrink-0 items-center gap-2 rounded-full bg-surface px-3.5 py-2 shadow-[var(--shadow-card)]">
           <Image src={getFlopsAsset("bone_currency")} alt="Косточки" width={26} height={26} className="h-6 w-6 object-contain" />
           <span className="text-lg font-bold text-foreground">{bones}</span>
+        </div>
         </div>
       </div>
 

@@ -1,0 +1,25 @@
+.badge { position: relative; color: #344b3a; font: inherit; }
+.toggle { position: relative; display: flex; align-items: center; justify-content: center; min-width: 88px; min-height: 44px; padding: 10px; cursor: pointer; border: 0; color: inherit; font: inherit; border-radius: 16px 18px 15px 17px; background: #e4ddbd url('/assets/clay/surface.webp') center / 380px; background-blend-mode: soft-light; box-shadow: inset 2px 3px 4px #fff9, inset -2px -3px 4px #93805b25, 0 3px 0 #bdad87; }
+.toggle::-webkit-details-marker { display: none; }
+.toggle:focus-visible { outline: 3px solid #357793; outline-offset: 4px; }
+.paws { display: flex; gap: 4px; }
+.paw { position: relative; display: block; width: 20px; height: 22px; transform: rotate(-12deg); }
+.paw:nth-child(2) { transform: rotate(8deg); }
+.paw i, .paw b { position: absolute; display: block; background-color: #c4b38a; box-shadow: inset 1px 1px 2px #8b774533, 0 1px 1px #fff9; }
+.paw i { width: 5px; height: 7px; border-radius: 48%; top: 0; left: 5px; }
+.paw i:nth-child(2) { left: 11px; top: 1px; }
+.paw i:nth-child(3) { left: 0; top: 5px; transform: rotate(-22deg); }
+.paw i:nth-child(4) { left: 16px; top: 6px; transform: rotate(22deg); }
+.paw b { left: 4px; top: 10px; width: 14px; height: 11px; border-radius: 55% 50% 40% 45%; }
+.filled i, .filled b { background-color: #779754; box-shadow: inset 1px 1px 2px #d9e7aa99, inset -1px -2px 2px #45663850, 0 1px 1px #5b754c60; }
+.info { position: fixed; inset: auto; margin: 0; border: 0; width: 230px; max-width: calc(100vw - 24px); padding: 16px; color: #344b3a; border-radius: 20px 22px 19px 21px; background: #f4e7cd url('/assets/clay/surface.webp') center / 480px; background-blend-mode: soft-light; box-shadow: inset 2px 3px 5px #fff9, 0 5px 0 #c5b38e, 0 12px 28px #4d4a3333; font-size: 14px; line-height: 1.4; }
+.info p { margin: 8px 0 0; }
+.info p:last-child { color: #63664c; font-size: 12px; }
+.reward { position: absolute; top: -11px; right: -5px; padding: 2px 6px; border-radius: 10px; background: #d1dfa8; box-shadow: inset 1px 2px 2px #fff9, 0 2px 0 #9aae76; font-size: 14px; font-weight: 800; }
+.flight { position: absolute; pointer-events: none; left: 50%; top: 40%; z-index: 40; }
+.flight img { position: absolute; width: 22px; height: 22px; opacity: 0; animation: bone-flight 1.7s cubic-bezier(.3,.6,.35,1) both; animation-delay: calc(.25s + var(--bone) * .13s); }
+@keyframes bone-flight { 0% { opacity: 0; transform: translate(0, 8px) scale(.7); } 25% { opacity: 1; } 55% { opacity: 1; transform: translate(42px, -26px) rotate(12deg); } 100% { opacity: 0; transform: translate(90px, 4px) scale(.6); } }
+@keyframes bone-flight-mobile { 0% { opacity: 0; transform: translate(0, 8px) scale(.7); } 25% { opacity: 1; } 55% { opacity: 1; transform: translate(-32px, 22px) rotate(12deg); } 100% { opacity: 0; transform: translate(-20px, 62px) scale(.6); } }
+@media (max-width: 620px) { :global(.kids-visit) .flight img { animation-name: bone-flight-mobile; } }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+@media (prefers-reduced-motion: reduce) { .flight { display: none; } }
