@@ -19,21 +19,21 @@ export type ShopCategoryId =
 export interface ShopCategory {
   id: ShopCategoryId;
   label: string;
-  emoji: string;
-  accent: string;
+  image: string;
+  color: string;
 }
 
 // Порядок = порядок вкладок. Добавить раздел «по интересам» — просто дописать
 // сюда категорию и вещи ниже; пустые категории на витрине не показываются.
 export const SHOP_CATEGORIES: ShopCategory[] = [
-  { id: "things", label: "Вещи", emoji: "🎒", accent: "var(--green)" },
-  { id: "sport", label: "Спорт", emoji: "🥊", accent: "#E84A43" },
-  { id: "games", label: "Игры", emoji: "🎮", accent: "#8257E6" },
-  { id: "eurovision", label: "Eurovision", emoji: "🎤", accent: "#9448C6" },
-  { id: "relax", label: "Уют", emoji: "🛋️", accent: "#C8863C" },
-  { id: "turkiye", label: "Турция", emoji: "🇹🇷", accent: "#E84A43" },
-  { id: "summer", label: "Лето", emoji: "☀️", accent: "#F6C742" },
-  { id: "halloween", label: "Хэллоуин", emoji: "🎃", accent: "#E8894A" },
+  { id: "things", label: "Вещи", image: "/assets/clay/room-items/backpack.webp", color: "#d2dfbd" },
+  { id: "sport", label: "Спорт", image: "/assets/clay/room-items/sp1.webp", color: "#edc4b5" },
+  { id: "games", label: "Игры", image: "/assets/clay/room-items/gm9.webp", color: "#d8cce9" },
+  { id: "eurovision", label: "Eurovision", image: "/assets/clay/room-items/ev_music_heart.webp", color: "#e7c7de" },
+  { id: "relax", label: "Уют", image: "/assets/clay/room-items/rx1.webp", color: "#e7d2b6" },
+  { id: "turkiye", label: "Турция", image: "/assets/clay/room-items/tk1.webp", color: "#e8c3ae" },
+  { id: "summer", label: "Лето", image: "/assets/clay/room-items/su2.webp", color: "#e9d99d" },
+  { id: "halloween", label: "Хэллоуин", image: "/assets/clay/room-items/hw8.webp", color: "#e7c49b" },
 ];
 
 export interface Accessory {

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties, type KeyboardEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import "./shop.css";
 import { useUserState } from "@/lib/store";
 import { getFlopsAsset } from "@/brand/flops-assets";
 import {
@@ -15,6 +16,26 @@ import {
 } from "@/lib/shop";
 
 type Tab = "collection" | (typeof SHOP_CATEGORIES)[number]["id"];
+const sections = [
+  { id: "collection" as const, label: "Коллекция", image: "/assets/clay/room-items/chest.webp", color: "#d0ddc0" },
+  ...activeCategories(),
+];
+
+function navigateSections(event: KeyboardEvent<HTMLDivElement>) {
+  const tabs = Array.from(event.currentTarget.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+  const index = tabs.indexOf(event.target as HTMLButtonElement);
+  if (index < 0) return;
+  const columns = getComputedStyle(event.currentTarget).gridTemplateColumns.split(" ").length;
+  const delta: Record<string, number> = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: columns, ArrowUp: -columns };
+  let next: number;
+  if (event.key === "Home") next = 0;
+  else if (event.key === "End") next = tabs.length - 1;
+  else if (event.key in delta) next = (index + delta[event.key] + tabs.length) % tabs.length;
+  else return;
+  event.preventDefault();
+  tabs[next].focus();
+  tabs[next].click();
+}
 
 export default function ShopPage() {
   const { bones, bonesEarned, owned, buyAccessory } = useUserState();
@@ -24,7 +45,7 @@ export default function ShopPage() {
   const ownedItems = ACCESSORIES.filter((a) => owned.includes(a.id));
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="shop-page flex flex-col gap-6">
       {/* Заголовок + баланс */}
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -39,18 +60,27 @@ export default function ShopPage() {
         </div>
       </div>
 
-      {/* Вкладки */}
-      <div className="flex gap-2 overflow-x-auto pb-1">
-        <TabChip active={tab === "collection"} onClick={() => setTab("collection")}>
-          🏆 Коллекция
-        </TabChip>
-        {activeCategories().map((c) => (
-          <TabChip key={c.id} active={tab === c.id} onClick={() => setTab(c.id)}>
-            {c.emoji} {c.label}
-          </TabChip>
+      <div className="shop-sections" role="tablist" aria-label="Разделы магазина" onKeyDown={navigateSections}>
+        {sections.map(section => (
+          <button
+            key={section.id}
+            type="button"
+            role="tab"
+            id={`shop-tab-${section.id}`}
+            aria-selected={tab === section.id}
+            aria-controls="shop-items"
+            tabIndex={tab === section.id ? 0 : -1}
+            className="shop-section"
+            style={{ "--section-color": section.color } as CSSProperties}
+            onClick={() => setTab(section.id)}
+          >
+            <Image src={section.image} alt="" width={72} height={72} className="shop-section-icon" />
+            <span>{section.label}</span>
+          </button>
         ))}
       </div>
 
+      <div id="shop-items" role="tabpanel" aria-labelledby={`shop-tab-${tab}`} tabIndex={0} className="shop-panel">
       {tab === "collection" ? (
         <Collection
           ownedItems={ownedItems}
@@ -65,30 +95,8 @@ export default function ShopPage() {
           onBuy={buyAccessory}
         />
       )}
+      </div>
     </div>
-  );
-}
-
-function TabChip({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={`shrink-0 rounded-full border px-4 py-2 text-[15px] font-bold transition-colors ${
-        active
-          ? "border-brand-green bg-brand-green text-white"
-          : "border-border bg-surface text-muted hover:bg-black/[0.03]"
-      }`}
-    >
-      {children}
-    </button>
   );
 }
 
@@ -143,7 +151,7 @@ function Collection({
   );
 }
 
-/** Вкладка категории — вещи серые (силуэты), покупаются; цвет откроется в коллекции. */
+/** Предметы выбранной категории и их доступность для покупки. */
 function CategoryGrid({
   items,
   owned,

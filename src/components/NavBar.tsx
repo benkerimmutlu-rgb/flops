@@ -4,18 +4,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { getFlopsAsset } from "@/brand/flops-assets";
+import styles from "./NavBar.module.css";
 
 // Итоговое меню. На широком экране — текстовые ссылки сверху; на телефоне —
 // нижняя панель с иконками (ничего не нужно скроллить вбок). «Повтори» и «Учу»
 // живут внутри «Флагов».
 const LINKS = [
-  { href: "/flags", label: "Флаги", icon: "🚩" },
-  { href: "/capitals", label: "Столицы", icon: "🏛️" },
-  { href: "/languages", label: "Языки", icon: "💬" },
-  { href: "/memory", label: "Меморина", icon: "🧩" },
-  { href: "/world", label: "Мой мир", icon: "🌍" },
-  { href: "/shop", label: "Магазин", icon: "🛍️" },
-  { href: "/room", label: "Домик", icon: "🏠" },
+  { href: "/flags", label: "Флаги", image: "/assets/navigation/capital_flag.webp" },
+  { href: "/capitals", label: "Столицы", image: "/assets/navigation/signpost.webp" },
+  { href: "/languages", label: "Языки", image: "/assets/navigation/sound_speaker.webp" },
+  { href: "/memory", label: "Меморина", image: null },
+  { href: "/world", label: "Мой мир", image: "/assets/navigation/map.webp" },
+  { href: "/shop", label: "Магазин", image: "/assets/world/suitcase.webp" },
+  { href: "/room", label: "Домик", image: "/assets/navigation/clay-doghouse.webp" },
 ];
 
 function isActive(pathname: string, href: string) {
@@ -28,7 +29,7 @@ export function NavBar() {
   return (
     <>
       {/* Верхняя полоса: логотип + ссылки (ссылки только на широком экране) */}
-      <nav className="sticky top-0 z-10 border-b border-border bg-background/90 backdrop-blur">
+      <nav aria-label="Основная навигация" className="sticky top-0 z-10 border-b border-border bg-background/90 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 px-4 py-3">
           <Link href="/" className="shrink-0" aria-label="FLOPS — на главную">
             <Image
@@ -47,6 +48,7 @@ export function NavBar() {
                 <Link
                   key={link.href}
                   href={link.href}
+                  aria-current={active ? "page" : undefined}
                   className={`shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold transition-colors ${
                     active ? "bg-brand-green text-white" : "text-muted hover:bg-black/5"
                   }`}
@@ -60,22 +62,20 @@ export function NavBar() {
       </nav>
 
       {/* Нижняя панель (телефон): иконки, крупные зоны нажатия */}
-      <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur sm:hidden">
-        <div className="mx-auto flex max-w-3xl items-stretch">
+      <nav aria-label="Мобильная навигация" className={styles.mobile}>
+        <div className={styles.links}>
           {LINKS.map((link) => {
             const active = isActive(pathname, link.href);
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex flex-1 flex-col items-center gap-0.5 py-2 ${
-                  active ? "text-brand-green" : "text-muted"
-                }`}
+                aria-current={active ? "page" : undefined}
+                className={styles.link}
               >
-                <span className="text-[22px] leading-none" aria-hidden>
-                  {link.icon}
-                </span>
-                <span className="text-[10px] font-bold leading-none">{link.label}</span>
+                {link.image ? <Image src={link.image} alt="" width={48} height={48} className={styles.icon} />
+                  : <span className={styles.memory} aria-hidden="true"><i /><i /></span>}
+                <span className={styles.label}>{link.label}</span>
               </Link>
             );
           })}
