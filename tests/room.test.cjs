@@ -74,3 +74,19 @@ test('all eight new gaming products have assets, prices and room metadata', () =
     assert.ok(room && fs.existsSync(path.resolve(__dirname, '../public' + room.img)));
   }
 });
+
+test('Eurovision collection is complete and every product can be used in the room', () => {
+  const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
+  const products = ACCESSORIES.filter(item => item.category === 'eurovision');
+  assert.equal(products.length, 10);
+  assert.equal(new Set(ACCESSORIES.map(item => item.id)).size, ACCESSORIES.length);
+  for (const item of products) {
+    assert.ok(item.active && item.price > 0);
+    assert.ok(fs.existsSync(path.resolve(__dirname, '../public' + item.img)));
+    const room = catalog.find(entry => entry.id === item.id);
+    assert.ok(room && fs.existsSync(path.resolve(__dirname, '../public' + room.img)));
+  }
+  assert.equal(catalog.find(item => item.id === 'ev_backstage_pass').kind, 'wear');
+  assert.equal(catalog.find(item => item.id === 'ev_eurovision_logo').kind, 'wall');
+  assert.equal(products.some(item => item.id === 'ev_heart_hands'), false);
+});

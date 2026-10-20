@@ -775,5 +775,75 @@
     "img": "/assets/clay/room-items/cape.webp",
     "kind": "wear",
     "size": 0.7
+  },
+  {
+    "id": "ev_backstage_pass",
+    "name": "Пропуск за кулисы",
+    "img": "/assets/clay/room-items/ev_backstage_pass.webp",
+    "kind": "wear",
+    "size": 0.42
+  },
+  {
+    "id": "ev_heart_lightstick",
+    "name": "Палочка-сердечко",
+    "img": "/assets/clay/room-items/ev_heart_lightstick.webp",
+    "kind": "wear",
+    "size": 0.55
+  },
+  {
+    "id": "ev_eurovision_flag",
+    "name": "Флаг Eurovision",
+    "img": "/assets/clay/room-items/ev_eurovision_flag.webp",
+    "kind": "floor",
+    "size": 0.3
+  },
+  {
+    "id": "ev_eurovision_stage",
+    "name": "Сцена Eurovision",
+    "img": "/assets/clay/room-items/ev_eurovision_stage.webp",
+    "kind": "floor",
+    "size": 0.65
+  },
+  {
+    "id": "ev_microphone_trophy",
+    "name": "Микрофон-кубок",
+    "img": "/assets/clay/room-items/ev_microphone_trophy.webp",
+    "kind": "surface",
+    "size": 0.2
+  },
+  {
+    "id": "ev_video_camera",
+    "name": "Видеокамера",
+    "img": "/assets/clay/room-items/ev_video_camera.webp",
+    "kind": "surface",
+    "size": 0.24
+  },
+  {
+    "id": "ev_eurovision_logo",
+    "name": "Вывеска Eurovision",
+    "img": "/assets/clay/room-items/ev_eurovision_logo.webp",
+    "kind": "wall",
+    "size": 0.3
+  },
+  {
+    "id": "ev_golden_star",
+    "name": "Звёздный приз",
+    "img": "/assets/clay/room-items/ev_golden_star.webp",
+    "kind": "surface",
+    "size": 0.2
+  },
+  {
+    "id": "ev_music_heart",
+    "name": "Музыкальное сердце",
+    "img": "/assets/clay/room-items/ev_music_heart.webp",
+    "kind": "wall",
+    "size": 0.22
+  },
+  {
+    "id": "ev_junior_singer",
+    "name": "Фигурка певицы",
+    "img": "/assets/clay/room-items/ev_junior_singer.webp",
+    "kind": "floor",
+    "size": 0.22
   }
 ]

@@ -10,6 +10,7 @@ export type ShopCategoryId =
   | "things"
   | "sport"
   | "games"
+  | "eurovision"
   | "relax"
   | "turkiye"
   | "summer"
@@ -28,6 +29,7 @@ export const SHOP_CATEGORIES: ShopCategory[] = [
   { id: "things", label: "Вещи", emoji: "🎒", accent: "var(--green)" },
   { id: "sport", label: "Спорт", emoji: "🥊", accent: "#E84A43" },
   { id: "games", label: "Игры", emoji: "🎮", accent: "#8257E6" },
+  { id: "eurovision", label: "Eurovision", emoji: "🎤", accent: "#9448C6" },
   { id: "relax", label: "Уют", emoji: "🛋️", accent: "#C8863C" },
   { id: "turkiye", label: "Турция", emoji: "🇹🇷", accent: "#E84A43" },
   { id: "summer", label: "Лето", emoji: "☀️", accent: "#F6C742" },
@@ -128,6 +130,18 @@ export const ACCESSORIES: Accessory[] = [
   ...gen("halloween", "hw",
     ["Шляпа ведьмы", "Очки с мышами", "Плащ вампира", "Бабочка-мышь", "Ведёрко сладостей", "Котёл сладостей", "Метла", "Фонарь Джека", "Привидение", "Тыква-лежанка", "Маска крика"],
     L11),
+
+  // ─── Eurovision: performance props and clay room decorations ───
+  { id: "ev_backstage_pass", name: "Пропуск за кулисы", img: `${SHOP}/eurovision/backstage_pass.webp`, price: 16, category: "eurovision", active: true },
+  { id: "ev_heart_lightstick", name: "Палочка-сердечко", img: `${SHOP}/eurovision/heart_lightstick.webp`, price: 18, category: "eurovision", active: true },
+  { id: "ev_eurovision_flag", name: "Флаг Eurovision", img: `${SHOP}/eurovision/eurovision_flag.webp`, price: 22, category: "eurovision", active: true },
+  { id: "ev_eurovision_stage", name: "Сцена Eurovision", img: `${SHOP}/eurovision/eurovision_stage.webp`, price: 60, category: "eurovision", active: true },
+  { id: "ev_microphone_trophy", name: "Микрофон-кубок", img: `${SHOP}/eurovision/microphone_trophy.webp`, price: 34, category: "eurovision", active: true },
+  { id: "ev_video_camera", name: "Видеокамера", img: `${SHOP}/eurovision/video_camera.webp`, price: 38, category: "eurovision", active: true },
+  { id: "ev_eurovision_logo", name: "Вывеска Eurovision", img: `${SHOP}/eurovision/eurovision_logo.webp`, price: 20, category: "eurovision", active: true },
+  { id: "ev_golden_star", name: "Звёздный приз", img: `${SHOP}/eurovision/golden_star.webp`, price: 28, category: "eurovision", active: true },
+  { id: "ev_music_heart", name: "Музыкальное сердце", img: `${SHOP}/eurovision/music_heart.webp`, price: 14, category: "eurovision", active: true },
+  { id: "ev_junior_singer", name: "Фигурка певицы", img: `${SHOP}/eurovision/junior_singer.webp`, price: 24, category: "eurovision", active: true },
 
   // ─── Legacy: старые аксессуары (их больше не продаём, но у купивших они
   // остаются в «Коллекции» — active:false). Нельзя удалять их id! ───
