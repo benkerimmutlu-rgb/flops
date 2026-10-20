@@ -4,7 +4,7 @@ export const ROOM_IDS = ["peach", "blue", "sage"] as const;
 export type RoomId = (typeof ROOM_IDS)[number];
 export interface RoomItem {
   id: string; x: number; y: number; scale: number; rotation: number;
-  parent?: string; mountX?: number; mountY?: number;
+  parent?: string; mountX?: number; mountY?: number; fitted?: boolean;
 }
 export interface RoomLayout {
   items: RoomItem[];
@@ -43,6 +43,7 @@ function items(value: unknown): RoomItem[] {
     seen.add(id);
     return [{ id, x: finite(item.x, .5, -.1, 1.1), y: finite(item.y, .8, -.1, 1.1),
       scale: finite(item.scale, 1, .4, 2), rotation: finite(item.rotation, 0, -360, 360),
+      ...(item.fitted === true ? { fitted: true } : {}),
       ...(item.parent === "gm36" && id !== "gm36" ? { parent: "gm36", mountX: finite(item.mountX, 0, -.45, .45), mountY: finite(item.mountY, 0, -.2, .22) } : {}) }];
   });
 }

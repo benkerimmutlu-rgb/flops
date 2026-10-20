@@ -507,7 +507,7 @@
     "id": "rx10",
     "name": "Плед",
     "img": "/assets/clay/room-items/rx10.webp",
-    "kind": "floor",
+    "kind": "wear",
     "size": 0.17
   },
   {
@@ -880,5 +880,68 @@
     "size": 0.7,
     "wearX": 0.78,
     "wearY": 0.25
+  },
+  {
+    "id": "window_paris",
+    "name": "Окно в Париж",
+    "img": "/assets/clay/room-items/window_paris.webp",
+    "kind": "wall",
+    "size": 0.3
+  },
+  {
+    "id": "window_istanbul",
+    "name": "Окно в Стамбул",
+    "img": "/assets/clay/room-items/window_istanbul.webp",
+    "kind": "wall",
+    "size": 0.3
+  },
+  {
+    "id": "window_izmir",
+    "name": "Окно в Измир",
+    "img": "/assets/clay/room-items/window_izmir.webp",
+    "kind": "wall",
+    "size": 0.3
+  },
+  {
+    "id": "window_ukraine",
+    "name": "Окно в Украину",
+    "img": "/assets/clay/room-items/window_ukraine.webp",
+    "kind": "wall",
+    "size": 0.3
+  },
+  {
+    "id": "window_ufa",
+    "name": "Окно в Уфу",
+    "img": "/assets/clay/room-items/window_ufa.webp",
+    "kind": "wall",
+    "size": 0.3
+  },
+  {
+    "id": "window_london",
+    "name": "Окно в Лондон",
+    "img": "/assets/clay/room-items/window_london.webp",
+    "kind": "wall",
+    "size": 0.3
+  },
+  {
+    "id": "window_eurovision",
+    "name": "Окно на Eurovision",
+    "img": "/assets/clay/room-items/window_eurovision.webp",
+    "kind": "wall",
+    "size": 0.3
+  },
+  {
+    "id": "window_america",
+    "name": "Окно в Америку",
+    "img": "/assets/clay/room-items/window_america.webp",
+    "kind": "wall",
+    "size": 0.3
+  },
+  {
+    "id": "sport_wall_bar",
+    "name": "Настенный турник",
+    "img": "/assets/clay/room-items/sport_wall_bar.webp",
+    "kind": "wall",
+    "size": 0.27
   }
 ]

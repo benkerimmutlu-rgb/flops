@@ -122,3 +122,58 @@ test('sleep collection keeps purchase IDs and sleep furniture through save and r
   data.layout.sage.outfit = ['sleep_blanket', 'sleep_mask', 'beach_dream'].map(id => ({ id, x: .6, y: .3, scale: 1, rotation: 0 }));
   assert.deepEqual(normalizeRoom(JSON.parse(JSON.stringify(data))), data);
 });
+
+const { wearableFit, fitOutfit } = load(path.resolve(__dirname, '../src/components/clay/wardrobe.js'));
+test('fitted clothing follows actual poses, separates paws and places capes behind the body', () => {
+  const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
+  const get = id => catalog.find(i => i.id === id);
+  for (const pose of ['stand', 'sit', 'sleep']) {
+    const gloves = wearableFit(get('sp1'), pose);
+    assert.equal(gloves.parts.length, 2);
+    assert.notEqual(gloves.parts[0].x, gloves.parts[1].x);
+    assert.equal(gloves.parts[0].img, '/assets/clay/wardrobe/wear_boxing_glove_front.webp');
+    assert.equal(wearableFit(get('sp4'), pose).parts.length, pose === 'sit' ? 4 : 3);
+    assert.equal(wearableFit(get('cape'), pose).layer, 'back');
+    assert.equal(wearableFit(get('cape'), pose).frontParts.length, 1);
+    assert.equal(wearableFit(get('sleep_blanket'), pose).layer, 'front');
+  }
+  assert.notDeepEqual(wearableFit(get('sp1'), 'stand'), wearableFit(get('sp1'), 'sleep'));
+  assert.equal(wearableFit(get('rx10'), 'sleep').parts[0].img, '/assets/clay/wardrobe/wear_blanket_front.webp');
+});
+
+test('fitting replaces only competing fitted clothing and round-trips without granting purchases', () => {
+  const input = [{ id: 'sp4', fitted: true }, { id: 'sp7' }, { id: 'cape', fitted: true }, { id: 'gm28', x: .1, y: .1, scale: 2, rotation: 90 }];
+  const outfit = fitOutfit(input, 'gm28');
+  assert.deepEqual(outfit.map(o => o.id), ['sp7', 'cape', 'gm28']);
+  const fitted = outfit.find(o => o.id === 'gm28');
+  assert.deepEqual(fitted, { id: 'gm28', x: .5, y: .5, scale: 1, rotation: 0, fitted: true });
+  assert.equal(input[0].id, 'sp4');
+  const room = emptyRoom(); room.layout.peach.outfit = [fitted];
+  assert.deepEqual(normalizeRoom(JSON.parse(JSON.stringify(room))), room);
+  assert.equal('owned' in normalizeRoom(room), false);
+});
+
+test('all eight windows and the sports bar are purchasable wall items with real assets', () => {
+  const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
+  const windows = ACCESSORIES.filter(i => i.category === 'windows');
+  assert.equal(windows.length, 8);
+  assert.equal(new Set(ACCESSORIES.map(i => i.id)).size, ACCESSORIES.length);
+  for (const item of [...windows, ACCESSORIES.find(i => i.id === 'sport_wall_bar')]) {
+    assert.ok(item.active && item.price > 0);
+    assert.ok(fs.existsSync(path.resolve(__dirname, '../public' + item.img)));
+    assert.equal(catalog.find(i => i.id === item.id).kind, 'wall');
+  }
+  assert.equal(ACCESSORIES.find(i => i.id === 'sport_wall_bar').category, 'sport');
+});
+
+test('all pose-specific garment layers exist separately from the shop thumbnails', () => {
+  const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
+  for (const item of catalog.filter(i => i.kind === 'wear')) for (const pose of ['stand', 'sit', 'sleep']) {
+    const fit = wearableFit(item, pose);
+    for (const piece of [...fit.parts, ...(fit.frontParts || [])]) {
+      assert.ok(fs.existsSync(path.resolve(__dirname, '../public' + piece.img)), item.id + ': ' + piece.img);
+      assert.ok(Number.isFinite(piece.x) && Number.isFinite(piece.y) && piece.size > 0);
+    }
+  }
+  assert.notEqual(ACCESSORIES.find(i => i.id === 'sp1').img, wearableFit(catalog.find(i => i.id === 'sp1'), 'stand').parts[0].img);
+});

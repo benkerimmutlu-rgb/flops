@@ -70,7 +70,7 @@
 }
 
 @media (min-width: 900px) {
-  .shop-sections { grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 10px; }
+  .shop-sections { grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 10px; }
   .shop-section { min-height: 112px; }
   .shop-section-icon { width: 62px; height: 62px; }
 }

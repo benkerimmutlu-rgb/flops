@@ -8,6 +8,7 @@
 
 export type ShopCategoryId =
   | "things"
+  | "windows"
   | "sport"
   | "games"
   | "eurovision"
@@ -31,6 +32,7 @@ export const SHOP_CATEGORIES: ShopCategory[] = [
   { id: "games", label: "Игры", image: "/assets/clay/room-items/gm9.webp", color: "#d8cce9" },
   { id: "eurovision", label: "Eurovision", image: "/assets/clay/room-items/ev_music_heart.webp", color: "#e7c7de" },
   { id: "relax", label: "Уют", image: "/assets/clay/room-items/rx1.webp", color: "#e7d2b6" },
+  { id: "windows", label: "Окна", image: "/assets/clay/room-items/window_paris.webp", color: "#c7dce2" },
   { id: "turkiye", label: "Турция", image: "/assets/clay/room-items/tk1.webp", color: "#e8c3ae" },
   { id: "summer", label: "Лето", image: "/assets/clay/room-items/su2.webp", color: "#e9d99d" },
   { id: "halloween", label: "Хэллоуин", image: "/assets/clay/room-items/hw8.webp", color: "#e7c49b" },
@@ -106,6 +108,8 @@ export const ACCESSORIES: Accessory[] = [
     ["Перчатки", "Гиря", "Гантели", "Кроссовки", "Дорожка", "Груша", "Боксёрки", "Ринг", "Бинты", "Шлем"],
     L10),
 
+  { id: "sport_wall_bar", name: "Настенный турник", img: "/assets/clay/room-items/sport_wall_bar.webp", price: 30, category: "sport", active: true },
+
   // ─── Игры 🎮 ───
   ...gen("games", "gm",
     ["Бластер", "Звезда-кубок", "Сундук самоцветов", "Самоцветы", "Вертушка", "Кактус", "Ковбойка", "Газировка", "Джойстик", "Боевой автобус", "Неваляшка", "Лама", "Кирка", "Сундук с золотом", "Ящик с припасами", "Бластер-луч", "Портал", "Зельеварня", "НЛО", "Робот", "Самокат", "Бантик", "Планшет", "Микрофон", "Наушники", "Бумбокс", "Диско-шар", "Кроссовки", "Книжка", "Сумочка", "Ноутбук", "PlayStation 5", "Игровой компьютер с подсветкой", "Xbox Series X", "Игровые наушники", "Стол для гейминга", "Игровой монитор", "Игровой стул"],
@@ -147,6 +151,16 @@ export const ACCESSORIES: Accessory[] = [
   { id: "ev_golden_star", name: "Звёздный приз", img: `${SHOP}/eurovision/golden_star.webp`, price: 28, category: "eurovision", active: true },
   { id: "ev_music_heart", name: "Музыкальное сердце", img: `${SHOP}/eurovision/music_heart.webp`, price: 14, category: "eurovision", active: true },
   { id: "ev_junior_singer", name: "Фигурка певицы", img: `${SHOP}/eurovision/junior_singer.webp`, price: 24, category: "eurovision", active: true },
+
+  // Окна: отдельные купленные предметы для стены.
+  { id: "window_paris", name: "Окно в Париж", img: "/assets/clay/room-items/window_paris.webp", price: 32, category: "windows", active: true },
+  { id: "window_istanbul", name: "Окно в Стамбул", img: "/assets/clay/room-items/window_istanbul.webp", price: 32, category: "windows", active: true },
+  { id: "window_izmir", name: "Окно в Измир", img: "/assets/clay/room-items/window_izmir.webp", price: 32, category: "windows", active: true },
+  { id: "window_ukraine", name: "Окно в Украину", img: "/assets/clay/room-items/window_ukraine.webp", price: 32, category: "windows", active: true },
+  { id: "window_ufa", name: "Окно в Уфу", img: "/assets/clay/room-items/window_ufa.webp", price: 32, category: "windows", active: true },
+  { id: "window_london", name: "Окно в Лондон", img: "/assets/clay/room-items/window_london.webp", price: 32, category: "windows", active: true },
+  { id: "window_eurovision", name: "Окно на Eurovision", img: "/assets/clay/room-items/window_eurovision.webp", price: 32, category: "windows", active: true },
+  { id: "window_america", name: "Окно в Америку", img: "/assets/clay/room-items/window_america.webp", price: 32, category: "windows", active: true },
 
   // ─── Legacy: старые аксессуары (их больше не продаём, но у купивших они
   // остаются в «Коллекции» — active:false). Нельзя удалять их id! ───

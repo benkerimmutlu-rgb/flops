@@ -1,10 +1,12 @@
 import { roomPose, isSleepSeat } from './room-poses.js';
+import { wearableFit, wearGroup, fitOutfit } from './wardrobe.js';
+import { roomIcon, posePicture } from './room-icons.js';
 
 /** @param {HTMLElement} root @param {import('@/lib/room').RoomMountOptions} options */
 export function mountRoom(root, options) {
     const controller = new AbortController();
     const listen = (target, type, handler) => target.addEventListener(type, handler, target instanceof HTMLElement && (target.matches('.room-object') || target.parentElement === tray) ? undefined : { signal: controller.signal });
-    const stage = root.querySelector('.room-stage'), scene = root.querySelector('.room-scene'), actor = root.querySelector('.room-actor'), outfit = root.querySelector('.room-outfit'), tray = root.querySelector('.room-inventory'), edit = root.querySelector('.room-edit');
+    const stage = root.querySelector('.room-stage'), scene = root.querySelector('.room-scene'), actor = root.querySelector('.room-actor'), outfit = root.querySelector('.room-outfit'), backOutfit = root.querySelector('.room-outfit-back'), headOutfit = root.querySelector('.room-outfit-head'), tray = root.querySelector('.room-inventory'), edit = root.querySelector('.room-edit');
     const { catalog, rooms } = options;
     const byId = new Map(catalog.map(x => [x.id, x]));
     const oldIds = { hw_witch_hat: 'hw1', hw_bat_glasses: 'hw2', hw_vampire_cape: 'hw3', hw_bat_bow: 'hw4', hw_candy_bucket: 'hw5', hw_cauldron: 'hw6', hw_broom: 'hw7', hw_jack: 'hw8', hw_ghost: 'hw9', hw_pumpkin_bed: 'hw10', wizard: 'cape' };
@@ -29,6 +31,7 @@ export function mountRoom(root, options) {
     function current() { return layout[room]; }
     function permitted() { return new Set(owned); }
     function clean() { for (const v of Object.values(layout)) {
+        for (const o of v.items) if (byId.get(o.id)?.kind === 'wear' && !v.outfit.some(w => w.id === o.id)) v.outfit.push({ id: o.id, x: .5, y: .5, scale: 1, rotation: 0, fitted: true });
         v.items = v.items.filter(o => byId.has(o.id) && byId.get(o.id).kind !== 'wear');
         v.outfit = v.outfit.filter(o => byId.has(o.id) && byId.get(o.id).kind === 'wear');
         if (!v.items.some(o => o.id === v.pug.seat && byId.get(o.id)?.kind === 'seat'))
@@ -42,8 +45,26 @@ export function mountRoom(root, options) {
     function coordinates(o) { const p = parentOf(o); return p ? { x: p.x + (o.mountX || 0) * itemWidth(p), y: p.y - itemWidth(p) * stage.clientWidth / stage.clientHeight * (.60 - (o.mountY || 0)) } : { x: o.x, y: o.y }; }
     function say(text) { root.querySelector('#room-status').textContent = text; }
     function select(id) { selected = id; updateEdit(); renderObjects(); }
-    function updateEdit() { const o = find(), item = byId.get(selected); edit.hidden = !o; if (!o)
-        return; root.querySelector('#room-selected').textContent = selected === 'pug' ? 'Флопс' : item.name; root.querySelector('.room-depth-label').hidden = item?.kind === 'wear' || item?.kind === 'wall' || !!parentOf(o); root.querySelector('#room-seat').hidden = !((item?.kind === 'seat') || (selected === 'pug' && current().pug.seat)); root.querySelector('#room-seat').textContent = current().pug.seat === selected || selected === 'pug' ? 'Встать' : isSleepSeat(selected) ? 'Лечь' : 'Сесть'; root.querySelector('#room-surface').hidden = !(item?.kind === 'surface' && current().items.some(p => p.id === 'gm36' && permitted().has(p.id))); root.querySelector('#room-surface').textContent = o.parent ? 'На пол' : 'На стол'; root.querySelector('#room-remove').hidden = selected === 'pug'; root.querySelector('#room-rotate').hidden = selected === 'pug' || (item?.kind === 'seat' || selected === 'gm36'); const choices = [.64, .78, .92]; root.querySelector('#room-depth').value = String(choices.reduce((a, b) => Math.abs(b - o.y) < Math.abs(a - o.y) ? b : a)); }
+    function action(id, label, picture) { const button = root.querySelector('#' + id); button.setAttribute('aria-label', label); button.title = label; button.innerHTML = picture; }
+    function currentPose() { const seat = current().items.find(o => o.id === current().pug.seat && permitted().has(o.id)); return roomPose(room, seat?.id || null); }
+    function updateEdit() {
+        const o = find(), item = byId.get(selected); edit.hidden = !o; if (!o) return;
+        root.querySelector('#room-selected').textContent = selected === 'pug' ? 'Флопс' : item.name;
+        root.querySelector('#room-selected-image').src = selected === 'pug' ? '/assets/clay/room-pug-' + currentPose() + '.webp' : item.img;
+        root.querySelector('.room-depth-label').hidden = item?.kind === 'wear' || item?.kind === 'wall' || !!parentOf(o);
+        const nearest = [.64, .78, .92].reduce((a, b) => Math.abs(b - o.y) < Math.abs(a - o.y) ? b : a);
+        root.querySelectorAll('[data-depth]').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.depth) === nearest)));
+        const gettingUp = current().pug.seat === selected || selected === 'pug';
+        root.querySelector('#room-seat').hidden = !(item?.kind === 'seat' || (selected === 'pug' && current().pug.seat));
+        action('room-seat', gettingUp ? 'Встать' : isSleepSeat(selected) ? 'Лечь' : 'Сесть', posePicture(gettingUp ? 'stand' : isSleepSeat(selected) ? 'sleep' : 'sit', gettingUp ? 'up' : 'down'));
+        root.querySelector('#room-surface').hidden = !(item?.kind === 'surface' && current().items.some(p => p.id === 'gm36' && permitted().has(p.id)));
+        action('room-surface', o.parent ? 'На пол' : 'На стол', roomIcon(o.parent ? 'down' : 'surface'));
+        root.querySelector('#room-wear').hidden = item?.kind !== 'wear';
+        action('room-wear', wearGroup(selected) === 'blanket' ? 'Укрыть' : 'Надеть', `<span class="room-dress-picture"><img src="${item?.img || '/assets/clay/room-pug-stand.webp'}" alt="">${roomIcon('down')}${posePicture(currentPose())}</span>`);
+        root.querySelector('#room-remove').hidden = selected === 'pug';
+        action('room-remove', item?.kind === 'wear' ? 'Снять' : 'Убрать в коллекцию', roomIcon('remove'));
+        root.querySelector('#room-rotate').hidden = selected === 'pug' || item?.kind === 'seat' || selected === 'gm36';
+    }
     function positionPug() {
         const p = current().pug, seat = current().items.find(o => o.id === p.seat && permitted().has(o.id));
         let x = p.x, y = p.y, w = .28 * p.scale * depth(y);
@@ -62,16 +83,33 @@ export function mountRoom(root, options) {
         actor.dataset.selected = String(selected === 'pug');
         actor.dataset.seated = String(!!seat);
     }
-    function styleObject(b, o, wear) { const item = byId.get(o.id); b.setAttribute('aria-pressed', String(selected === o.id)); const at = wear ? o : coordinates(o); b.style.left = at.x * 100 + '%'; b.style.top = at.y * 100 + '%'; b.style.width = (wear ? o.scale * item.size : itemWidth(o)) * 100 + '%'; b.style.transform = (wear ? 'translate(-50%,-50%)' : 'translate(-50%,-100%)') + ' rotate(' + o.rotation + 'deg)'; b.style.zIndex = String(wear ? 10 : item.kind === 'wall' ? 1 : Math.round((parentOf(o)?.y ?? o.y) * 10000) + (parentOf(o) ? 5 : 0)); }
+    function wearPieces(parts) { return parts.map(p => { const img = document.createElement('img'); img.src = p.img; img.alt = ''; img.draggable = false; img.className = 'room-wear-piece'; img.style.left = p.x * 100 + '%'; img.style.top = p.y * 100 + '%'; img.style.width = p.size * 100 + '%'; img.style.transform = `translate(-50%,-50%) rotate(${p.rotation}deg) scaleX(${p.mirror ? -1 : 1})`; return img; }); }
+    function wearTransform(node, o) { node.style.left = o.x * 100 + '%'; node.style.top = o.y * 100 + '%'; node.style.width = o.scale * 100 + '%'; node.style.transform = `translate(-50%,-50%) rotate(${o.rotation}deg)`; }
+    function styleWear(b, o) {
+        const fit = wearableFit(byId.get(o.id), currentPose());
+        const target = fit.layer === 'back' ? backOutfit : fit.layer === 'head' ? headOutfit : outfit;
+        if (b.parentElement !== target) target.append(b);
+        b.classList.add('room-fitted'); b.setAttribute('aria-pressed', String(selected === o.id));
+        wearTransform(b, o); b.replaceChildren(...wearPieces(fit.parts));
+        let front = outfit.querySelector(`[data-wear-front="${o.id}"]`);
+        if (fit.frontParts) {
+            if (!front) { front = document.createElement('div'); front.className = 'room-wear-front'; front.dataset.wearFront = o.id; front.setAttribute('aria-hidden', 'true'); outfit.append(front); }
+            wearTransform(front, o); front.replaceChildren(...wearPieces(fit.frontParts));
+        } else front?.remove();
+    }
+    function styleObject(b, o, wear) { const item = byId.get(o.id); if (wear && o.fitted) { styleWear(b, o); return; } outfit.querySelector(`[data-wear-front="${o.id}"]`)?.remove(); if (wear && b.parentElement !== headOutfit) headOutfit.append(b); b.classList.remove('room-fitted'); b.setAttribute('aria-pressed', String(selected === o.id)); const at = wear ? o : coordinates(o); b.style.left = at.x * 100 + '%'; b.style.top = at.y * 100 + '%'; b.style.width = (wear ? o.scale * item.size : itemWidth(o)) * 100 + '%'; b.style.transform = (wear ? 'translate(-50%,-50%)' : 'translate(-50%,-100%)') + ' rotate(' + o.rotation + 'deg)'; b.style.zIndex = String(wear ? 10 : item.kind === 'wall' ? 1 : Math.round((parentOf(o)?.y ?? o.y) * 10000) + (parentOf(o) ? 5 : 0)); }
     function objectButton(o, wear) { const item = byId.get(o.id), b = document.createElement('button'); b.type = 'button'; b.className = 'room-object'; b.dataset.id = o.id; b.setAttribute('aria-label', item.name); b.setAttribute('aria-pressed', String(selected === o.id)); const img = document.createElement('img'); img.src = item.img; img.alt = ''; img.draggable = false; b.append(img); styleObject(b, o, wear); listen(b, 'pointerdown', e => begin(e, o.id, wear)); listen(b, 'click', () => select(o.id)); listen(b, 'keydown', e => moveKey(e, o.id)); return b; }
     function renderObjects() {
+        const pose = currentPose(), image = root.querySelector('.kids-mascot-fallback'), face = root.querySelector('.room-face-occlusion');
+        image.src = '/assets/clay/room-pug-' + pose + '.webp'; image.dataset.pose = pose; face.src = image.src; actor.dataset.pose = pose;
         const v = current(), allow = permitted(), placed = v.items.filter(o => allow.has(o.id)), worn = v.outfit.filter(o => allow.has(o.id)), floorIds = new Set(placed.map(o => o.id)), wearIds = new Set(worn.map(o => o.id));
         for (const node of scene.querySelectorAll('.room-object'))
             if (!floorIds.has(node.dataset.id))
                 node.remove();
-        for (const node of outfit.querySelectorAll('.room-object'))
+        for (const node of actor.querySelectorAll('.room-object'))
             if (!wearIds.has(node.dataset.id))
                 node.remove();
+        outfit.querySelectorAll('[data-wear-front]').forEach(node => { if (!wearIds.has(node.dataset.wearFront)) node.remove(); });
         scene.querySelectorAll('.room-front').forEach(node => node.remove());
         for (const o of placed) {
             let button = scene.querySelector(`[data-id="${o.id}"]`);
@@ -96,10 +134,10 @@ export function mountRoom(root, options) {
             }
         }
         for (const o of worn) {
-            let button = outfit.querySelector(`[data-id="${o.id}"]`);
+            let button = actor.querySelector(`[data-id="${o.id}"]`);
             if (!button) {
                 button = objectButton(o, true);
-                outfit.append(button);
+                if (!button.parentElement) headOutfit.append(button);
             }
             styleObject(button, o, true);
         }
@@ -109,7 +147,8 @@ export function mountRoom(root, options) {
         const item = byId.get(id), b = document.createElement('button');
         b.type = 'button';
         b.dataset.owned = id;
-        b.disabled = used.has(id);
+        b.setAttribute('aria-pressed', String(used.has(id)));
+        b.classList.toggle('room-in-use', used.has(id));
         const img = document.createElement('img');
         img.src = item.img;
         img.alt = '';
@@ -117,13 +156,13 @@ export function mountRoom(root, options) {
         const span = document.createElement('span');
         span.textContent = item.name;
         b.append(img, span);
-        listen(b, 'click', () => add(id));
+        listen(b, 'click', () => used.has(id) ? select(id) : add(id));
         tray.append(b);
     } root.querySelector('.room-empty').hidden = owned.length > 0; }
     function render() { const image = root.querySelector('.kids-mascot-fallback'); const seat = current().items.find(o => o.id === current().pug.seat && permitted().has(o.id)); const pose = roomPose(room, seat?.id || null); image.src = '/assets/clay/room-pug-' + pose + '.webp'; image.dataset.pose = pose; stage.style.backgroundImage = `url('${rooms[room]}')`; root.dataset.room = room; root.querySelectorAll('[data-room]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.room === room))); renderObjects(); renderTray(); updateEdit(); }
     function add(id) { if (!permitted().has(id))
         return; const item = byId.get(id), list = item.kind === 'wear' ? current().outfit : current().items; if (list.some(o => o.id === id))
-        return; list.push({ id, x: item.kind === 'wear' ? (item.wearX ?? .5) : .34, y: item.kind === 'wear' ? (item.wearY ?? .32) : item.kind === 'wall' ? .46 : .81, scale: 1, rotation: item.wearRotation ?? 0 }); selected = id; render(); save(); say(item.name + ' — ' + (item.kind === 'wear' ? 'на Флопсе' : 'в комнате')); }
+        return; list.push({ id, x: item.kind === 'wear' ? (item.wearX ?? .5) : .34, y: item.kind === 'wear' ? (item.wearY ?? .32) : item.kind === 'wall' ? .46 : .81, scale: 1, rotation: item.wearRotation ?? 0, ...(item.kind === 'wear' ? { x: .5, y: .5, rotation: 0, fitted: true } : {}) }); if (item.kind === 'wear') current().outfit = fitOutfit(current().outfit, id); selected = id; render(); save(); say(item.name + ' — ' + (item.kind === 'wear' ? 'на Флопсе' : 'в комнате')); }
     function releasePug() { const o = current().pug; if (!o.seat)
         return; const a = actor.getBoundingClientRect(), s = stage.getBoundingClientRect(); o.x = (a.left + a.width / 2 - s.left) / s.width; o.y = clamp((a.bottom - s.top) / s.height, .59, .97); o.scale = clamp(a.width / s.width / (.28 * depth(o.y)), .4, 2); o.seat = null; }
     function begin(e, id, wear = false) { if (e.button !== 0)
@@ -164,10 +203,8 @@ export function mountRoom(root, options) {
     } o.x = clamp(o.x + directions[e.key][0], wear ? -.1 : .06, wear ? 1.1 : .94); o.y = clamp(o.y + directions[e.key][1], wear ? -.1 : wall ? .2 : .59, wear ? 1.1 : wall ? .66 : .97); if (id === 'pug')
         o.seat = null; render(); save(); root.querySelector(id === 'pug' ? '.kids-mascot' : `[data-id="${id}"]`)?.focus(); }
     root.querySelectorAll('[data-room]').forEach(b => listen(b, 'click', () => { room = b.dataset.room; selected = null; root.dispatchEvent(new CustomEvent('kids:pose', { detail: 'sit' })); render(); save(); }));
-    listen(root.querySelector('#room-depth'), 'change', e => { const o = find(); if (!o || ['wear', 'wall'].includes(byId.get(selected)?.kind))
-        return; if (selected === 'pug')
-        releasePug(); o.y = Number(e.target.value); if (selected === 'pug')
-        o.seat = null; renderObjects(); save(); });
+    root.querySelectorAll('[data-depth]').forEach(button => listen(button, 'click', () => { const o = find(); if (!o || ['wear', 'wall'].includes(byId.get(selected)?.kind)) return; if (selected === 'pug') releasePug(); o.y = Number(button.dataset.depth); render(); save(); }));
+    listen(root.querySelector('#room-wear'), 'click', () => { const o = find(); if (!o || byId.get(selected)?.kind !== 'wear') return; current().outfit = fitOutfit(current().outfit, selected); render(); save(); say(wearGroup(selected) === 'blanket' ? 'Флопс укрыт' : 'Надето на Флопса'); });
     for (const [id, factor] of [['room-smaller', .9], ['room-larger', 1.1]])
         listen(root.querySelector('#' + id), 'click', () => { const o = find(); if (o) {
             o.scale = clamp(o.scale * factor, .4, 2);
@@ -220,6 +257,6 @@ export function mountRoom(root, options) {
             selected = null; clean(); render(); },
         updateSaved(saved) { if (saved?.updatedAt === lastEmitted?.updatedAt)
             return; restore(saved); clean(); selected = null; render(); },
-        destroy() { controller.abort(); observer.disconnect(); scene.replaceChildren(); outfit.replaceChildren(); tray.replaceChildren(); }
+        destroy() { controller.abort(); observer.disconnect(); scene.replaceChildren(); outfit.replaceChildren(); backOutfit.replaceChildren(); headOutfit.replaceChildren(); tray.replaceChildren(); }
     };
 }
