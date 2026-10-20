@@ -110,16 +110,20 @@ export const ACCESSORIES: Accessory[] = [
   ...gen("games", "gm",
     ["Бластер", "Звезда-кубок", "Сундук самоцветов", "Самоцветы", "Вертушка", "Кактус", "Ковбойка", "Газировка", "Джойстик", "Боевой автобус", "Неваляшка", "Лама", "Кирка", "Сундук с золотом", "Ящик с припасами", "Бластер-луч", "Портал", "Зельеварня", "НЛО", "Робот", "Самокат", "Бантик", "Планшет", "Микрофон", "Наушники", "Бумбокс", "Диско-шар", "Кроссовки", "Книжка", "Сумочка", "Ноутбук", "PlayStation 5", "Игровой компьютер с подсветкой", "Xbox Series X", "Игровые наушники", "Стол для гейминга", "Игровой монитор", "Игровой стул"],
     L38),
+  { id: "sleep_bed", name: "Кроватка", img: "/assets/clay/room-items/sleep_bed.webp", price: 38, category: "games", active: true },
 
   // ─── Уют 🛋️ ───
   ...gen("relax", "rx",
     ["Кресло", "Какао на столике", "Книжки", "Вязание", "Дневник", "Латте", "Лампа", "Полка", "Пуфик", "Плед"],
     L10),
 
+  { id: "sleep_blanket", name: "Плед для сна", img: "/assets/clay/room-items/sleep_blanket.webp", price: 18, category: "relax", active: true },
+
   // ─── Турция 🇹🇷 ───
   ...gen("turkiye", "tk",
     ["Чай", "Симит", "Назар", "Часовая башня", "Бёрек", "Паром", "Чайка", "Зонтик", "Лукум", "Пальма"],
     L10),
+  { id: "beach_dream", name: "Сон о Турции", img: "/assets/clay/room-items/beach_dream.webp", price: 28, category: "turkiye", active: true },
 
   // ─── Лето ☀️ (скидки) ───
   ...gen("summer", "su",
@@ -132,6 +136,7 @@ export const ACCESSORIES: Accessory[] = [
     L11),
 
   // ─── Eurovision: performance props and clay room decorations ───
+  { id: "sleep_mask", name: "Очки для сна", img: "/assets/clay/room-items/sleep_mask.webp", price: 16, category: "eurovision", active: true },
   { id: "ev_backstage_pass", name: "Пропуск за кулисы", img: `${SHOP}/eurovision/backstage_pass.webp`, price: 16, category: "eurovision", active: true },
   { id: "ev_heart_lightstick", name: "Палочка-сердечко", img: `${SHOP}/eurovision/heart_lightstick.webp`, price: 18, category: "eurovision", active: true },
   { id: "ev_eurovision_flag", name: "Флаг Eurovision", img: `${SHOP}/eurovision/eurovision_flag.webp`, price: 22, category: "eurovision", active: true },

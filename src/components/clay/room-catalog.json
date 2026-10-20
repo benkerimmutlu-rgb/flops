@@ -845,5 +845,40 @@
     "img": "/assets/clay/room-items/ev_junior_singer.webp",
     "kind": "floor",
     "size": 0.22
+  },
+  {
+    "id": "sleep_blanket",
+    "name": "Плед для сна",
+    "img": "/assets/clay/room-items/sleep_blanket.webp",
+    "kind": "wear",
+    "size": 0.66,
+    "wearX": 0.76,
+    "wearY": 0.74
+  },
+  {
+    "id": "sleep_bed",
+    "name": "Кроватка",
+    "img": "/assets/clay/room-items/sleep_bed.webp",
+    "kind": "seat",
+    "size": 0.4
+  },
+  {
+    "id": "sleep_mask",
+    "name": "Очки для сна",
+    "img": "/assets/clay/room-items/sleep_mask.webp",
+    "kind": "wear",
+    "size": 0.42,
+    "wearX": 0.37,
+    "wearY": 0.64,
+    "wearRotation": -20
+  },
+  {
+    "id": "beach_dream",
+    "name": "Сон о Турции",
+    "img": "/assets/clay/room-items/beach_dream.webp",
+    "kind": "wear",
+    "size": 0.7,
+    "wearX": 0.78,
+    "wearY": 0.25
   }
 ]

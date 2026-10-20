@@ -30,6 +30,7 @@ test('each room has its own base pose and furniture overrides it until the pug g
     assert.equal(roomPose(room, 'rx1'), 'sit');
     assert.equal(roomPose(room, 'gm38'), 'sit');
     assert.equal(roomPose(room, 'hw10'), 'sleep');
+    assert.equal(roomPose(room, 'sleep_bed'), 'sleep');
     assert.equal(roomPose(room, null), pose);
   }
 });
@@ -90,7 +91,7 @@ test('all eight new gaming products have assets, prices and room metadata', () =
 test('Eurovision collection is complete and every product can be used in the room', () => {
   const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
   const products = ACCESSORIES.filter(item => item.category === 'eurovision');
-  assert.equal(products.length, 10);
+  assert.equal(products.length, 11);
   assert.equal(new Set(ACCESSORIES.map(item => item.id)).size, ACCESSORIES.length);
   for (const item of products) {
     assert.ok(item.active && item.price > 0);
@@ -101,4 +102,23 @@ test('Eurovision collection is complete and every product can be used in the roo
   assert.equal(catalog.find(item => item.id === 'ev_backstage_pass').kind, 'wear');
   assert.equal(catalog.find(item => item.id === 'ev_eurovision_logo').kind, 'wall');
   assert.equal(products.some(item => item.id === 'ev_heart_hands'), false);
+});
+
+test('sleep collection keeps purchase IDs and sleep furniture through save and reload', () => {
+  const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
+  const expected = { sleep_blanket: ['relax', 'wear'], sleep_bed: ['games', 'seat'], sleep_mask: ['eurovision', 'wear'], beach_dream: ['turkiye', 'wear'] };
+  for (const [id, [category, kind]] of Object.entries(expected)) {
+    const product = ACCESSORIES.find(item => item.id === id);
+    const roomItem = catalog.find(item => item.id === id);
+    assert.ok(product.active && product.price > 0);
+    assert.equal(product.category, category);
+    assert.equal(roomItem.kind, kind);
+    assert.ok(fs.existsSync(path.resolve(__dirname, '../public' + product.img)));
+    assert.ok(fs.existsSync(path.resolve(__dirname, '../public' + roomItem.img)));
+  }
+  const data = emptyRoom();
+  data.layout.sage.items.push({ id: 'sleep_bed', x: .5, y: .88, scale: 1, rotation: 0 });
+  data.layout.sage.pug.seat = 'sleep_bed';
+  data.layout.sage.outfit = ['sleep_blanket', 'sleep_mask', 'beach_dream'].map(id => ({ id, x: .6, y: .3, scale: 1, rotation: 0 }));
+  assert.deepEqual(normalizeRoom(JSON.parse(JSON.stringify(data))), data);
 });

@@ -1,4 +1,4 @@
-import { roomPose } from './room-poses.js';
+import { roomPose, isSleepSeat } from './room-poses.js';
 
 /** @param {HTMLElement} root @param {import('@/lib/room').RoomMountOptions} options */
 export function mountRoom(root, options) {
@@ -43,14 +43,14 @@ export function mountRoom(root, options) {
     function say(text) { root.querySelector('#room-status').textContent = text; }
     function select(id) { selected = id; updateEdit(); renderObjects(); }
     function updateEdit() { const o = find(), item = byId.get(selected); edit.hidden = !o; if (!o)
-        return; root.querySelector('#room-selected').textContent = selected === 'pug' ? 'Флопс' : item.name; root.querySelector('.room-depth-label').hidden = item?.kind === 'wear' || item?.kind === 'wall' || !!parentOf(o); root.querySelector('#room-seat').hidden = !((item?.kind === 'seat') || (selected === 'pug' && current().pug.seat)); root.querySelector('#room-seat').textContent = current().pug.seat === selected || selected === 'pug' ? 'Встать' : selected === 'hw10' ? 'Лечь' : 'Сесть'; root.querySelector('#room-surface').hidden = !(item?.kind === 'surface' && current().items.some(p => p.id === 'gm36' && permitted().has(p.id))); root.querySelector('#room-surface').textContent = o.parent ? 'На пол' : 'На стол'; root.querySelector('#room-remove').hidden = selected === 'pug'; root.querySelector('#room-rotate').hidden = selected === 'pug' || (item?.kind === 'seat' || selected === 'gm36'); const choices = [.64, .78, .92]; root.querySelector('#room-depth').value = String(choices.reduce((a, b) => Math.abs(b - o.y) < Math.abs(a - o.y) ? b : a)); }
+        return; root.querySelector('#room-selected').textContent = selected === 'pug' ? 'Флопс' : item.name; root.querySelector('.room-depth-label').hidden = item?.kind === 'wear' || item?.kind === 'wall' || !!parentOf(o); root.querySelector('#room-seat').hidden = !((item?.kind === 'seat') || (selected === 'pug' && current().pug.seat)); root.querySelector('#room-seat').textContent = current().pug.seat === selected || selected === 'pug' ? 'Встать' : isSleepSeat(selected) ? 'Лечь' : 'Сесть'; root.querySelector('#room-surface').hidden = !(item?.kind === 'surface' && current().items.some(p => p.id === 'gm36' && permitted().has(p.id))); root.querySelector('#room-surface').textContent = o.parent ? 'На пол' : 'На стол'; root.querySelector('#room-remove').hidden = selected === 'pug'; root.querySelector('#room-rotate').hidden = selected === 'pug' || (item?.kind === 'seat' || selected === 'gm36'); const choices = [.64, .78, .92]; root.querySelector('#room-depth').value = String(choices.reduce((a, b) => Math.abs(b - o.y) < Math.abs(a - o.y) ? b : a)); }
     function positionPug() {
         const p = current().pug, seat = current().items.find(o => o.id === p.seat && permitted().has(o.id));
         let x = p.x, y = p.y, w = .28 * p.scale * depth(y);
         if (seat) {
             const sw = itemWidth(seat);
             x = seat.x;
-            y = seat.y - sw * stage.clientWidth / stage.clientHeight * (seat.id === 'hw10' ? .16 : seat.id === 'gm38' ? .30 : .28);
+            y = seat.y - sw * stage.clientWidth / stage.clientHeight * (seat.id === 'sleep_bed' ? .15 : seat.id === 'hw10' ? .16 : seat.id === 'gm38' ? .30 : .28);
             const baseWidth = sw * (seat.id === 'gm38' ? .70 : .83);
             w = baseWidth * p.scale;
             y += (w - baseWidth) * .074 * stage.clientWidth / stage.clientHeight;
@@ -83,7 +83,7 @@ export function mountRoom(root, options) {
             if (v.pug.seat === o.id) {
                 const front = document.createElement('div');
                 front.className = 'room-front';
-                if (o.id === 'hw10') front.style.clipPath = 'inset(80% 0 0 0)';
+                if (isSleepSeat(o.id)) front.style.clipPath = o.id === 'sleep_bed' ? 'inset(81% 0 0 0)' : 'inset(80% 0 0 0)';
                 front.style.left = o.x * 100 + '%';
                 front.style.top = o.y * 100 + '%';
                 front.style.width = itemWidth(o) * 100 + '%';
@@ -123,7 +123,7 @@ export function mountRoom(root, options) {
     function render() { const image = root.querySelector('.kids-mascot-fallback'); const seat = current().items.find(o => o.id === current().pug.seat && permitted().has(o.id)); const pose = roomPose(room, seat?.id || null); image.src = '/assets/clay/room-pug-' + pose + '.webp'; image.dataset.pose = pose; stage.style.backgroundImage = `url('${rooms[room]}')`; root.dataset.room = room; root.querySelectorAll('[data-room]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.room === room))); renderObjects(); renderTray(); updateEdit(); }
     function add(id) { if (!permitted().has(id))
         return; const item = byId.get(id), list = item.kind === 'wear' ? current().outfit : current().items; if (list.some(o => o.id === id))
-        return; list.push({ id, x: item.kind === 'wear' ? .5 : .34, y: item.kind === 'wear' ? .32 : item.kind === 'wall' ? .46 : .81, scale: 1, rotation: 0 }); selected = id; render(); save(); say(item.name + ' — ' + (item.kind === 'wear' ? 'на Флопсе' : 'в комнате')); }
+        return; list.push({ id, x: item.kind === 'wear' ? (item.wearX ?? .5) : .34, y: item.kind === 'wear' ? (item.wearY ?? .32) : item.kind === 'wall' ? .46 : .81, scale: 1, rotation: item.wearRotation ?? 0 }); selected = id; render(); save(); say(item.name + ' — ' + (item.kind === 'wear' ? 'на Флопсе' : 'в комнате')); }
     function releasePug() { const o = current().pug; if (!o.seat)
         return; const a = actor.getBoundingClientRect(), s = stage.getBoundingClientRect(); o.x = (a.left + a.width / 2 - s.left) / s.width; o.y = clamp((a.bottom - s.top) / s.height, .59, .97); o.scale = clamp(a.width / s.width / (.28 * depth(o.y)), .4, 2); o.seat = null; }
     function begin(e, id, wear = false) { if (e.button !== 0)
@@ -199,7 +199,7 @@ export function mountRoom(root, options) {
     else if (byId.get(selected)?.kind === 'seat') {
         p.seat = selected;
         root.dispatchEvent(new CustomEvent('kids:pose', { detail: 'sit' }));
-    } render(); save(); say(p.seat ? 'Флопс сидит' : 'Флопс встал'); });
+    } render(); save(); say(p.seat ? (isSleepSeat(p.seat) ? 'Флопс лёг' : 'Флопс сидит') : 'Флопс встал'); });
     listen(root.querySelector('#room-surface'), 'click', () => { const o = find(), desk = current().items.find(p => p.id === 'gm36' && permitted().has(p.id)); if (!o || !desk || byId.get(o.id)?.kind !== 'surface')
         return; if (o.parent) {
         o.x = desk.x;
