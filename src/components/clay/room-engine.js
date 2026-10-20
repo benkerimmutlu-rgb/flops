@@ -1,3 +1,4 @@
+import { toggleSynthMelody, stopSynthMelody, subscribeSynth, isSynthPlaying } from './synth-melody.js';
 import { hourglassSand } from './hourglass.js';
 import { onDesk, deskCorner } from './room-placement.js';
 import { roomPose, isSleepSeat } from './room-poses.js';
@@ -10,6 +11,13 @@ export function mountRoom(root, options) {
     const listen = (target, type, handler) => target.addEventListener(type, handler, target instanceof HTMLElement && (target.matches('.room-object') || target.parentElement === tray) ? undefined : { signal: controller.signal });
     const stage = root.querySelector('.room-stage'), scene = root.querySelector('.room-scene'), actor = root.querySelector('.room-actor'), outfit = root.querySelector('.room-outfit'), backOutfit = root.querySelector('.room-outfit-back'), headOutfit = root.querySelector('.room-outfit-head'), tray = root.querySelector('.room-inventory'), edit = root.querySelector('.room-edit');
     const { catalog, rooms } = options;
+    let ignoreSynthClickUntil = 0;
+    const unsubscribeSynth = subscribeSynth(() => { root.dataset.synthPlaying = String(isSynthPlaying()); });
+    async function playSynth() {
+        if (performance.now() < ignoreSynthClickUntil) return;
+        try { say(await toggleSynthMelody() ? 'Флопс играет мелодию' : 'Мелодия остановлена'); }
+        catch { say('Нажми на синтезатор ещё раз, чтобы включить звук'); }
+    }
     const byId = new Map(catalog.map(x => [x.id, x]));
     const oldIds = { hw_witch_hat: 'hw1', hw_bat_glasses: 'hw2', hw_vampire_cape: 'hw3', hw_bat_bow: 'hw4', hw_candy_bucket: 'hw5', hw_cauldron: 'hw6', hw_broom: 'hw7', hw_jack: 'hw8', hw_ghost: 'hw9', hw_pumpkin_bed: 'hw10', wizard: 'cape' };
     const normalize = ids => Array.isArray(ids) ? [...new Set(ids.filter(x => typeof x === 'string').map(x => oldIds[x] || x).filter(x => byId.has(x)))] : [];
@@ -101,7 +109,7 @@ export function mountRoom(root, options) {
         } else front?.remove();
     }
     function styleObject(b, o, wear) { const item = byId.get(o.id); if (wear && o.fitted) { styleWear(b, o); return; } outfit.querySelector(`[data-wear-front="${o.id}"]`)?.remove(); if (wear && b.parentElement !== headOutfit) headOutfit.append(b); b.classList.remove('room-fitted'); b.setAttribute('aria-pressed', String(selected === o.id)); const at = wear ? o : coordinates(o); b.style.left = at.x * 100 + '%'; b.style.top = at.y * 100 + '%'; b.style.width = (wear ? o.scale * item.size : itemWidth(o)) * 100 + '%'; b.style.transform = (wear ? 'translate(-50%,-50%)' : `translate(-50%,-${(item.anchorY ?? 1) * 100}%)`) + ' rotate(' + o.rotation + 'deg)'; b.style.zIndex = String(wear ? 10 : item.kind === 'wall' ? 1 : Math.round((parentOf(o)?.y ?? o.y) * 10000) + (parentOf(o) ? 5 : 0)); }
-    function objectButton(o, wear) { const item = byId.get(o.id), b = document.createElement('button'); b.type = 'button'; b.className = 'room-object'; b.dataset.id = o.id; b.setAttribute('aria-label', item.name); b.setAttribute('aria-pressed', String(selected === o.id)); const img = document.createElement('img'); img.src = item.img; img.alt = ''; img.draggable = false; if (o.id === 'hourglass') { const clock = document.createElement('span'); clock.className = 'clay-hourglass'; clock.append(img); clock.insertAdjacentHTML('beforeend', hourglassSand()); b.append(clock); } else b.append(img); styleObject(b, o, wear); listen(b, 'pointerdown', e => begin(e, o.id, wear)); listen(b, 'click', () => select(o.id)); listen(b, 'keydown', e => moveKey(e, o.id)); return b; }
+    function objectButton(o, wear) { const item = byId.get(o.id), b = document.createElement('button'); b.type = 'button'; b.className = 'room-object'; b.dataset.id = o.id; b.setAttribute('aria-label', item.name); b.setAttribute('aria-pressed', String(selected === o.id)); const img = document.createElement('img'); img.src = item.img; img.alt = ''; img.draggable = false; if (o.id === 'hourglass') { const clock = document.createElement('span'); clock.className = 'clay-hourglass'; clock.append(img); clock.insertAdjacentHTML('beforeend', hourglassSand()); b.append(clock); } else b.append(img); styleObject(b, o, wear); listen(b, 'pointerdown', e => begin(e, o.id, wear)); listen(b, 'click', e => { select(o.id); if (o.id === 'synthesizer' && e.detail === 0) void playSynth(); }); listen(b, 'keydown', e => moveKey(e, o.id)); return b; }
     function renderObjects() {
         const pose = currentPose(), image = root.querySelector('.kids-mascot-fallback'), face = root.querySelector('.room-face-occlusion');
         image.src = '/assets/clay/room-pug-' + pose + '.webp'; image.dataset.pose = pose; face.src = image.src; actor.dataset.pose = pose;
@@ -186,7 +194,7 @@ export function mountRoom(root, options) {
         return;
     } o.x = clamp(drag.x + dx, drag.wear ? -.1 : .06, drag.wear ? 1.1 : .94); o.y = clamp(drag.y + dy, drag.wear ? -.1 : wall ? .2 : .59, drag.wear ? 1.1 : wall ? .66 : .97); renderObjects(); });
     function end(e) { if (!drag || e.pointerId !== drag.pointer)
-        return; drag = null; if (stage.hasPointerCapture(e.pointerId))
+        return; if (drag.id === 'synthesizer') { if (e.type === 'pointercancel' || Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY) > 5) ignoreSynthClickUntil = performance.now() + 350; else void playSynth(); } drag = null; if (stage.hasPointerCapture(e.pointerId))
         stage.releasePointerCapture(e.pointerId); updateEdit(); save(); }
     listen(stage, 'pointerup', end);
     listen(stage, 'pointercancel', end);
@@ -261,6 +269,6 @@ export function mountRoom(root, options) {
             selected = null; clean(); render(); },
         updateSaved(saved) { if (saved?.updatedAt === lastEmitted?.updatedAt)
             return; restore(saved); clean(); selected = null; render(); },
-        destroy() { controller.abort(); observer.disconnect(); scene.replaceChildren(); outfit.replaceChildren(); backOutfit.replaceChildren(); headOutfit.replaceChildren(); tray.replaceChildren(); }
+        destroy() { unsubscribeSynth(); stopSynthMelody(); controller.abort(); observer.disconnect(); scene.replaceChildren(); outfit.replaceChildren(); backOutfit.replaceChildren(); headOutfit.replaceChildren(); tray.replaceChildren(); }
     };
 }

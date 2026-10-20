@@ -1,0 +1,41 @@
+{
+  "mode": "built-in image_gen, transparent_background=true",
+  "normalization": "512 square, aspect ratio and alpha preserved",
+  "assets": [
+    {
+      "id": "vanilla_tealights",
+      "name": "Ванильные свечки IKEA · 3 шт.",
+      "prompt": "Use case: stylized-concept. Create ONE transparent-background game shop asset for FLOPS, a children's world entirely handcrafted from plasticine. Subject: exactly THREE small IKEA-style vanilla tealight candles together, short round cream vanilla wax tablets in shallow silver-grey aluminium cups. Arrange the three in a friendly triangular group, one forward two behind, all three clearly countable. A tiny warm golden flame over each short wick, sculpted opaque clay flame, no bloom. No package, no extra props, no logo and no words. Real handmade clay surface with fine fingerprints, softly rounded imperfect edges, warm studio light upper left, soft contact shading only directly under cups. Cream, pale butter yellow and warm grey palette. Front three-quarter view slightly from above matching toy room collectibles. Whole isolated group centered, occupy 82% width, generous transparent margins, no pedestal, no room, no backdrop, no cast rectangular background. True transparent RGBA.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-de75b0b9-60d1-41e5-9e31-592f167ea543.png",
+      "output": "public/assets/clay/room-items/vanilla_tealights.webp"
+    },
+    {
+      "id": "mandarin_painting",
+      "name": "Мандарины",
+      "prompt": "Use case: stylized-concept. Create ONE isolated transparent-background shop collectible: a charming rectangular horizontal wall picture for a child's handcrafted plasticine room. A thick softly rounded light honey-wood frame sculpted from matte plasticine surrounds a raised clay relief painting: three lush mandarin orange trees with dark green rounded leaves and many bright orange mandarins, sunny pale blue sky, cream sunny path through the orchard. Peaceful Mediterranean garden. Entire frame, relief scene and fruit are visibly hand-sculpted plasticine with subtle fingerprints and soft tactile edges; tasteful simple composition, readable at small sizes. Front-on view, no wall behind it, no easel, no text, no people, no labels. Picture centered, full frame visible, about 86% width and 67% height of square canvas. Soft warm studio lighting upper left, gentle compact contact shadow, genuinely transparent RGBA outside frame.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-420f70fb-ec32-4abf-a4b2-6083b6f24859.png",
+      "output": "public/assets/clay/room-items/mandarin_painting.webp"
+    },
+    {
+      "id": "synthesizer",
+      "name": "Синтезатор",
+      "prompt": "Use case: stylized-concept. Create ONE isolated transparent-background game shop asset: a friendly electronic musical synthesizer keyboard, 25 cream ivory piano keys with correctly grouped short black keys, chunky deep teal and muted lilac plasticine casing, two small round speaker grilles at the far ends above the keys, three round pastel yellow and coral controls and a tiny blank inset display. Unmistakably a musical instrument, not a computer typing keyboard. Entire object handcrafted from matte plasticine, subtle fingerprints, softly rounded uneven toy edges, gentle warm studio light from upper left. Match a charming clay pug's playroom. Three-quarter view slightly from above showing keys and top control panel, wide low instrument, no stand, no cables, no hands, no extra objects, no music notes, no logos or text. Centered, whole object visible, 88% canvas width with generous transparent margins, no room or floor backdrop, no glow or large shadows. True transparent RGBA background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-b31df6f2-b61f-46f6-8d9d-c8e5593c6c84.png",
+      "output": "public/assets/clay/room-items/synthesizer.webp"
+    },
+    {
+      "id": "clay_tv",
+      "name": "Телевизор",
+      "prompt": "Use case: stylized-concept. Create ONE transparent-background game shop collectible for FLOPS, a friendly child's room made entirely from hand-sculpted plasticine. Subject: a compact television with a wide gently rounded cream butter-yellow bezel, muted sage-green body, two short terracotta feet, one simple chunky round volume dial on the right. The screen shows a tiny simple clay cartoon landscape: blue sea, pale blue sky, sunny yellow sun, one small orange sailboat. The screen art is visibly sculpted plasticine too, no photographic image, no text, no logos, no characters or extra props. Front three-quarter view slightly from above, almost straight-on, entire TV with its feet clearly visible, centered on square canvas, 84% width. Match warm handmade matte clay toys with subtle fingerprints, softly rounded imperfect edges, gentle warm studio light from upper left. No stand or table included, no cables, no room, no ground plane, no big glow or backdrop. True transparent RGBA outside object, compact contact shadow only.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-c40e8228-f8c9-4f5f-bb30-a1db89807a2d.png",
+      "output": "public/assets/clay/room-items/clay_tv.webp"
+    },
+    {
+      "id": "bunny_toy",
+      "name": "Игрушечный зайчик",
+      "prompt": "Use case: stylized-concept. Create ONE transparent-background shop collectible for FLOPS, an entire child's room made from warm handcrafted plasticine. Subject: a charming Maileg-inspired Scandinavian heirloom cloth bunny toy translated into a miniature hand-sculpted plasticine object. Slender elongated warm oatmeal beige body, very long soft upright ears with pale dusty-pink inner ears, tiny black embroidered-dot-style eyes, a tiny simple nose, long floppy slim arms and legs. Wearing a simple muted sage linen-look romper with two cream buttons, no shoes, no hat, no accessories, no writing or branding. A little seated toy bunny with legs out in front and arms resting softly, whole bunny visible including ears. Preserve the quiet gentle minimal vintage cloth-toy character associated with Maileg; the rendered material must be matte sculpted clay with fine linen-imprint texture and subtle fingerprints, softly imperfect seams. Sweet calm face, no smile teeth, no exaggerated cartoon eyes. Slight front three-quarter view, centered, 82% canvas height, clean silhouette, warm studio light upper left, gentle compact contact shadow only. No room, floor, pedestal or background. True transparent RGBA outside the toy.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-9f3fa43d-e7c3-4eff-96ed-55346cce190b.png",
+      "output": "public/assets/clay/room-items/bunny_toy.webp"
+    }
+  ]
+}

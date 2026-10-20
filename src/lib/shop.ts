@@ -86,6 +86,12 @@ function gen(
 }
 
 export const ACCESSORIES: Accessory[] = [
+  {"id": "vanilla_tealights", "name": "Ванильные свечки IKEA · 3 шт.", "img": "/assets/clay/room-items/vanilla_tealights.webp", "price": 14, "category": "relax", "active": true},
+  {"id": "mandarin_painting", "name": "Мандарины", "img": "/assets/clay/room-items/mandarin_painting.webp", "price": 26, "category": "relax", "active": true},
+  {"id": "synthesizer", "name": "Синтезатор", "img": "/assets/clay/room-items/synthesizer.webp", "price": 34, "category": "games", "active": true},
+  {"id": "clay_tv", "name": "Телевизор", "img": "/assets/clay/room-items/clay_tv.webp", "price": 32, "category": "relax", "active": true},
+  {"id": "bunny_toy", "name": "Игрушечный зайчик", "img": "/assets/clay/room-items/bunny_toy.webp", "price": 22, "category": "games", "active": true},
+
   {"id": "gaming_mouse", "name": "Игровая мышка", "img": "/assets/clay/room-items/gaming_mouse.webp", "price": 18, "category": "games", "active": true},
   {"id": "gaming_keyboard", "name": "Игровая клавиатура", "img": "/assets/clay/room-items/gaming_keyboard.webp", "price": 28, "category": "games", "active": true},
   {"id": "chips_day", "name": "Чипсодень", "img": "/assets/clay/room-items/chips_day.webp", "price": 16, "category": "things", "active": true},

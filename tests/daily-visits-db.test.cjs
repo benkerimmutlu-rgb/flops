@@ -6,6 +6,8 @@ const { PGlite } = require('@electric-sql/pglite');
 let db, serial = 0;
 before(async () => {
   db = new PGlite();
+  // Fixtures below create UTC accounts; don't inherit the host's local date.
+  await db.exec(`set timezone = 'UTC'`);
   await db.exec(`create schema auth; create table auth.users(id uuid primary key);
     create role anon; create role authenticated;
     create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;

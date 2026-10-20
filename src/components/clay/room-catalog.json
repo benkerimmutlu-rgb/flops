@@ -995,5 +995,45 @@
     "img": "/assets/clay/room-items/hourglass.webp",
     "kind": "surface",
     "size": 0.15
+  },
+  {
+    "id": "vanilla_tealights",
+    "name": "Ванильные свечки IKEA · 3 шт.",
+    "img": "/assets/clay/room-items/vanilla_tealights.webp",
+    "kind": "surface",
+    "size": 0.16,
+    "anchorY": 0.81
+  },
+  {
+    "id": "mandarin_painting",
+    "name": "Мандарины",
+    "img": "/assets/clay/room-items/mandarin_painting.webp",
+    "kind": "wall",
+    "size": 0.35,
+    "anchorY": 1
+  },
+  {
+    "id": "synthesizer",
+    "name": "Синтезатор",
+    "img": "/assets/clay/room-items/synthesizer.webp",
+    "kind": "surface",
+    "size": 0.3,
+    "anchorY": 0.74
+  },
+  {
+    "id": "clay_tv",
+    "name": "Телевизор",
+    "img": "/assets/clay/room-items/clay_tv.webp",
+    "kind": "surface",
+    "size": 0.27,
+    "anchorY": 0.89
+  },
+  {
+    "id": "bunny_toy",
+    "name": "Игрушечный зайчик",
+    "img": "/assets/clay/room-items/bunny_toy.webp",
+    "kind": "floor",
+    "size": 0.21,
+    "anchorY": 0.98
   }
 ]
