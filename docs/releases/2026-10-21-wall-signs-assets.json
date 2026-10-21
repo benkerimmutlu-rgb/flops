@@ -1,0 +1,24 @@
+{
+  "mode": "built-in image_gen, transparent_background=true",
+  "normalization": "512 square, aspect ratio and alpha preserved",
+  "references": [
+    "https://www.fortnite.com/",
+    "https://www.tocaboca.com/"
+  ],
+  "assets": [
+    {
+      "id": "fortnite_wall_sign",
+      "name": "Вывеска Fortnite",
+      "prompt": "Use case: stylized-concept. Asset type: an isolated wall sign collectible for FLOPS, a child's room and gaming blogger backdrop made entirely of handmade plasticine. Primary request: a recognizable FORTNITE gaming wall sign. Text verbatim: \"FORTNITE\" exactly, F O R T N I T E, huge bold condensed white uppercase block letters in the recognizable Fortnite wordmark style, slightly irregular and playful tall angular letter shapes. The letters are thick raised matte plasticine, not flat print. Mount them on one compact sculpted dark-violet chunky backplate with a vivid electric-blue rim and purple bevel, subtly irregular rounded rectangular outline. A very small simple dark-purple Fortnite-style skyline silhouette peeks just above the word, integrated into the plaque; no characters, guns, weapons or additional objects. A tasteful cyan and lilac edge highlight feels like a gaming creator's room sign, but remains opaque clay with no bloom or glow spilling outside. Entire sign is plasticine, visible fine fingerprints, softly imperfect edges, warm studio light upper left. Front-on view for mounting on a wall, wide horizontal sign, whole sign visible, centered, 88% canvas width and about 40% canvas height, square output with generous truly transparent margins. No wall, room, pedestal, hanging strings, surrounding frame, extra slogans, tiny labels or watermark. True transparent RGBA outside the sign.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-9d9a0cca-e4f5-449e-be5d-2eaf6a7f9e45.png",
+      "output": "public/assets/clay/room-items/fortnite_wall_sign.webp"
+    },
+    {
+      "id": "toca_boca_wall_sign",
+      "name": "Вывеска Toca Boca",
+      "prompt": "Use case: stylized-concept. Asset type: isolated wall sign collectible for FLOPS, a children's plasticine room and playful creator's backdrop. Primary request: a recognizable Toca Boca wall sign, all hand-sculpted from matte plasticine. Text verbatim: \"TOCA BOCA\" exactly, in two centered lines TOCA above BOCA. Use huge chunky round friendly white letters with a thick charcoal-black clay outline, matching the playful Toca Boca game lettering. Add the small recognizable smiling mouth emblem above the words, black rounded mouth with four bright pastel teeth (yellow, pink, aqua, lilac) and two cheeky curved eyes; integrated cleanly into the same plaque, not a separate floating sticker. The one-piece backplate is a softly irregular rounded bubble shape in muted warm pink with pastel yellow and aqua edging, a fun kid gaming blogger's wall decoration. Minimal composition, readable brand name at tiny shop-card sizes, no characters, no extra text or props. Actual tactile plasticine surface, subtle fingerprints, softly imperfect edges and small bevels, warm studio light upper left, no neon bloom. Straight-on wall mounting view, centered, full silhouette visible, about 80% canvas width and 72% height on a square canvas. Genuinely transparent RGBA outside the sign, no wall, room, ground, pedestal, ropes, screws, watermark or backdrop.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-34b5a449-7473-4007-84a8-9fd0bc229ac0.png",
+      "output": "public/assets/clay/room-items/toca_boca_wall_sign.webp"
+    }
+  ]
+}

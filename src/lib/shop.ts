@@ -86,6 +86,9 @@ function gen(
 }
 
 export const ACCESSORIES: Accessory[] = [
+  {"id": "fortnite_wall_sign", "name": "Вывеска Fortnite", "img": "/assets/clay/room-items/fortnite_wall_sign.webp", "price": 24, "category": "games", "active": true},
+  {"id": "toca_boca_wall_sign", "name": "Вывеска Toca Boca", "img": "/assets/clay/room-items/toca_boca_wall_sign.webp", "price": 24, "category": "games", "active": true},
+
   {"id": "vanilla_tealights", "name": "Ванильные свечки IKEA · 3 шт.", "img": "/assets/clay/room-items/vanilla_tealights.webp", "price": 14, "category": "relax", "active": true},
   {"id": "mandarin_painting", "name": "Мандарины", "img": "/assets/clay/room-items/mandarin_painting.webp", "price": 26, "category": "relax", "active": true},
   {"id": "synthesizer", "name": "Синтезатор", "img": "/assets/clay/room-items/synthesizer.webp", "price": 34, "category": "games", "active": true},
