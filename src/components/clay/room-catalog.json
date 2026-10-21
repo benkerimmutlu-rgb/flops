@@ -1170,7 +1170,7 @@
   {
     "id": "premium_playground",
     "name": "Игровой уголок",
-    "img": "/assets/clay/room-items/premium_playground.webp",
+    "img": "/assets/clay/room-items/premium_playground_brazil.webp",
     "kind": "activity",
     "size": 0.64,
     "anchorY": 0.82
@@ -1186,7 +1186,7 @@
   {
     "id": "premium_juice_bar",
     "name": "Коктейльная стойка",
-    "img": "/assets/clay/room-items/premium_juice_bar.webp",
+    "img": "/assets/clay/room-items/premium_juice_bar_jamaica.webp",
     "kind": "activity",
     "size": 0.5,
     "anchorY": 0.94
@@ -1194,8 +1194,24 @@
   {
     "id": "cuckoo_clock",
     "name": "Часы с кукушкой",
-    "img": "/assets/clay/room-items/cuckoo_clock.webp",
+    "img": "/assets/clay/room-items/cuckoo_clock_live.webp",
     "kind": "wall",
     "size": 0.27
+  },
+  {
+    "id": "live_clock_blue",
+    "name": "Синие часы",
+    "img": "/assets/clay/room-items/live_clock_blue.webp",
+    "kind": "surface",
+    "size": 0.23,
+    "anchorY": 0.94
+  },
+  {
+    "id": "live_clock_green",
+    "name": "Часы-болтушка",
+    "img": "/assets/clay/room-items/live_clock_green.webp",
+    "kind": "surface",
+    "size": 0.25,
+    "anchorY": 0.88
   }
 ]

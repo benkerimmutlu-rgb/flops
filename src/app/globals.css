@@ -174,11 +174,11 @@ input:not([type=checkbox]):not([type=radio]),select{font-size:16px;min-height:44
 .hourglass-sand{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .hourglass-top{transform-origin:256px 267px;animation:sand-top 28s linear infinite}
 .hourglass-bottom{transform-origin:256px 400px;animation:sand-bottom 28s linear infinite}
-.hourglass-stream{animation:sand-stream .6s linear infinite,sand-pause 28s linear infinite}
+.hourglass-stream{animation:sand-stream 28s linear infinite,sand-pause 28s linear infinite}
 @keyframes hourglass-turn{0%,44%{transform:rotate(0)}50%,94%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}
 @keyframes sand-top{0%{transform:scaleY(1)}44%,50%{transform:scaleY(.01)}94%,100%{transform:scaleY(1)}}
 @keyframes sand-bottom{0%{transform:scaleY(.01)}44%,50%{transform:scaleY(1)}94%,100%{transform:scaleY(.01)}}
-@keyframes sand-stream{to{stroke-dashoffset:-10}}
+@keyframes sand-stream{0%{stroke-dashoffset:0}44%,50%{stroke-dashoffset:-200}94%,100%{stroke-dashoffset:0}}
 @keyframes sand-pause{0%,43%,51%,93%{opacity:1}44%,50%,94%,100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.clay-hourglass,.hourglass-top,.hourglass-bottom,.hourglass-stream{animation:none}.hourglass-bottom{transform:scaleY(.5)}.hourglass-top{transform:scaleY(.5)}.hourglass-stream{display:none}}
 @media(max-width:520px){.shop-news{display:block;padding:14px 12px}.shop-news>img{position:absolute;left:10px;top:12px;width:48px;height:48px}.shop-news strong{display:block;padding:0 30px 0 54px;min-height:44px;line-height:1.25;font-size:17px}.shop-news p{margin-top:8px}.shop-news-links{gap:0 12px}.shop-news-links a{min-height:44px}.shop-news>button{right:0;top:0;min-width:44px;min-height:44px}}
@@ -194,3 +194,6 @@ input:not([type=checkbox]):not([type=radio]),select{font-size:16px;min-height:44
 @media(prefers-reduced-motion:reduce){.synth-preview[aria-pressed=true] .shop-item-picture{animation:none}}
 /* Every window starts at the same top edge, including wide pickup windows. */
 .shop-window-picture img{object-position:50% 0}
+
+.live-clock-overlay,.live-clock-face{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.live-clock-face{overflow:visible;filter:drop-shadow(1px 2px 1px #513c2829)}

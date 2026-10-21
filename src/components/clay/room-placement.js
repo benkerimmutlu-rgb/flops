@@ -10,7 +10,7 @@ export function deskCorner(side, width) {
 }
 
 export const shelfIds = ['shelf_lack', 'shelf_mosslanda', 'shelf_bergshult'];
-const smallObjects = new Set(['camera', 'plant', 'journal', 'globe', 'trophy', 'rx3', 'rx4', 'rx5', 'rx6', 'tk1', 'tk9', 'su3', 'su4', 'su9', 'gm4', 'gm8', 'gm29', 'gaming_mouse', 'chips_day', 'hourglass', 'vanilla_tealights', 'bunny_toy', 'ev_microphone_trophy', 'ev_golden_star']);
+const smallObjects = new Set(['live_clock_blue', 'live_clock_green', 'camera', 'plant', 'journal', 'globe', 'trophy', 'rx3', 'rx4', 'rx5', 'rx6', 'tk1', 'tk9', 'su3', 'su4', 'su9', 'gm4', 'gm8', 'gm29', 'gaming_mouse', 'chips_day', 'hourglass', 'vanilla_tealights', 'bunny_toy', 'ev_microphone_trophy', 'ev_golden_star']);
 export function canMount(item, support) {
     if (!item || !support || item.id === support.id) return false;
     return support.id === 'gm36' ? item.kind === 'surface' : shelfIds.includes(support.id) && smallObjects.has(item.id);

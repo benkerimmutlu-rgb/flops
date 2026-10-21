@@ -1,0 +1,21 @@
+[
+  {
+    "id": "live_clock_blue",
+    "prompt": "Create a brand-new transparent square shop asset in handmade plasticine style based on the BLUE ANALOG CLOCK reference (ignore the green digital clock reference). A charming cobalt blue keyhole-shaped mantel clock with chunky rounded clay body and modest visible right-side depth. Front dial must be a PERFECT CIRCLE facing straight toward camera, centered at 50% x, 35% y of the square canvas, diameter 38% of the canvas. Dial is plain matte cream clay, absolutely NO HANDS, NO NUMERALS and NO MARKS: these will be functional live UI. Blue body from x20% to80%, top y8%, bottom y92%. Soft fingerprints, rich tactile clay, polished soft studio illumination, no background, no ground shadow, no text. Keep face geometrically front-facing for precise overlay. Transparent background.",
+    "generated": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-8c6df057-7a70-43dd-b6b4-fac9f5e5f5b1.png",
+    "output": "public/assets/clay/room-items/live_clock_blue.webp"
+  },
+  {
+    "id": "live_clock_green",
+    "prompt": "Create a brand-new transparent square shop asset in handmade plasticine style based on the GREEN DIGITAL CLOCK reference (ignore the blue analog clock). Rounded bright green speech-bubble shaped desk clock, four small clay buttons along top, short chunky tail foot at lower right, playful child-friendly tactile plasticine. Main front display is a perfectly axis-aligned horizontal cream-grey rectangle with rounded corners, x15% to78%, y31% to61% of square canvas; absolutely blank NO DIGITS, NO SYMBOLS, NO TEXT because real live digits will be rendered there. Front case x7% to92%, y20% to76%, tail extends to y89%. Modest right-side depth but front display must face camera squarely without perspective distortion. Soft fingerprints, polished soft studio lighting, no background, no ground shadow. Transparent background.",
+    "generated": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-9ad2ebe8-d1d4-4c86-b8e4-6377d1878ac9.png",
+    "output": "public/assets/clay/room-items/live_clock_green.webp"
+  },
+  {
+    "id": "cuckoo_clock_live",
+    "prompt": "Edit this exact transparent clay cuckoo clock. Make ONLY ONE CHANGE: remove the two brown clock hands and central brown pivot button from the cream circular dial. Leave a clean flat cream clay face with the existing twelve brown dot hour markers. Preserve absolutely everything else, exact square canvas, all geometry, dial position centered x50%, y44.7%, dial diameter26%, empty cuckoo opening, red roof, flowers, pine trees, weights and pendulum, colors, texture, lighting and transparent background. This base will have real moving hands rendered by the application. No hands, no arrows, no central button. Do not redesign or reframe.",
+    "source": "public/assets/clay/room-items/cuckoo_clock.webp",
+    "generated": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-9f510921-1e2b-4503-ae65-9b5793fd30f2.png",
+    "output": "public/assets/clay/room-items/cuckoo_clock_live.webp"
+  }
+]

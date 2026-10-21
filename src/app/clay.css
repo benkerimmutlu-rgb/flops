@@ -85,12 +85,16 @@
 /* Visual-only room activities never alter a saved layout. */
 .room-activity-layer{position:absolute;inset:0;pointer-events:none;z-index:50000;overflow:hidden}
 .activity-pug{position:absolute;left:0;top:0;aspect-ratio:1;z-index:1;transform-origin:50% 100%;isolation:isolate;will-change:transform,opacity}
+.activity-pug.activity-pug-pose{inset:0;width:100%;height:100%;will-change:auto}
 .activity-pug-body{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:1}
 .activity-clothes{position:absolute;inset:0;pointer-events:none}
 .activity-clothing{position:absolute;aspect-ratio:1;height:auto;object-fit:contain}
 .activity-furniture-front{position:absolute;object-fit:contain;z-index:2;pointer-events:none}
 .activity-drop{position:absolute;width:9px;height:13px;border-radius:60% 40% 55% 45%;background:#59b8ce;box-shadow:inset 2px 2px 2px #e4fafb;z-index:6}
-.activity-cuckoo{position:absolute;aspect-ratio:1;object-fit:contain;z-index:5;transform-origin:center}
+.activity-cuckoo-launch{position:absolute;z-index:5;pointer-events:none;transform:rotate(50deg);transform-origin:0 0}
+.activity-cuckoo{position:absolute;left:0;top:0;width:100%;aspect-ratio:1;object-fit:contain;z-index:2;transform-origin:50% 80%}
+.activity-cuckoo-spring{position:absolute;left:0;bottom:100%;width:30%;height:95%;transform-origin:50% 100%;z-index:1}
+.activity-cuckoo-spring svg{width:100%;height:100%;filter:drop-shadow(1px 1px 1px #fff6)}
 .activity-cup{position:absolute;aspect-ratio:1;object-fit:contain;z-index:5;transform-origin:50% 80%}
 #flops-room #room-play,#flops-room #room-play-extra{background-color:#c3d6a2}
 #flops-room[data-activity-playing=true] #room-play{background-color:#e6ba92}
@@ -112,3 +116,10 @@
 .activity-demo-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:16px}
 @media(prefers-reduced-motion:reduce){.activity-pug{will-change:auto}}
 #flops-room[data-activity-playing=true] .room-object[aria-pressed=true]{outline:none}
+
+#flops-room .room-clock-thumbnail{position:relative;display:block;width:74px;height:74px;flex-shrink:0}
+#flops-room .room-clock-thumbnail>img{width:100%;height:100%}
+#flops-room .room-selected-picture{position:relative;display:block;width:34px;height:42px;flex-shrink:0;margin-right:2px}
+#flops-room .room-selected-picture>img{width:100%;height:100%;margin:0}
+#flops-room .room-selected-picture .live-clock-face{width:100%;height:100%;filter:none}
+@media(max-width:520px){#flops-room .room-clock-thumbnail{width:60px;height:60px}}

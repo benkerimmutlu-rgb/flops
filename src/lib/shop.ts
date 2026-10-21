@@ -29,7 +29,7 @@ export interface ShopCategory {
 // Порядок = порядок вкладок. Добавить раздел «по интересам» — просто дописать
 // сюда категорию и вещи ниже; пустые категории на витрине не показываются.
 export const SHOP_CATEGORIES: ShopCategory[] = [
-  { id: "premium", label: "Премиум", image: "/assets/clay/room-items/premium_playground.webp", color: "#ecd292" },
+  { id: "premium", label: "Премиум", image: "/assets/clay/room-items/premium_playground_brazil.webp", color: "#ecd292" },
   { id: "lego", label: "LEGO", image: "/assets/clay/room-items/lego_peppa.webp", color: "#edbfa6" },
   { id: "things", label: "Вещи", image: "/assets/clay/room-items/backpack.webp", color: "#d2dfbd" },
   { id: "sport", label: "Спорт", image: "/assets/clay/room-items/sp1.webp", color: "#edc4b5" },
@@ -90,14 +90,16 @@ function gen(
 }
 
 export const ACCESSORIES: Accessory[] = [
+  { id: "live_clock_blue", name: "Синие часы", img: "/assets/clay/room-items/live_clock_blue.webp", price: 60, category: "premium", active: true },
+  { id: "live_clock_green", name: "Часы-болтушка", img: "/assets/clay/room-items/live_clock_green.webp", price: 50, category: "premium", active: true },
   {"id": "window_new_york_night", "name": "Окно в ночной Нью-Йорк", "img": "/assets/clay/room-items/window_new_york_night.webp", "price": 34, "category": "windows", "active": true},
   {"id": "lego_spiderman", "name": "LEGO · Человек-паук", "img": "/assets/clay/room-items/lego_spiderman.webp", "price": 48, "category": "lego", "active": true},
   {"id": "lego_hogwarts", "name": "LEGO · Хогвартс", "img": "/assets/clay/room-items/lego_hogwarts.webp", "price": 58, "category": "lego", "active": true},
   {"id": "lego_peppa", "name": "LEGO · Дом Пеппы", "img": "/assets/clay/room-items/lego_peppa.webp", "price": 42, "category": "lego", "active": true},
-  {"id": "premium_playground", "name": "Игровой уголок", "img": "/assets/clay/room-items/premium_playground.webp", "price": 200, "category": "premium", "active": true},
+  {"id": "premium_playground", "name": "Игровой уголок", "img": "/assets/clay/room-items/premium_playground_brazil.webp", "price": 200, "category": "premium", "active": true},
   {"id": "premium_pool", "name": "Бассейн Флопса", "img": "/assets/clay/room-items/premium_pool.webp", "price": 190, "category": "premium", "active": true},
-  {"id": "premium_juice_bar", "name": "Коктейльная стойка", "img": "/assets/clay/room-items/premium_juice_bar.webp", "price": 150, "category": "premium", "active": true},
-  {"id": "cuckoo_clock", "name": "Часы с кукушкой", "img": "/assets/clay/room-items/cuckoo_clock.webp", "price": 100, "category": "premium", "active": true},
+  {"id": "premium_juice_bar", "name": "Коктейльная стойка", "img": "/assets/clay/room-items/premium_juice_bar_jamaica.webp", "price": 150, "category": "premium", "active": true},
+  {"id": "cuckoo_clock", "name": "Часы с кукушкой", "img": "/assets/clay/room-items/cuckoo_clock_live.webp", "price": 100, "category": "premium", "active": true},
   {"id": "jump_rope", "name": "Скакалка", "img": "/assets/clay/room-items/jump_rope.webp", "price": 18, "category": "sport", "active": true},
   {"id": "shelf_lack", "name": "Полка IKEA LACK", "img": "/assets/clay/room-items/shelf_lack.webp", "price": 20, "category": "relax", "active": true},
   {"id": "shelf_mosslanda", "name": "Полка IKEA MOSSLANDA", "img": "/assets/clay/room-items/shelf_mosslanda.webp", "price": 22, "category": "relax", "active": true},
@@ -111,7 +113,7 @@ export const ACCESSORIES: Accessory[] = [
 
   {"id": "vanilla_tealights", "name": "Ванильные свечки IKEA · 3 шт.", "img": "/assets/clay/room-items/vanilla_tealights.webp", "price": 14, "category": "relax", "active": true},
   {"id": "mandarin_painting", "name": "Мандарины", "img": "/assets/clay/room-items/mandarin_painting.webp", "price": 26, "category": "relax", "active": true},
-  {"id": "synthesizer", "name": "Синтезатор", "img": "/assets/clay/room-items/synthesizer.webp", "price": 34, "category": "games", "active": true},
+  {"id": "synthesizer", "name": "Синтезатор", "img": "/assets/clay/room-items/synthesizer.webp", "price": 34, "category": "premium", "active": true},
   {"id": "clay_tv", "name": "Телевизор", "img": "/assets/clay/room-items/clay_tv.webp", "price": 32, "category": "relax", "active": true},
   {"id": "bunny_toy", "name": "Игрушечный зайчик", "img": "/assets/clay/room-items/bunny_toy.webp", "price": 22, "category": "games", "active": true},
 
@@ -124,7 +126,7 @@ export const ACCESSORIES: Accessory[] = [
   { id: "yellow_wardrobe", name: "Жёлтый шкаф", img: "/assets/clay/room-items/yellow_wardrobe.webp", price: 45, category: "relax", active: true },
   {"id": "strandmon", "name": "Кресло STRANDMON", "img": "/assets/clay/room-items/strandmon.webp", "price": 42, "category": "relax", "active": true},
   {"id": "yoga_mat", "name": "Коврик для йоги", "img": "/assets/clay/room-items/yoga_mat.webp", "price": 18, "category": "sport", "active": true},
-  {"id": "hourglass", "name": "Песочные часы", "img": "/assets/clay/room-items/hourglass.webp", "price": 24, "category": "things", "active": true},
+  {"id": "hourglass", "name": "Песочные часы", "img": "/assets/clay/room-items/hourglass.webp", "price": 24, "category": "premium", "active": true},
   // ─── Вещи (базовые) ───
   { id: "ball", name: "Мячик", img: `${SHOP}/ball.webp`, price: 10, category: "things", active: true },
   { id: "bone", name: "Косточка", img: `${SHOP}/bone.webp`, price: 11, category: "things", active: true },

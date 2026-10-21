@@ -1,4 +1,5 @@
 import { toggleSynthMelody, stopSynthMelody, subscribeSynth, isSynthPlaying } from './synth-melody.js';
+import { createLiveClockController, liveClockMarkup } from './live-clock.js';
 import { hourglassSand } from './hourglass.js';
 import { onSupport, deskCorner, canMount, detach, freeShelfSlot } from './room-placement.js';
 import { roomPose, isSleepSeat } from './room-poses.js';
@@ -14,6 +15,7 @@ export function mountRoom(root, options) {
     const listen = (target, type, handler) => target.addEventListener(type, handler, target instanceof HTMLElement && (target.matches('.room-object') || target.parentElement === tray) ? undefined : { signal: controller.signal });
     const stage = root.querySelector('.room-stage'), scene = root.querySelector('.room-scene'), actor = root.querySelector('.room-actor'), outfit = root.querySelector('.room-outfit'), backOutfit = root.querySelector('.room-outfit-back'), headOutfit = root.querySelector('.room-outfit-head'), tray = root.querySelector('.room-inventory'), edit = root.querySelector('.room-edit');
     const { catalog, rooms } = options;
+    const clocks = createLiveClockController(root);
     const closet = root.querySelector('.room-closet'), surfaces = root.querySelector('.room-surfaces');
     let ignoreSynthClickUntil = 0, activities;
     const unsubscribeSynth = subscribeSynth(() => { root.dataset.synthPlaying = String(isSynthPlaying()); });
@@ -68,6 +70,8 @@ export function mountRoom(root, options) {
         const o = find(), item = byId.get(selected); edit.hidden = !o; if (!o) return;
         root.querySelector('#room-selected').textContent = selected === 'pug' ? 'Флопс' : item.name;
         root.querySelector('#room-selected-image').src = selected === 'pug' ? '/assets/clay/room-pug-' + currentPose() + '.webp' : item.img;
+        const selectedPicture=root.querySelector('.room-selected-picture');
+        selectedPicture.querySelector('.live-clock-face')?.remove();selectedPicture.insertAdjacentHTML('beforeend',liveClockMarkup(selected));clocks.update();
         root.querySelector('.room-depth-label').hidden = current().outfit.includes(o) || ['wall', 'ceiling', 'shelf'].includes(item?.kind) || !!parentOf(o);
         const nearest = [.64, .78, .92].reduce((a, b) => Math.abs(b - o.y) < Math.abs(a - o.y) ? b : a);
         root.querySelectorAll('[data-depth]').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.depth) === nearest)));
@@ -127,7 +131,7 @@ export function mountRoom(root, options) {
         } else front?.remove();
     }
     function styleObject(b, o, wear) { const item = byId.get(o.id); if (wear && o.fitted) { styleWear(b, o); return; } outfit.querySelector(`[data-wear-front="${o.id}"]`)?.remove(); if (wear && b.parentElement !== headOutfit) headOutfit.append(b); b.classList.remove('room-fitted'); b.setAttribute('aria-pressed', String(selected === o.id)); const at = wear ? o : coordinates(o); b.style.left = at.x * 100 + '%'; b.style.top = at.y * 100 + '%'; b.style.width = (wear ? o.scale * item.size : itemWidth(o)) * 100 + '%'; b.style.transform = (wear ? 'translate(-50%,-50%)' : `translate(-50%,-${(item.anchorY ?? 1) * 100}%)`) + ' rotate(' + o.rotation + 'deg)'; b.style.zIndex = String(wear ? 10 : ['wall', 'ceiling', 'shelf'].includes(item.kind) ? 1 : parentOf(o) && byId.get(parentOf(o).id).kind === 'shelf' ? 2 : Math.round((parentOf(o)?.y ?? o.y) * 10000) + (parentOf(o) ? 5 : 0)); }
-    function objectButton(o, wear) { const item = byId.get(o.id), b = document.createElement('button'); b.type = 'button'; b.className = 'room-object'; b.dataset.id = o.id; b.dataset.kind = item.kind; if (item.kind === 'shelf') { b.style.clipPath = `inset(${(item.surfaceY - .1) * 100}% 0 ${(1 - item.anchorY - .05) * 100}% 0)`; b.style.setProperty('--shelf-top', (item.surfaceY - .1) * 100 + '%'); b.style.setProperty('--shelf-bottom', (1 - item.anchorY - .05) * 100 + '%'); } b.setAttribute('aria-label', item.name); b.setAttribute('aria-pressed', String(selected === o.id)); const img = document.createElement('img'); img.src = item.img; img.alt = ''; img.draggable = false; if (o.id === 'hourglass') { const clock = document.createElement('span'); clock.className = 'clay-hourglass'; clock.append(img); clock.insertAdjacentHTML('beforeend', hourglassSand()); b.append(clock); } else b.append(img); styleObject(b, o, wear); listen(b, 'pointerdown', e => begin(e, o.id, wear)); listen(b, 'click', e => { select(o.id); if (o.id === 'synthesizer' && e.detail === 0) void playSynth(); if (o.id === WARDROBE_ID && e.detail === 0) toggleWardrobe(); }); listen(b, 'keydown', e => moveKey(e, o.id)); return b; }
+    function objectButton(o, wear) { const item = byId.get(o.id), b = document.createElement('button'); b.type = 'button'; b.className = 'room-object'; b.dataset.id = o.id; b.dataset.kind = item.kind; if (item.kind === 'shelf') { b.style.clipPath = `inset(${(item.surfaceY - .1) * 100}% 0 ${(1 - item.anchorY - .05) * 100}% 0)`; b.style.setProperty('--shelf-top', (item.surfaceY - .1) * 100 + '%'); b.style.setProperty('--shelf-bottom', (1 - item.anchorY - .05) * 100 + '%'); } b.setAttribute('aria-label', item.name); b.setAttribute('aria-pressed', String(selected === o.id)); const img = document.createElement('img'); img.src = item.img; img.alt = ''; img.draggable = false; if (o.id === 'hourglass') { const clock = document.createElement('span'); clock.className = 'clay-hourglass'; clock.append(img); clock.insertAdjacentHTML('beforeend', hourglassSand()); b.append(clock); } else b.append(img); b.insertAdjacentHTML('beforeend',liveClockMarkup(o.id)); styleObject(b, o, wear); listen(b, 'pointerdown', e => begin(e, o.id, wear)); listen(b, 'click', e => { select(o.id); if (o.id === 'synthesizer' && e.detail === 0) void playSynth(); if (o.id === WARDROBE_ID && e.detail === 0) toggleWardrobe(); }); listen(b, 'keydown', e => moveKey(e, o.id)); return b; }
     function renderObjects() {
         const pose = currentPose(), image = root.querySelector('.kids-mascot-fallback'), face = root.querySelector('.room-face-occlusion');
         image.src = '/assets/clay/room-pug-' + pose + '.webp'; image.dataset.pose = pose; face.src = image.src; actor.dataset.pose = pose;
@@ -193,11 +197,13 @@ export function mountRoom(root, options) {
         img.draggable = false;
         const span = document.createElement('span');
         span.textContent = item.name;
-        b.append(img, span);
+        const clockFace=liveClockMarkup(id);
+        if(clockFace){const picture=document.createElement('span');picture.className='room-clock-thumbnail';picture.append(img);picture.insertAdjacentHTML('beforeend',clockFace);b.append(picture,span);}
+        else b.append(img, span);
         listen(b, 'click', () => used.has(id) ? select(id) : add(id));
         tray.append(b);
     } root.querySelector('.room-empty').hidden = owned.length > 0; }
-    function render() { activities?.cancel(); const image = root.querySelector('.kids-mascot-fallback'); const seat = current().items.find(o => o.id === current().pug.seat && permitted().has(o.id)); const pose = roomPose(room, seat?.id || null); image.src = '/assets/clay/room-pug-' + pose + '.webp'; image.dataset.pose = pose; stage.style.backgroundImage = `url('${rooms[room]}')`; root.dataset.room = room; root.querySelectorAll('[data-room]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.room === room))); renderObjects(); renderTray(); updateEdit(); renderCloset(); }
+    function render() { activities?.cancel(); const image = root.querySelector('.kids-mascot-fallback'); const seat = current().items.find(o => o.id === current().pug.seat && permitted().has(o.id)); const pose = roomPose(room, seat?.id || null); image.src = '/assets/clay/room-pug-' + pose + '.webp'; image.dataset.pose = pose; stage.style.backgroundImage = `url('${rooms[room]}')`; root.dataset.room = room; root.querySelectorAll('[data-room]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.room === room))); renderObjects(); renderTray(); updateEdit(); renderCloset(); clocks.update(); }
     function add(id) { if (!permitted().has(id))
         return; const item = byId.get(id), list = item.kind === 'wear' ? current().outfit : current().items; if (list.some(o => o.id === id))
         return; if (item.kind === 'wear') current().closet = current().closet.filter(code => code !== id); list.push({ id, x: item.kind === 'wear' ? (item.wearX ?? .5) : .34, y: item.kind === 'wear' ? (item.wearY ?? .32) : item.kind === 'ceiling' ? .02 : ['wall', 'shelf'].includes(item.kind) ? .46 : .81, scale: 1, rotation: item.wearRotation ?? 0, ...(item.kind === 'wear' ? { x: .5, y: .5, rotation: 0, fitted: true } : {}) }); if (item.kind === 'wear') current().outfit = fitOutfit(current().outfit, id); selected = id; render(); save(); say(item.name + ' — ' + (item.kind === 'wear' ? 'на Флопсе' : 'в комнате')); }
@@ -373,11 +379,12 @@ export function mountRoom(root, options) {
     observer.observe(stage);
     clean();
     render();
+    clocks.update();
     return {
         updateOwned(ids) { owned = normalize(ids); if (selected !== 'pug' && !permitted().has(selected))
             selected = null; clean(); render(); },
         updateSaved(saved) { if (saved?.updatedAt === lastEmitted?.updatedAt)
             return; restore(saved); clean(); selected = null; render(); },
-        destroy() { activities.destroy(); surfaces.close(); closet.close(); unsubscribeSynth(); stopSynthMelody(); controller.abort(); observer.disconnect(); scene.replaceChildren(); outfit.replaceChildren(); backOutfit.replaceChildren(); headOutfit.replaceChildren(); tray.replaceChildren(); }
+        destroy() { clocks.destroy(); activities.destroy(); surfaces.close(); closet.close(); unsubscribeSynth(); stopSynthMelody(); controller.abort(); observer.disconnect(); scene.replaceChildren(); outfit.replaceChildren(); backOutfit.replaceChildren(); headOutfit.replaceChildren(); tray.replaceChildren(); }
     };
 }

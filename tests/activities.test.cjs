@@ -35,7 +35,7 @@ test('closing a preview while audio permission is resolving cannot start delayed
 });
 test('cancelling or replacing an activity restores the real actor and removes every temporary animation layer',()=>{
  const originalDocument=global.document,originalWindow=global.window;const animations=[];
- function element(){return {style:{},children:[],setAttribute(){},append(...nodes){this.children.push(...nodes);},remove(){this.removed=true;},animate(frames,options){const animation={frames,options,cancel(){this.cancelled=true;}};animations.push(animation);return animation;}};}
+ function element(){return {style:{},classList:{add(){}},children:[],setAttribute(){},append(...nodes){this.children.push(...nodes);},remove(){this.removed=true;},animate(frames,options){const animation={frames,options,cancel(){this.cancelled=true;}};animations.push(animation);return animation;}};}
  global.document={createElement:element,addEventListener(){},removeEventListener(){}};
  global.window={matchMedia:()=>({matches:false}),addEventListener(){},removeEventListener(){}};
  try{
@@ -49,4 +49,43 @@ test('cancelling or replacing an activity restores the real actor and removes ev
   player.cancel();assert.equal(actor.style.visibility,'visible');assert.equal(player.playing,false);assert.ok(stage.children.every(node=>node.removed));assert.ok(animations.every(animation=>animation.cancelled));
   assert.deepEqual(states,[true,false,true,false]);player.destroy();
  }finally{global.document=originalDocument;global.window=originalWindow;}
+});
+
+test('occlusion only covers the pug while inside furniture, including reduced motion',()=>{
+ const {foregroundFrames}=load(path.resolve('src/components/clay/activity-plans.js'));
+ function visibleAt(frames,time){return frames.filter(frame=>frame.offset<=time).at(-1).visibility==='visible';}
+ for(const action of ['slide','spin','dive','dance']){
+  const plan=activityPlan(action),frames=foregroundFrames(plan);
+  assert.equal(foregroundFrames(plan,true),null);
+  if(!plan.occlusion){assert.equal(frames,null);continue;}
+  const [enter,exit]=plan.occlusion;
+  assert.equal(visibleAt(frames,0),false);
+  assert.equal(visibleAt(frames,enter-.001),false);
+  assert.equal(visibleAt(frames,enter),true);
+  assert.equal(visibleAt(frames,(enter+exit)/2),true);
+  assert.equal(visibleAt(frames,exit),false);
+  assert.equal(visibleAt(frames,1),false);
+  assert.ok(frames.every(frame=>frame.easing==='steps(1,end)'));
+ }
+});
+
+test('sand follows gravity on both upright and inverted halves and pauses while turning',()=>{
+ const css=fs.readFileSync('src/app/globals.css','utf8');
+ const flow=css.match(/@keyframes sand-stream\{([^\n]+)\}/)[1];
+ assert.match(flow,/0%\{stroke-dashoffset:0\}/);
+ assert.match(flow,/44%,50%\{stroke-dashoffset:-200\}/);
+ assert.match(flow,/94%,100%\{stroke-dashoffset:0\}/);
+ assert.doesNotMatch(css,/sand-stream \.6s/);
+});
+
+test('body poses match walking, sitting on the slide, swimming, drinking and gym movement',()=>{
+ const {activityPoses,poseFrames}=load(path.resolve('src/components/clay/activity-plans.js'));
+ function poseAt(plan,time){return activityPoses(plan).filter(frame=>frame.offset<=time).at(-1).pose;}
+ const slide=activityPlan('slide');
+ assert.equal(poseAt(slide,.2),'stand');assert.equal(poseAt(slide,.4),'stand');assert.equal(poseAt(slide,.5),'sit');assert.equal(poseAt(slide,.69),'sit');assert.equal(poseAt(slide,.8),'stand');
+ for(const action of ['spin','dive','dance'])for(const time of [0,.2,.5,.8,1])assert.equal(poseAt(activityPlan(action),time),'stand');
+ for(const time of [0,.41,.42,.6,.77,1]){
+  const shown=['stand','sit'].filter(pose=>poseFrames(slide,pose).filter(frame=>frame.offset<=time).at(-1).visibility==='visible');
+  assert.deepEqual(shown,[poseAt(slide,time)]);
+ }
 });

@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-22",
+  "assets": [
+    {
+      "id": "bar-jamaica",
+      "source": "premium_juice_bar.webp",
+      "prompt": "Edit this exact transparent handmade clay tropical juice bar. Preserve exact framing, curved counter silhouette, fruit and drink positions and empty center opening above counter for an animated character. Replace coral umbrella fabric with a beautiful recognizable Jamaican flag umbrella: bold golden diagonal saltire dividing green upper and lower triangles and black side triangles, no lettering. Complement with warm yellow counter and deep green clay panels, natural bamboo trim and colorful fruit juices. Hand sculpted plasticine children's toy, tactile rounded forms, subtle fingerprints, polished soft studio lighting. No character, no extra objects, no change in bar geometry. Transparent background.",
+      "generated": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-eac654f6-eb73-490b-b030-c6210bb1b76c.png",
+      "output": "public/assets/clay/room-items/premium_juice_bar_jamaica.webp"
+    },
+    {
+      "id": "playground",
+      "source": "premium_playground.webp",
+      "prompt": "Edit this exact transparent clay miniature playground. Preserve exact framing, silhouette, slide path, stair positions, bar positions and proportions because a character follows registered animation coordinates. Make it more beautiful in Brazil flag style: rich green base, warm bright yellow slide with softly rolled sides, green tower with a tasteful blue circular clay medallion and tiny white stars, yellow steps, green and yellow gym bar. Hand sculpted premium children's clay toy, visible subtle fingerprints, rounded charming forms, sophisticated tactile lighting. No character, no text, no added tall objects or geometry changes. Transparent background, same square composition.",
+      "generated": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-dcce2caa-e786-45c2-b2f6-59b167ceb723.png",
+      "output": "public/assets/clay/room-items/premium_playground_brazil.webp"
+    }
+  ]
+}

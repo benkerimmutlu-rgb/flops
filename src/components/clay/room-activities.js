@@ -1,4 +1,4 @@
-import { activityPlan } from './activity-plans.js';
+import { activityPlan, foregroundFrames, activityPoses, poseFrames } from './activity-plans.js';
 import { wearableFit } from './wardrobe.js';
 import { createCuckooSound } from './cuckoo-sound.js';
 
@@ -49,21 +49,32 @@ export function createActivityPlayer({stage,actor,clothes=()=>[],catalog=[],onCh
             }
         }
         if(action==='cuckoo') {
-            const bird=document.createElement('img');bird.src='/assets/clay/room-items/cuckoo_bird.webp';bird.alt='';bird.className='activity-cuckoo';
-            bird.style.left=rect.x+rect.w*.5+'px';bird.style.top=rect.y+rect.h*(definition.birdY??.235)+'px';bird.style.width=rect.w*.14+'px';layer.append(bird);
-            animate(bird,[{offset:0,transform:'translate(-50%,-40%) scale(.15)',opacity:0},{offset:.13,transform:'translate(-50%,-60%) scale(1)',opacity:1},{offset:.78,transform:'translate(-50%,-60%) scale(1)',opacity:1},{offset:.94,transform:'translate(-50%,-40%) scale(.15)',opacity:0},{offset:1,opacity:0}],{duration:plan.duration,easing:'ease-in-out'});
-            if(!reduced)animate(bird,[{rotate:'-5deg'},{rotate:'5deg'},{rotate:'-5deg'}],{duration:1150,delay:700,iterations:3});
+            const launch=document.createElement('div');launch.className='activity-cuckoo-launch';
+            launch.style.left=rect.x+rect.w*.5+'px';launch.style.top=rect.y+rect.h*(definition.birdY??.235)+'px';launch.style.width=rect.w*.22+'px';launch.style.height=rect.h*.30+'px';
+            const spring=document.createElement('div');spring.className='activity-cuckoo-spring';
+            spring.innerHTML='<svg viewBox="0 0 60 120" preserveAspectRatio="none" aria-hidden="true"><path d="M30 2 C4 5 4 13 30 16 S56 28 30 30 S4 42 30 44 S56 56 30 58 S4 70 30 72 S56 84 30 86 S4 98 30 100 S56 112 30 118" fill="none" stroke="#806143" stroke-width="5" stroke-linecap="round"/></svg>';
+            const bird=document.createElement('img');bird.src='/assets/clay/room-items/cuckoo_bird.webp';bird.alt='';bird.className='activity-cuckoo';launch.append(spring,bird);layer.append(launch);
+            const flight=reduced?.2:1;
+            animate(launch,[{offset:0,opacity:0},{offset:.07,opacity:1},{offset:.87,opacity:1},{offset:.96,opacity:0},{offset:1,opacity:0}],{duration:plan.duration});
+            const extension=[{offset:0,lift:0},{offset:.15,lift:1},{offset:.22,lift:.82},{offset:.30,lift:1},{offset:.43,lift:.88},{offset:.52,lift:1},{offset:.65,lift:.88},{offset:.75,lift:1},{offset:.84,lift:.9},{offset:.96,lift:0},{offset:1,lift:0}];
+            animate(bird,extension.map(({offset,lift})=>({offset,transform:`translate(-50%,${-100-lift*flight*110}%) scale(${.3+.7*lift}) rotate(-50deg)`,easing:'ease-in-out'})),{duration:plan.duration});
+            animate(spring,extension.map(({offset,lift})=>({offset,transform:`translateX(-50%) scaleY(${.03+lift*flight*.97})`,easing:'ease-in-out'})),{duration:plan.duration});
             void audio.play().catch(()=>say('Кукушка появилась. Для звука нажми ещё раз.'));
         } else {
-            const performer=activityPug('sit',clothes(),catalog);performer.style.width=rect.w*plan.size+'px';layer.append(performer);actor.style.visibility='hidden';
+            const performer=document.createElement('div');performer.className='activity-pug';
+            for(const pose of new Set(activityPoses(plan).map(frame=>frame.pose))){
+                const body=activityPug(pose,clothes(),catalog);body.classList.add('activity-pug-pose');performer.append(body);
+                animate(body,poseFrames(plan,pose),{duration:plan.duration});
+            }
+            performer.style.width=rect.w*plan.size+'px';layer.append(performer);actor.style.visibility='hidden';
             const frames=plan.frames.map(frame=>({offset:frame.offset,width:(frame.x===null?original.width:rect.w*plan.size)+'px',transform:`translate(${frame.x===null?origin.x:rect.x+frame.x*rect.w}px,${frame.y===null?origin.y:rect.y+frame.y*rect.h}px) translate(-50%,-100%) rotate(${reduced?0:frame.rotate}deg)`,opacity:frame.opacity,easing:'ease-in-out'}));
             if(reduced)for(const frame of frames)frame.transform=`translate(${rect.x+rect.w*.5}px,${rect.y+rect.h*.78}px) translate(-50%,-100%)`;
             animate(performer,frames,{duration:plan.duration});
             // Foreground occlusion makes the pug enter water or stand behind the counter.
-            if(action==='dive'||action==='dance'){
+            const occlusion=foregroundFrames(plan,reduced);
+            if(occlusion){
                 const front=document.createElement('img');front.src=definition.img;front.alt='';front.className='activity-furniture-front';front.style.left=rect.x+'px';front.style.top=rect.y+'px';front.style.width=rect.w+'px';front.style.height=rect.h+'px';front.style.clipPath=action==='dive'?'inset(49% 0 0 0)':'inset(43% 0 0 0)';layer.append(front);
-                // After leaving the furniture the performer is naturally in front again.
-                later(()=>{performer.style.zIndex='4';},plan.duration*(action==='dive'?.72:.55));
+                animate(front,occlusion,{duration:plan.duration});
             }
             for(const offset of plan.splash||[])later(()=>splash(rect.x+rect.w*(offset<.5?.5:.85),rect.y+rect.h*(offset<.5?.55:.76)),offset*plan.duration);
             if(plan.cup){

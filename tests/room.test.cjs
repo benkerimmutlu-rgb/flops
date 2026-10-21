@@ -197,9 +197,9 @@ test('laptop follows desk in either corner at mobile and desktop aspect ratios, 
 });
 
 const { SHOP_RELEASE, shouldShowRelease } = load(path.resolve(__dirname, '../src/lib/shop-release.ts'));
-test('new shop release has thirty-three usable purchased-only products and announces once per version', () => {
+test('new shop release has thirty-five usable purchased-only products and announces once per version', () => {
   const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
-  assert.equal(SHOP_RELEASE.items.length, 33);
+  assert.equal(SHOP_RELEASE.items.length, 35);
   for (const id of SHOP_RELEASE.items) {
     const product = ACCESSORIES.find(i => i.id === id), room = catalog.find(i => i.id === id);
     assert.ok(product.active && product.price > 0 && room);
@@ -343,7 +343,7 @@ test('LEGO and premium sections use their own purchasable items and the requeste
   assert.ok(activeCategories().some(item=>item.id==='lego'));assert.ok(activeCategories().some(item=>item.id==='premium'));
   const lego=ACCESSORIES.filter(item=>item.category==='lego');assert.equal(lego.length,3);
   for(const item of lego)assert.ok(item.active&&item.price>0);
-  const premium=ACCESSORIES.filter(item=>item.category==='premium');assert.equal(premium.length,4);
-  for(const item of premium)assert.ok(item.active&&(item.id==='cuckoo_clock'?item.price===100:item.price>=150&&item.price<=200));
+  const premium=ACCESSORIES.filter(item=>item.category==='premium');assert.equal(premium.length,8);
+  for(const item of premium)assert.ok(item.active&&(item.id==='cuckoo_clock'?item.price===100:item.id==='synthesizer'?item.price===34:item.id==='hourglass'?item.price===24:item.id==='live_clock_blue'?item.price===60:item.id==='live_clock_green'?item.price===50:item.price>=150&&item.price<=200));
   for(const name of ['cuckoo_bird','fruit_mocktail'])assert.ok(fs.existsSync(path.resolve(__dirname,'../public/assets/clay/room-items/'+name+'.webp')));
 });
