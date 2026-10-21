@@ -1,4 +1,5 @@
 const paths = {
+    closetOpen: '<path fill="#edca56" d="M21 10h22v44H21zM8 15l13-5v44L8 50zm48 0-13-5v44l13-4z"/><path d="M24 22h16M15 31v6m34-6v6M24 55v5m16-5v5"/>',
     hanger: '<path d="M28 18a6 6 0 1 1 9 5l-5 4v6L10 46q-4 6 3 6h38q7 0 3-6L32 33"/>',
     closet: '<rect x="12" y="8" width="40" height="47" rx="7" fill="#edca56"/><path d="M32 9v45M26 30v5m12-5v5M18 56v4m28-4v4"/>',
     close: '<path d="m18 18 28 28m0-28L18 46"/>',

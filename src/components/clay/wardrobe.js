@@ -18,6 +18,7 @@ const SINGLE_PAW = { sp1: 'wear_boxing_glove', sp9: 'wear_hand_wrap', sp4: 'wear
 export function wearableFit(item, pose) {
     const group = wearGroup(item.id), sleeping = pose === 'sleep';
     const part = (x, y, size, rotation = 0, img = item.img, mirror = false) => ({ x, y, size, rotation, img, mirror });
+    if (item.id === 'jump_rope') return { layer: 'front', parts: [part(sleeping ? .34 : pose === 'sit' ? .45 : .475, .95, pose === 'stand' ? .32 : .28, sleeping ? -12 : 0)] };
     if (group === 'gloves' || group === 'shoes') {
         const paws = group === 'gloves' ? PAWS[pose].slice(0, 2) : PAWS[pose];
         const img = SINGLE_PAW[item.id] ? '/assets/clay/wardrobe/' + SINGLE_PAW[item.id] + '_front.webp' : item.img;

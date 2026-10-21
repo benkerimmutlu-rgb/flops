@@ -153,10 +153,10 @@ test('fitting replaces only competing fitted clothing and round-trips without gr
   assert.equal('owned' in normalizeRoom(room), false);
 });
 
-test('all nine windows and the sports bar are purchasable wall items with real assets', () => {
+test('all twelve windows and the sports bar are purchasable wall items with real assets', () => {
   const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
   const windows = ACCESSORIES.filter(i => i.category === 'windows');
-  assert.equal(windows.length, 9);
+  assert.equal(windows.length, 12);
   assert.equal(new Set(ACCESSORIES.map(i => i.id)).size, ACCESSORIES.length);
   for (const item of [...windows, ACCESSORIES.find(i => i.id === 'sport_wall_bar')]) {
     assert.ok(item.active && item.price > 0);
@@ -197,9 +197,9 @@ test('laptop follows desk in either corner at mobile and desktop aspect ratios, 
 });
 
 const { SHOP_RELEASE, shouldShowRelease } = load(path.resolve(__dirname, '../src/lib/shop-release.ts'));
-test('new shop release has seventeen usable purchased-only products and announces once per version', () => {
+test('new shop release has twenty-five usable purchased-only products and announces once per version', () => {
   const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
-  assert.equal(SHOP_RELEASE.items.length, 17);
+  assert.equal(SHOP_RELEASE.items.length, 25);
   for (const id of SHOP_RELEASE.items) {
     const product = ACCESSORIES.find(i => i.id === id), room = catalog.find(i => i.id === id);
     assert.ok(product.active && product.price > 0 && room);
@@ -281,4 +281,60 @@ test('wardrobe, cat friend and pendant have distinct room behavior and shop entr
     assert.equal(product.category,category);assert.ok(product.active&&product.price>0);assert.equal(item.kind,kind);assert.ok(fs.existsSync(path.resolve(__dirname,'../public'+item.img)));
   }
   assert.equal(closetCatalog.find(item=>item.id==='ph5_pendant').anchorY,0);
+});
+
+const placement = load(path.resolve(__dirname, '../src/components/clay/room-placement.js'));
+test('three wall shelves accept small objects, reject furniture and follow their support at different sizes', () => {
+  const get = id => closetCatalog.find(item => item.id === id);
+  for (const id of placement.shelfIds) {
+    const shelf = get(id), support = {id,x:.4,y:.4,scale:1,rotation:0};
+    assert.equal(shelf.kind,'shelf');
+    assert.equal(placement.canMount(get('camera'),shelf),true);
+    assert.equal(placement.canMount(get('vanilla_tealights'),shelf),true);
+    for (const item of ['yellow_wardrobe','gm36','glasses',id,'cat_friend']) assert.equal(placement.canMount(get(item),shelf),false);
+    for (const aspect of [1.15,1.5]) for (const width of [.3,.6]) {
+      const at = placement.onSupport(support,shelf,width,aspect,{mountX:.2,mountY:0});
+      assert.ok(Math.abs(at.x - (.4 + .2 * width)) < 1e-9);
+      assert.ok(Math.abs(at.y - (.4 - width * aspect * (shelf.anchorY-shelf.surfaceY))) < 1e-9);
+      const moved = placement.onSupport({...support,x:.6,y:.5},shelf,width,aspect,{mountX:.2});
+      assert.ok(Math.abs(moved.x-at.x-.2)<1e-9 && Math.abs(moved.y-at.y-.1)<1e-9);
+    }
+  }
+  assert.equal(placement.canMount(get('gm31'),get('gm36')),true);
+  assert.equal(placement.canMount(get('gm31'),get('shelf_lack')),false,'oversized laptop stays on desk');
+});
+test('shelf relationships and both cupboard states persist, with safe detachment and camera migration', () => {
+  const data = emptyRoom(), room = data.layout.peach;
+  room.items = [{id:'shelf_lack',x:.4,y:.4,scale:1.2,rotation:0},
+    {id:'camera',x:.5,y:.8,scale:1,rotation:0,parent:'shelf_lack',mountX:.2,mountY:0},
+    {...wardrobeItem,open:false}];
+  room.closet = ['cape'];
+  assert.deepEqual(normalizeRoom(JSON.parse(JSON.stringify(data))),data);
+  room.items[2].open=true;
+  assert.equal(normalizeRoom(data).layout.peach.items[2].open,true);
+  const detached = placement.detach(room.items[1],{x:.48,y:.34});
+  assert.equal(detached.parent,undefined);assert.equal(detached.y,.59);assert.equal(room.items[1].parent,'shelf_lack');
+  room.items = room.items.filter(item=>item.id!=='shelf_lack');
+  assert.equal(normalizeRoom(data).layout.peach.items[0].parent,undefined,'removed shelf cannot leave a dangling relationship');
+  room.items=[];
+  room.outfit=[{id:'camera',x:.5,y:.5,scale:1,rotation:0,fitted:true}];
+  const migrated=normalizeRoom(data).layout.peach;
+  assert.equal(migrated.outfit.length,0);assert.equal(migrated.items[0].id,'camera');
+  assert.equal(closetCatalog.find(item=>item.id==='camera').kind,'surface');
+  assert.equal(ACCESSORIES.find(item=>item.id==='cat_friend').name,'Косая кошечка');
+});
+test('jump rope can be held in all poses and saved without becoming clothing in the wardrobe', () => {
+  const rope=closetCatalog.find(item=>item.id==='jump_rope');
+  assert.equal(rope.kind,'handheld');assert.equal(ACCESSORIES.find(item=>item.id==='jump_rope').category,'sport');
+  for (const pose of ['stand','sit','sleep']) assert.equal(wearableFit(rope,pose).layer,'front');
+  const data=emptyRoom();data.layout.blue.outfit=[{id:'jump_rope',x:.5,y:.5,scale:1,rotation:0,fitted:true}];
+  assert.deepEqual(normalizeRoom(data),data);
+  data.layout.blue.items.push(wardrobeItem);
+  assert.equal(closet.hangClothes(data.layout.blue,'jump_rope',['jump_rope','yellow_wardrobe'],closetCatalog),data.layout.blue);
+});
+test('shelf placement uses free slots and refuses a fourth object instead of hiding it under another', () => {
+  const placed=[];
+  for (let n=0;n<3;n++) {const x=placement.freeShelfSlot(placed);assert.ok(Number.isFinite(x));assert.equal(placed.some(item=>item.mountX===x),false);placed.push({mountX:x});}
+  assert.equal(placement.freeShelfSlot(placed),null);
+  assert.equal(placement.freeShelfSlot([{mountX:-.2},{mountX:.2}]),0);
 });

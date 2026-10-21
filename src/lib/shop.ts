@@ -86,6 +86,14 @@ function gen(
 }
 
 export const ACCESSORIES: Accessory[] = [
+  {"id": "jump_rope", "name": "Скакалка", "img": "/assets/clay/room-items/jump_rope.webp", "price": 18, "category": "sport", "active": true},
+  {"id": "shelf_lack", "name": "Полка IKEA LACK", "img": "/assets/clay/room-items/shelf_lack.webp", "price": 20, "category": "relax", "active": true},
+  {"id": "shelf_mosslanda", "name": "Полка IKEA MOSSLANDA", "img": "/assets/clay/room-items/shelf_mosslanda.webp", "price": 22, "category": "relax", "active": true},
+  {"id": "shelf_bergshult", "name": "Полка IKEA BERGSHULT", "img": "/assets/clay/room-items/shelf_bergshult.webp", "price": 26, "category": "relax", "active": true},
+  {"id": "window_sakhalin", "name": "Окно на снежный Сахалин", "img": "/assets/clay/room-items/window_sakhalin.webp", "price": 32, "category": "windows", "active": true},
+  {"id": "window_tonho", "name": "Окно в «Секрет тропиканки»", "img": "/assets/clay/room-items/window_tonho.webp", "price": 34, "category": "windows", "active": true},
+  {"id": "window_mcdonalds", "name": "Окошко McDonald’s", "img": "/assets/clay/room-items/window_mcdonalds.webp", "price": 34, "category": "windows", "active": true},
+  {"id": "child_cat_painting", "name": "Котик из детского рисунка", "img": "/assets/clay/room-items/child_cat_painting.webp", "price": 20, "category": "relax", "active": true},
   {"id": "fortnite_wall_sign", "name": "Вывеска Fortnite", "img": "/assets/clay/room-items/fortnite_wall_sign.webp", "price": 24, "category": "games", "active": true},
   {"id": "toca_boca_wall_sign", "name": "Вывеска Toca Boca", "img": "/assets/clay/room-items/toca_boca_wall_sign.webp", "price": 24, "category": "games", "active": true},
 
@@ -99,7 +107,7 @@ export const ACCESSORIES: Accessory[] = [
   {"id": "gaming_keyboard", "name": "Игровая клавиатура", "img": "/assets/clay/room-items/gaming_keyboard.webp", "price": 28, "category": "games", "active": true},
   {"id": "chips_day", "name": "Чипсодень", "img": "/assets/clay/room-items/chips_day.webp", "price": 16, "category": "things", "active": true},
   {"id": "window_ilica", "name": "Окно в Чешме — пляж Ilıca", "img": "/assets/clay/room-items/window_ilica.webp", "price": 32, "category": "windows", "active": true},
-  { id: "cat_friend", name: "Кошечка-подружка", img: "/assets/clay/room-items/cat_friend.webp", price: 38, category: "games", active: true },
+  { id: "cat_friend", name: "Косая кошечка", img: "/assets/clay/room-items/cat_friend_sad.webp", price: 38, category: "games", active: true },
   { id: "ph5_pendant", name: "Светильник PH 5", img: "/assets/clay/room-items/ph5_pendant.webp", price: 30, category: "relax", active: true },
   { id: "yellow_wardrobe", name: "Жёлтый шкаф", img: "/assets/clay/room-items/yellow_wardrobe.webp", price: 45, category: "relax", active: true },
   {"id": "strandmon", "name": "Кресло STRANDMON", "img": "/assets/clay/room-items/strandmon.webp", "price": 42, "category": "relax", "active": true},

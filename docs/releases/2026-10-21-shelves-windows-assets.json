@@ -1,0 +1,65 @@
+{
+  "mode": "built-in image_gen",
+  "assets": [
+    {
+      "id": "cat_friend",
+      "prompt": "Use case: precise-object-edit. Edit target: attached existing FLOPS clay cat sprite. Keep exactly the same seated whole body, folded ears, cream and silver-grey pressed clay stripes, curled tail, pink nose, lighting and handmade smooth plasticine material. Change ONLY the face: slightly sad sweet expression, two clearly separate dark grey clay eyebrows in an inverted V like a little roof (inner ends raised, outer ends lowered), tiny downturned mouth, very obviously cross-eyed big blue eyes: both dark pupils converge toward the nose (left pupil at inner/right edge, right pupil at inner/left edge). Cute vulnerable, not crying, not angry. No tears, no text. Same full body front-facing composition on genuinely transparent background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-dd63c351-ca47-4f32-b95f-19d3a043baae.png",
+      "output": "public/assets/clay/room-items/cat_friend_sad.webp"
+    },
+    {
+      "id": "yellow_wardrobe_closed",
+      "prompt": "Use case: precise-object-edit. Edit target: existing yellow plasticine wardrobe. Produce matching CLOSED state of this exact wardrobe. Keep same sunflower yellow handmade clay, curved top crown, drawer, four short rounded feet, cream round door knobs, lighting, front view, image framing and square canvas. Swing the two doors completely shut together, hide interior rail and hangers. Important: closed cabinet body is the same size and position as original central body; empty transparent space at left and right where open doors previously were. Whole wardrobe fully visible, no text. Genuinely transparent background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-fda25501-19df-4fe3-bfe3-5ad8676662c9.png",
+      "output": "public/assets/clay/room-items/yellow_wardrobe_closed.webp"
+    },
+    {
+      "id": "jump_rope",
+      "prompt": "Use case: stylized-concept. Asset type: transparent game shop/room object for FLOPS handmade plasticine world. One skipping rope: two chunky rounded teal blue handles with warm yellow endcaps, connected by a long flexible coral red clay rope arranged in a broad hanging U loop, handles near upper corners, entire loop visible. Simple cheerful child-friendly design, matte smooth real modelling clay with small fingerprints, dimensional soft studio light, front view slightly from above, no character, no text, no floor or background, genuinely transparent background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-bea7e9d6-7982-43a4-9df0-b915716b1b86.png",
+      "output": "public/assets/clay/room-items/jump_rope.webp"
+    },
+    {
+      "id": "shelf_lack",
+      "prompt": "Use case: stylized-concept. Asset: one IKEA LACK inspired simple white floating wall shelf in FLOPS handmade plasticine style. Single empty chunky rounded cream-white horizontal plank, broad shallow usable top plane visible from slightly above, straight front facing wall shelf, no wall, no brackets, no objects. Matte modelling clay with subtle thumb impressions, warm soft studio lighting, square transparent canvas with shelf spanning 90% width, plank top surface at about 55% canvas height, plank bottom about 65%, generous transparent area above for placing objects in game. No text no logo, genuinely transparent background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-fce717fc-ce9f-4234-b4a0-6e1d35b137cd.png",
+      "output": "public/assets/clay/room-items/shelf_lack.webp"
+    },
+    {
+      "id": "shelf_mosslanda",
+      "prompt": "Use case: stylized-concept. Asset: one IKEA MOSSLANDA inspired empty pale oak picture ledge wall shelf for FLOPS clay game. Single broad light honey wood-colored plasticine ledge with low back rim and very LOW rounded front lip (not obscuring placed objects), visible flat top from slightly above, front facing and horizontal, no wall, no picture or other objects. Handmade matte smooth clay subtle fingerprints, soft studio light, square transparent canvas, shelf spans 90% width, top usable plane at 55% height, bottom at 68%. No text no logo, genuinely transparent background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-79b67f3a-42ba-4d6e-a38a-b306a90abc81.png",
+      "output": "public/assets/clay/room-items/shelf_mosslanda.webp"
+    },
+    {
+      "id": "shelf_bergshult",
+      "prompt": "Use case: stylized-concept. Asset: one IKEA BERGSHULT inspired muted sage green empty wall shelf with two cream curved support brackets below, for FLOPS handmade plasticine world. Broad simple horizontal thick rounded plank, clearly visible flat top from slightly above at 50% canvas height, bottom of brackets at 85%, front view, width spans 90% canvas. Matte real smooth modelling clay small fingerprints, softly lit dimensional object, no wall, no items, no text no logo, genuinely transparent background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-73d5eaba-007e-48c6-9f39-b77889f4dcc1.png",
+      "output": "public/assets/clay/room-items/shelf_bergshult.webp"
+    },
+    {
+      "id": "window_sakhalin",
+      "prompt": "Use case: stylized-concept. One wall-window game asset for FLOPS, everything sculpted by hand from matte plasticine, including scenery. Thick warm cream rounded arched window frame and small sill, same charming toy miniature style. Inside window: snowy Sakhalin winter hill, deeply snow-covered fir trees and slope with a tiny sled trail, intense bright frosty golden sun in clear icy blue sky, crisp blue shadows on sparkling white snow, distant low snowy mountains. Small Russian tricolor clay flag on sill. Entire scene contained within window, transparent outside frame, front view centered whole frame, no words, no background wall, no photography, genuinely transparent background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-1613ece0-e538-465b-b54d-aca4733746f6.png",
+      "output": "public/assets/clay/room-items/window_sakhalin.webp"
+    },
+    {
+      "id": "window_tonho",
+      "prompt": "Use case: stylized-concept. One FLOPS wall window asset, miniature hand sculpted smooth matte plasticine clay. Warm cream rounded arched frame and sill. Through window: Brazilian sunny beach and turquoise Atlantic, Tonho da Lua from Mulheres de Areia, friendly curly dark-haired young adult man in light sleeveless shirt and rolled pale trousers kneeling on sand, actively using both hands to shape a recognizable beautiful seated human figure sculpture out of sand, human sculpture modest and clothed, small palms in distance. Simple readable toy clay shapes, warm tender mood, small Brazilian flag on sill. All scenery and person are plasticine, not photograph. Whole window straight front view fully contained, no text, transparent outside frame, no background wall.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-4cfb7fd1-5019-47bc-8aec-fcf77845a2d2.png",
+      "output": "public/assets/clay/room-items/window_tonho.webp"
+    },
+    {
+      "id": "window_mcdonalds",
+      "prompt": "Use case: stylized-concept. One playful McDonald's pickup window wall asset for FLOPS handmade plasticine room. Chunky rounded red and cream service window frame with broad sill/counter, little golden arches emblem on top. Inside window visible smiling friendly adult employee in red cap and red polo passing a tray outward toward viewer, tray holds burger, red fries carton, drink and colorful small toy dinosaur. Readable simple cheerful child-friendly smooth matte modelling clay sculptures throughout, tiny fingerprints, soft studio lighting, frontal centered entire window visible, food and toy all inside frame/counter, no words or watermark, no background wall, genuinely transparent outside frame.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-6f0d4528-9c44-477e-96a1-837bed3f1d3f.png",
+      "output": "public/assets/clay/room-items/window_mcdonalds.webp"
+    },
+    {
+      "id": "child_cat_painting",
+      "prompt": "Use case: identity-preserve. Image 1 is the user's original child's drawing, the EDIT TARGET. Turn it into one wall painting asset for a handmade plasticine children's game. Preserve the exact naive drawing: big uneven scribbled dark grey triangular cat with pointed ears, tiny reddish brown dot eyes and little W mouth, short whiskers, three brown forehead stripes, scattered sparse colorful confetti crayon dashes across off-white paper. Preserve charming hand drawn pencil strokes and proportions, do NOT replace the drawing with a polished illustration or 3D cat. Add only a thick simple soft rounded honey-colored handmade plasticine frame surrounding this actual drawing. Straight-on full painting centered fully visible, no wall or props, no text. Genuinely transparent outside frame.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-28c9a11d-9e23-4d69-822d-96b156ce6338.png",
+      "output": "public/assets/clay/room-items/child_cat_painting.webp"
+    }
+  ]
+}

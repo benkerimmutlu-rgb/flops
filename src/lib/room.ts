@@ -1,11 +1,12 @@
 import { ACCESSORIES, migrateOwnedIds } from "./shop";
 import roomCatalog from "../components/clay/room-catalog.json";
+import { canMount } from "../components/clay/room-placement.js";
 
 export const ROOM_IDS = ["peach", "blue", "sage"] as const;
 export type RoomId = (typeof ROOM_IDS)[number];
 export interface RoomItem {
   id: string; x: number; y: number; scale: number; rotation: number;
-  parent?: string; mountX?: number; mountY?: number; fitted?: boolean;
+  parent?: string; mountX?: number; mountY?: number; fitted?: boolean; open?: boolean;
 }
 export interface RoomLayout {
   items: RoomItem[];
@@ -19,7 +20,7 @@ export interface RoomSnapshot {
   room: RoomId;
   layout: Record<RoomId, RoomLayout>;
 }
-export interface RoomCatalogItem { id: string; name: string; img: string; kind: string; size: number; anchorY?: number; wearX?: number; wearY?: number; wearRotation?: number }
+export interface RoomCatalogItem { id: string; name: string; img: string; kind: string; size: number; anchorY?: number; surfaceY?: number; closedImg?: string; wearX?: number; wearY?: number; wearRotation?: number }
 export interface RoomMountOptions {
   catalog: RoomCatalogItem[];
   rooms: Record<RoomId, string>;
@@ -47,7 +48,8 @@ function items(value: unknown): RoomItem[] {
     return [{ id, x: finite(item.x, .5, -.1, 1.1), y: finite(item.y, .8, -.1, 1.1),
       scale: finite(item.scale, 1, .4, 2), rotation: finite(item.rotation, 0, -360, 360),
       ...(item.fitted === true ? { fitted: true } : {}),
-      ...(item.parent === "gm36" && id !== "gm36" ? { parent: "gm36", mountX: finite(item.mountX, 0, -.45, .45), mountY: finite(item.mountY, 0, -.2, .22) } : {}) }];
+      ...(id === 'yellow_wardrobe' && typeof item.open === 'boolean' ? { open: item.open } : {}),
+      ...(typeof item.parent === 'string' && canMount(roomCatalog.find(entry => entry.id === id), roomCatalog.find(entry => entry.id === item.parent)) ? { parent: item.parent, mountX: finite(item.mountX, 0, -.45, .45), mountY: finite(item.mountY, 0, -.2, .22) } : {}) }];
   });
 }
 export function normalizeRoom(value: unknown): RoomSnapshot {
@@ -58,9 +60,16 @@ export function normalizeRoom(value: unknown): RoomSnapshot {
     const layout = record(source[id]), pug = record(layout.pug);
     const placed = items(layout.items);
     const outfit = items(layout.outfit);
-    const worn = new Set(outfit.map(item => item.id));
+    // A previously worn camera becomes a room object without losing the purchase.
+    const camera = outfit.find(item => item.id === 'camera');
+    if (camera && !placed.some(item => item.id === 'camera')) placed.push({ id: 'camera', x: .55, y: .81, scale: 1, rotation: 0 });
+    const clothes = outfit.filter(item => item.id !== 'camera');
+    for (const item of placed) if (item.parent && !placed.some(parent => parent.id === item.parent)) {
+      delete item.parent; delete item.mountX; delete item.mountY; item.y = Math.max(.59, item.y);
+    }
+    const worn = new Set(clothes.map(item => item.id));
     const closet = Array.isArray(layout.closet) ? migrateOwnedIds(layout.closet.filter((value): value is string => typeof value === "string")).filter(code => clothingIds.has(code) && !worn.has(code)) : [];
-    result.layout[id] = { items: placed, outfit, closet: [...new Set(closet)], pug: {
+    result.layout[id] = { items: placed, outfit: clothes, closet: [...new Set(closet)], pug: {
       x: finite(pug.x, .52, .05, .95), y: finite(pug.y, .86, .58, .97), scale: finite(pug.scale, 1, .4, 2),
       seat: typeof pug.seat === "string" && placed.some(item => item.id === pug.seat) ? pug.seat : null,
     } };

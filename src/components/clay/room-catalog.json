@@ -52,8 +52,8 @@
     "id": "camera",
     "name": "Фотоаппарат",
     "img": "/assets/clay/room-items/camera.webp",
-    "kind": "wear",
-    "size": 0.48
+    "kind": "surface",
+    "size": 0.15
   },
   {
     "id": "easel",
@@ -1058,12 +1058,13 @@
     "img": "/assets/clay/room-items/yellow_wardrobe.webp",
     "kind": "storage",
     "size": 0.44,
-    "anchorY": 0.95
+    "anchorY": 0.95,
+    "closedImg": "/assets/clay/room-items/yellow_wardrobe_closed.webp"
   },
   {
     "id": "cat_friend",
-    "name": "Кошечка-подружка",
-    "img": "/assets/clay/room-items/cat_friend.webp",
+    "name": "Косая кошечка",
+    "img": "/assets/clay/room-items/cat_friend_sad.webp",
     "kind": "floor",
     "size": 0.22,
     "anchorY": 0.94
@@ -1075,5 +1076,67 @@
     "kind": "ceiling",
     "size": 0.28,
     "anchorY": 0
+  },
+  {
+    "id": "jump_rope",
+    "name": "Скакалка",
+    "img": "/assets/clay/room-items/jump_rope.webp",
+    "kind": "handheld",
+    "size": 0.26
+  },
+  {
+    "id": "shelf_lack",
+    "name": "Полка IKEA LACK",
+    "img": "/assets/clay/room-items/shelf_lack.webp",
+    "kind": "shelf",
+    "size": 0.4,
+    "anchorY": 0.625,
+    "surfaceY": 0.5
+  },
+  {
+    "id": "shelf_mosslanda",
+    "name": "Полка IKEA MOSSLANDA",
+    "img": "/assets/clay/room-items/shelf_mosslanda.webp",
+    "kind": "shelf",
+    "size": 0.4,
+    "anchorY": 0.568,
+    "surfaceY": 0.51
+  },
+  {
+    "id": "shelf_bergshult",
+    "name": "Полка IKEA BERGSHULT",
+    "img": "/assets/clay/room-items/shelf_bergshult.webp",
+    "kind": "shelf",
+    "size": 0.4,
+    "anchorY": 0.712,
+    "surfaceY": 0.415
+  },
+  {
+    "id": "window_sakhalin",
+    "name": "Окно на снежный Сахалин",
+    "img": "/assets/clay/room-items/window_sakhalin.webp",
+    "kind": "wall",
+    "size": 0.32
+  },
+  {
+    "id": "window_tonho",
+    "name": "Окно в «Секрет тропиканки»",
+    "img": "/assets/clay/room-items/window_tonho.webp",
+    "kind": "wall",
+    "size": 0.32
+  },
+  {
+    "id": "window_mcdonalds",
+    "name": "Окошко McDonald’s",
+    "img": "/assets/clay/room-items/window_mcdonalds.webp",
+    "kind": "wall",
+    "size": 0.32
+  },
+  {
+    "id": "child_cat_painting",
+    "name": "Котик из детского рисунка",
+    "img": "/assets/clay/room-items/child_cat_painting.webp",
+    "kind": "wall",
+    "size": 0.3
   }
 ]
