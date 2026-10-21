@@ -10,12 +10,18 @@ export const ROOM_MARKUP = `<div id="flops-room" lang="ru" data-auto="off">
  </div>
  <div class="room-edit" role="toolbar" aria-label="Действия с выбранным предметом" hidden>
   <img id="room-selected-image" alt="" class="room-selected-image"><strong id="room-selected" class="room-sr"></strong>
-  ${action('room-wear','Надеть',roomIcon('wear'),true)}${action('room-seat','Сесть',posePicture('sit'),true)}${action('room-surface','На стол',roomIcon('surface'),true)}
+  ${action('room-closet-open','Открыть шкаф',roomIcon('closet'),true)}${action('room-hang','Повесить в шкаф',roomIcon('hanger'),true)}${action('room-wear','Надеть',roomIcon('wear'),true)}${action('room-seat','Сесть',posePicture('sit'),true)}${action('room-surface','На стол',roomIcon('surface'),true)}
   <button type="button" class="room-action" data-corner="left" aria-label="Стол в левый угол" title="Стол в левый угол" hidden>${roomIcon('leftCorner')}</button><button type="button" class="room-action" data-corner="right" aria-label="Стол в правый угол" title="Стол в правый угол" hidden>${roomIcon('rightCorner')}</button>
   ${action('room-smaller','Уменьшить',roomIcon('smaller'))}${action('room-larger','Увеличить',roomIcon('larger'))}${action('room-rotate','Повернуть',roomIcon('rotate'))}${action('room-remove','Убрать в коллекцию',roomIcon('remove'))}
   <div class="room-depth-label" role="group" aria-label="Расстояние">${[[.64,'У стены'],[.78,'Посередине'],[.92,'Ближе']].map(([value,label],i)=>`<button type="button" data-depth="${value}" aria-label="${label}" title="${label}" aria-pressed="false">${depthPicture(i)}</button>`).join('')}</div>
  </div>
  <div class="room-inventory" aria-label="Купленные вещи"></div>
  <p class="room-empty" hidden>В коллекции пока пусто</p>
+ <dialog class="room-closet" aria-labelledby="room-closet-title">
+  <header class="room-closet-header"><img src="/assets/clay/room-items/yellow_wardrobe.webp" alt=""><h2 id="room-closet-title">Жёлтый шкаф</h2><button type="button" id="room-closet-close" aria-label="Закрыть шкаф">${roomIcon('close')}</button></header>
+  <section class="room-closet-section" id="room-closet-stored"><h3>На вешалках</h3><div class="room-closet-grid" id="room-closet-hanging"></div></section>
+  <section class="room-closet-section" id="room-closet-rest"><h3>Одежда Флопса</h3><div class="room-closet-grid" id="room-closet-available"></div></section>
+  <p class="room-closet-empty" hidden>Одежду и костюмы можно выбрать в <a href="/shop">магазине</a>.</p>
+ </dialog>
  <span class="room-sr" aria-live="polite" id="room-status"></span>
 </div>`;

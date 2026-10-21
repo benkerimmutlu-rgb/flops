@@ -11,10 +11,10 @@ function load(file) {
   const module = { exports: {} };
   cache.set(file, module);
   const code = ts.transpileModule(fs.readFileSync(file, 'utf8'), {
-    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, esModuleInterop: true },
   }).outputText;
   new Function('require', 'module', 'exports', code)(
-    name => name.startsWith('.') ? load(path.resolve(path.dirname(file), name + '.ts')) : require(name),
+    name => name.endsWith('.json') ? require(path.resolve(path.dirname(file), name)) : name.startsWith('.') ? load(path.resolve(path.dirname(file), /\.(js|ts)$/.test(name) ? name : name + '.ts')) : require(name),
     module, module.exports,
   );
   return module.exports;
@@ -197,9 +197,9 @@ test('laptop follows desk in either corner at mobile and desktop aspect ratios, 
 });
 
 const { SHOP_RELEASE, shouldShowRelease } = load(path.resolve(__dirname, '../src/lib/shop-release.ts'));
-test('new shop release has fourteen usable purchased-only products and announces once per version', () => {
+test('new shop release has seventeen usable purchased-only products and announces once per version', () => {
   const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
-  assert.equal(SHOP_RELEASE.items.length, 14);
+  assert.equal(SHOP_RELEASE.items.length, 17);
   for (const id of SHOP_RELEASE.items) {
     const product = ACCESSORIES.find(i => i.id === id), room = catalog.find(i => i.id === id);
     assert.ok(product.active && product.price > 0 && room);
@@ -236,4 +236,49 @@ test('boxing headguard uses an open front overlay around the face in all three p
     assert.ok(fit.parts[0].y > .3, 'headguard surrounds the face rather than resting like a hat');
     assert.ok(fs.existsSync(path.resolve(__dirname, '../public' + fit.parts[0].img)));
   }
+});
+
+const closet = load(path.resolve(__dirname, '../src/components/clay/room-closet.js'));
+const closetCatalog = require('../src/components/clay/room-catalog.json');
+const wardrobeItem = { id: 'yellow_wardrobe', x: .3, y: .8, scale: 1, rotation: 0 };
+test('wardrobe only stores purchased clothing and never equips or grants furniture', () => {
+  const layout = emptyRoom().layout.peach;
+  const owned = ['yellow_wardrobe','cape','glasses','ball'];
+  assert.equal(closet.hangClothes(layout,'cape',owned,closetCatalog),layout,'wardrobe must be placed');
+  layout.items.push(wardrobeItem);
+  for (const id of ['ball','hw3','missing']) assert.equal(closet.hangClothes(layout,id,owned,closetCatalog),layout);
+  assert.equal(closet.hangClothes(layout,'cape',['cape'],closetCatalog),layout,'wardrobe must be purchased');
+  const next = closet.hangClothes(layout,'cape',owned,closetCatalog);
+  assert.deepEqual(next.closet,['cape']); assert.deepEqual(layout.closet,[],'immutable transition');
+  assert.deepEqual(closet.hangClothes(next,'cape',owned,closetCatalog).closet,['cape'],'no duplicate hangers');
+  const inventory = closet.closetInventory(next,owned,closetCatalog);
+  assert.deepEqual(inventory.hanging.map(i=>i.id),['cape']);
+  assert.deepEqual(inventory.available.map(i=>i.id),['glasses']);
+});
+test('hanging undresses the pug and dressing moves the same garment from its hanger', () => {
+  const layout = emptyRoom().layout.peach; layout.items.push(wardrobeItem);
+  layout.outfit = [{id:'cape',x:.5,y:.5,scale:1.2,rotation:15,fitted:true}];
+  const owned = ['yellow_wardrobe','cape'];
+  const stored = closet.hangClothes(layout,'cape',owned,closetCatalog);
+  assert.equal(stored.outfit.length,0);assert.deepEqual(stored.closet,['cape']);
+  const dressed = closet.dressFromCloset(stored,'cape',owned,closetCatalog);
+  assert.deepEqual(dressed.closet,[]);assert.equal(dressed.outfit.length,1);assert.equal(dressed.outfit[0].fitted,true);
+  assert.equal(closet.dressFromCloset(dressed,'cape',owned,closetCatalog),dressed);
+  assert.deepEqual(owned,['yellow_wardrobe','cape']);
+});
+test('closet contents survive saved room normalization and old snapshots migrate empty', () => {
+  const data = emptyRoom();data.layout.peach.items.push(wardrobeItem);
+  data.layout.peach.closet = ['cape','hw3','cape','ball','missing'];
+  data.layout.peach.outfit = [{id:'hw3',x:.5,y:.5,scale:1,rotation:0,fitted:true}];
+  const restored = normalizeRoom(JSON.parse(JSON.stringify(data)));
+  assert.deepEqual(restored.layout.peach.closet,['cape']);assert.deepEqual(restored.layout.blue.closet,[]);
+  const old = JSON.parse(JSON.stringify(restored));delete old.layout.peach.closet;
+  assert.deepEqual(normalizeRoom(old).layout.peach.closet,[]);
+});
+test('wardrobe, cat friend and pendant have distinct room behavior and shop entries', () => {
+  for (const [id,category,kind] of [['yellow_wardrobe','relax','storage'],['cat_friend','games','floor'],['ph5_pendant','relax','ceiling']]) {
+    const product = ACCESSORIES.find(item=>item.id===id), item=closetCatalog.find(item=>item.id===id);
+    assert.equal(product.category,category);assert.ok(product.active&&product.price>0);assert.equal(item.kind,kind);assert.ok(fs.existsSync(path.resolve(__dirname,'../public'+item.img)));
+  }
+  assert.equal(closetCatalog.find(item=>item.id==='ph5_pendant').anchorY,0);
 });

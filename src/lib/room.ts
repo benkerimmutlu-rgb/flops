@@ -1,4 +1,5 @@
 import { ACCESSORIES, migrateOwnedIds } from "./shop";
+import roomCatalog from "../components/clay/room-catalog.json";
 
 export const ROOM_IDS = ["peach", "blue", "sage"] as const;
 export type RoomId = (typeof ROOM_IDS)[number];
@@ -9,6 +10,7 @@ export interface RoomItem {
 export interface RoomLayout {
   items: RoomItem[];
   outfit: RoomItem[];
+  closet: string[];
   pug: { x: number; y: number; scale: number; seat: string | null };
 }
 export interface RoomSnapshot {
@@ -26,10 +28,11 @@ export interface RoomMountOptions {
   onChange: (snapshot: RoomSnapshot) => void;
 }
 export function emptyRoom(): RoomSnapshot {
-  const fresh = (): RoomLayout => ({ items: [], outfit: [], pug: { x: .52, y: .86, scale: 1, seat: null } });
+  const fresh = (): RoomLayout => ({ items: [], outfit: [], closet: [], pug: { x: .52, y: .86, scale: 1, seat: null } });
   return { version: 1, updatedAt: 0, room: "peach", layout: { peach: fresh(), blue: fresh(), sage: fresh() } };
 }
 const validIds = new Set(ACCESSORIES.map(item => item.id));
+const clothingIds = new Set(roomCatalog.filter(item => item.kind === "wear").map(item => item.id));
 const finite = (value: unknown, fallback: number, min: number, max: number) =>
   typeof value === "number" && Number.isFinite(value) ? Math.max(min, Math.min(max, value)) : fallback;
 const record = (value: unknown): Record<string, unknown> => value && typeof value === "object" ? value as Record<string, unknown> : {};
@@ -54,7 +57,10 @@ export function normalizeRoom(value: unknown): RoomSnapshot {
   for (const id of ROOM_IDS) {
     const layout = record(source[id]), pug = record(layout.pug);
     const placed = items(layout.items);
-    result.layout[id] = { items: placed, outfit: items(layout.outfit), pug: {
+    const outfit = items(layout.outfit);
+    const worn = new Set(outfit.map(item => item.id));
+    const closet = Array.isArray(layout.closet) ? migrateOwnedIds(layout.closet.filter((value): value is string => typeof value === "string")).filter(code => clothingIds.has(code) && !worn.has(code)) : [];
+    result.layout[id] = { items: placed, outfit, closet: [...new Set(closet)], pug: {
       x: finite(pug.x, .52, .05, .95), y: finite(pug.y, .86, .58, .97), scale: finite(pug.scale, 1, .4, 2),
       seat: typeof pug.seat === "string" && placed.some(item => item.id === pug.seat) ? pug.seat : null,
     } };

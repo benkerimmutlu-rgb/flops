@@ -1051,5 +1051,29 @@
     "kind": "wall",
     "size": 0.3,
     "anchorY": 0.949
+  },
+  {
+    "id": "yellow_wardrobe",
+    "name": "Жёлтый шкаф",
+    "img": "/assets/clay/room-items/yellow_wardrobe.webp",
+    "kind": "storage",
+    "size": 0.44,
+    "anchorY": 0.95
+  },
+  {
+    "id": "cat_friend",
+    "name": "Кошечка-подружка",
+    "img": "/assets/clay/room-items/cat_friend.webp",
+    "kind": "floor",
+    "size": 0.22,
+    "anchorY": 0.94
+  },
+  {
+    "id": "ph5_pendant",
+    "name": "Светильник PH 5",
+    "img": "/assets/clay/room-items/ph5_pendant.webp",
+    "kind": "ceiling",
+    "size": 0.28,
+    "anchorY": 0
   }
 ]

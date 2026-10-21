@@ -1,4 +1,7 @@
 const paths = {
+    hanger: '<path d="M28 18a6 6 0 1 1 9 5l-5 4v6L10 46q-4 6 3 6h38q7 0 3-6L32 33"/>',
+    closet: '<rect x="12" y="8" width="40" height="47" rx="7" fill="#edca56"/><path d="M32 9v45M26 30v5m12-5v5M18 56v4m28-4v4"/>',
+    close: '<path d="m18 18 28 28m0-28L18 46"/>',
     back: '<path d="M39 17 22 32l17 15M23 32h28"/>',
     shop: '<path fill="#dcaf78" d="m12 27 5 25h30l5-25z"/><path d="m21 27 11-15 11 15M25 35v9m14-9v9"/>',
     remove: '<path fill="#d9af78" d="M10 34h44l-5 20H15z"/><path d="M32 8v29m-9-9 9 9 9-9M20 45h24"/>',

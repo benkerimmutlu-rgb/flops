@@ -52,3 +52,26 @@
 #flops-room .room-pose-picture{width:36px;height:36px}
 #flops-room .room-pose-picture>img{width:42px;height:46px;left:-3px;top:-5px}
 #flops-room .room-pose-picture>svg{width:16px;height:24px;right:-4px;bottom:-2px}
+
+/* Purchased clothes hang inside the wardrobe; the full collection opens on tap. */
+#flops-room .room-closet-preview{position:absolute;left:28%;top:32%;width:46%;height:33%;display:flex;justify-content:center;pointer-events:none}
+#flops-room .room-object .room-closet-preview img{width:50%;height:100%;object-fit:contain;object-position:center top;filter:drop-shadow(0 2px 1px #49351e22)}
+#flops-room .room-closet{margin:auto;color:var(--ink);background:#f3e5c8;background-image:var(--surface);background-blend-mode:soft-light;background-size:500px;border:0;border-radius:27px;padding:18px;width:min(540px,calc(100vw - 24px));max-height:82dvh;overflow:auto;overscroll-behavior:contain;box-shadow:inset 2px 3px 5px #fff9,0 20px 80px #40362855}
+#flops-room .room-closet::backdrop{background:#393d3077}
+#flops-room .room-closet-header{display:flex;align-items:center;gap:12px;position:sticky;top:-18px;background:#f3e5c8;padding:8px 0;z-index:1}
+#flops-room .room-closet-header>img{width:48px;height:58px;object-fit:contain}
+#flops-room .room-closet-header h2{font-size:22px;margin:0;flex:1}
+#flops-room .room-closet-header button{width:46px;height:46px;padding:7px;flex-shrink:0}
+#flops-room .room-closet svg{width:32px;height:32px}
+#flops-room .room-closet-section h3{font-size:17px;margin:16px 0 12px}
+#flops-room .room-closet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px}
+#flops-room .room-closet-tile{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 6px;border-radius:20px;background:#e6d9b9;box-shadow:inset 2px 2px 4px #fff8,0 3px 0 #c4b18d}
+#flops-room #room-closet-hanging .room-closet-tile{background:#d7dfbd}
+#flops-room .room-closet-tile>img{width:86px;height:90px;object-fit:contain;flex-shrink:0}
+#flops-room .room-closet-tile>span{font-size:14px;font-weight:700;text-align:center;overflow-wrap:anywhere}
+#flops-room .room-closet-actions{display:flex;gap:5px;margin-top:auto}
+#flops-room .room-closet-actions button{width:46px;height:46px;padding:6px;background-color:#ead9b6}
+#flops-room .room-closet-actions [data-closet-action=dress]{background-color:#bdd6b3}
+#flops-room .room-closet-empty{font-size:16px;text-align:center;padding:20px 0}
+#flops-room .room-closet-empty a{font-weight:750;text-decoration:underline}
+#flops-room #room-hang,#flops-room #room-closet-open{background-color:#e8cf75}
