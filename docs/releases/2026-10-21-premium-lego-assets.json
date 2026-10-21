@@ -1,0 +1,82 @@
+{
+  "mode": "built-in image_gen",
+  "assets": [
+    {
+      "id": "window_new_york_night",
+      "prompt": "Use case: stylized-concept. FLOPS children's room wall-window asset. Everything including scenery made from real hand modelled matte plasticine, small fingerprints, soft dimensional toy look. Thick warm cream rounded arched frame with sill, same proportions as other FLOPS windows. Through it: recognizable NIGHT NEW YORK, Manhattan skyline with glowing Empire State Building and One World Trade Center, yellow lit windows, Brooklyn Bridge foreground over dark blue East River reflecting gold lights, deep indigo sky with little moon. Tiny US flag on sill. Fully visible centered tall window on square transparent canvas, straight frontal view, no wall, no words, genuinely transparent outside frame.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-cc1615e1-fcaa-4b97-9583-285e6da87aae.png",
+      "output": "public/assets/clay/room-items/window_new_york_night.webp"
+    },
+    {
+      "id": "lego_spiderman",
+      "prompt": "Use case: stylized-concept. FLOPS game shop collectible object, assembled LEGO Spider-Man Daily Bugle playset inspired by official current set 76342, reinterpret the bricks as handmade matte plasticine with little fingerprints. A compact tan four-story newspaper tower with red roof sign DAILY BUGLE, fire escape, and clear colorful red/blue Spider-Man minifigure swinging on a white clay web; small green Mysterio figure at street level. Readable thick toy bricks with studs, simplified readable silhouette, entire assembled set on small dark gray rectangular studded base, three-quarter frontal view, softly lit, no retail box, no photograph, no floor or cast backdrop. Genuinely transparent background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-8d5fce13-c2eb-43a2-948b-3394bd0f8883.png",
+      "output": "public/assets/clay/room-items/lego_spiderman.webp"
+    },
+    {
+      "id": "lego_hogwarts",
+      "prompt": "Use case: stylized-concept. FLOPS game collectible LEGO Harry Potter Hogwarts main tower, inspired by official set 76454. Assembled miniature sandy beige castle with tall iconic pointed dark gray spire, smaller turrets and warm lit arched windows, a small brick Harry Potter figure with round glasses and red/gold scarf holding wand beside doorway, tiny white owl. Everything thick hand modelled matte plasticine toy bricks with visible studs and thumb marks, not shiny hard plastic, child-friendly charming simplified detail, full model on small dark green studded base, front three-quarter view, studio soft light, genuinely transparent background, no box, no unrelated objects, no caption.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-91b99c83-1404-465d-b91d-df1f92f1a004.png",
+      "output": "public/assets/clay/room-items/lego_hogwarts.webp"
+    },
+    {
+      "id": "lego_peppa",
+      "prompt": "Use case: stylized-concept. FLOPS collectible LEGO DUPLO Peppa Pig Family House inspired by current official 10467. Cheerful assembled yellow two-story dollhouse open front with coral red pitched roof, chunky rounded studded building blocks, light blue windows, simple furniture in rooms, pink Peppa in red dress and George in blue shirt plus parents as small DUPLO-style toy figures next to doorway on green base. All made of matte handmade plasticine clay with fingerprints, soft warm studio light, child-friendly readable silhouettes, complete centered model front three-quarter view, no retail box, no photo, no words, genuinely transparent background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-10ae2910-aba6-4786-abc1-32a202f48202.png",
+      "output": "public/assets/clay/room-items/lego_peppa.webp"
+    },
+    {
+      "id": "premium_playground",
+      "prompt": "Use case: stylized-concept. Premium interactive FLOPS room object: small indoor plasticine playground for a pug. Clear FRONT VIEW slightly from above, entire object on square transparent canvas, no pug and no other characters. Left side: four broad cream steps climb to a short teal blue platform at upper-left (x .28,y .25); smooth CORAL RED slide starts there and slopes down diagonally to lower right (x .78,y .83), the slide lane fully visible and wide enough for a small pug. On far right a simple ochre-yellow freestanding horizontal gymnastics bar with bar at x .80,y .24 and two sturdy uprights, clear space beneath it. Connected low sage green rounded mat base. Matte hand sculpted modelling clay, softly rounded thick edges and thumbprints, no logos or text, no wall/floor backdrop, genuinely transparent background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-bad71dcc-4d9a-4653-ad6d-5e0b4434f467.png",
+      "output": "public/assets/clay/room-items/premium_playground.webp"
+    },
+    {
+      "id": "premium_pool",
+      "prompt": "Use case: stylized-concept. Premium interactive FLOPS game asset: one small round inflatable paddling pool for a pug. FRONT VIEW slightly elevated so turquoise water surface is clearly visible; centered entire object. Three chunky inflatable rings sculpted from matte plasticine, butter yellow outside and aqua blue inside, wide oval water surface visible at canvas y .43 to .62, front rim at y .65. Tiny cream steps on right, a small yellow rubber duck near left back edge, no pug, no swimmer. Soft toy proportions, hand-pressed clay fingerprints, soft light, full pool fits within square transparent canvas with no background wall/floor or huge shadow. No words, genuinely transparent background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-139a7d3a-b13f-457e-a9fe-8f771dc7e7ae.png",
+      "output": "public/assets/clay/room-items/premium_pool.webp"
+    },
+    {
+      "id": "premium_juice_bar",
+      "prompt": "Use case: stylized-concept. Premium FLOPS interactive room furniture: cheerful miniature tropical mocktail bar with no alcohol. Front view slightly from above; curved muted teal bar counter with thick rounded pale peach tabletop, two colorful fruit juice smoothies in chunky glasses with striped straws and orange slice decorations sitting on left and right ends leaving empty middle for a pug, small wooden shelf below holding oranges and pineapples, little coral parasol attached left. Counter full visible, centered, rounded matte hand sculpted plasticine with fingerprints, no characters, no writing, no liquor bottles, no stools obscuring front, no background floor or wall, genuinely transparent square background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-b8d04234-1831-4cc7-9f68-736194f82361.png",
+      "output": "public/assets/clay/room-items/premium_juice_bar.webp"
+    },
+    {
+      "id": "cuckoo_clock",
+      "prompt": "Use case: stylized-concept. FLOPS wall-clock game asset: charming cuckoo clock handmade from matte plasticine, honey oak colored little chalet with terracotta red gabled roof, cream round clock face with clear brown simple hands and twelve small raised dots, two pinecone weights and round swinging pendulum below. Directly above face a SMALL DARK OPEN CUBBY for a cuckoo bird at x .5,y .28 of square image; cubby clear unobstructed, no doors, no bird yet (bird will animate separately). Full clock and dangling pendulum visible centered straight-on, soft rounded handcrafted clay details, no text, no wall, genuinely transparent background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-be4f5e19-91ac-4363-a988-ec2ad1cbf3e3.png",
+      "output": "public/assets/clay/room-items/cuckoo_clock.webp"
+    },
+    {
+      "id": "cuckoo_bird",
+      "prompt": "Use case: stylized-concept. One separate animated cuckoo bird sprite for FLOPS handmade plasticine cuckoo clock. Tiny friendly rounded cinnamon brown and warm cream cuckoo with little yellow open beak, dark shiny bead eyes, stubby wings, pale belly, three small tail feathers. FRONT VIEW bird looking forward, short feet on tiny brown perch, complete body visible centered on square transparent background. Matte smooth hand modelled clay with tiny fingerprints, soft studio light, simple child-friendly shape, no clock, no other objects, no text, genuinely transparent.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-833d724b-77a4-45cc-b4be-438f02c60358.png",
+      "output": "public/assets/clay/room-items/cuckoo_bird.webp"
+    },
+    {
+      "id": "fruit_mocktail",
+      "prompt": "Use case: stylized-concept. One small handheld fruit mocktail sprite for FLOPS pug game. Chunky transparent-looking pale cream clay tumbler filled with bright peach-orange mango juice, short striped coral/cream straw bending left at top, one little orange slice on rim. Front view whole cup visible centered, matte handmade plasticine toy sculpture with soft rounded edges and thumb marks, no character or hand, no alcohol, no background, no text, genuinely transparent background.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-c30d28a1-87fc-464c-8e0d-d562fabf2e4d.png",
+      "output": "public/assets/clay/room-items/fruit_mocktail.webp"
+    }
+  ],
+  "references": [
+    {
+      "theme": "Spider-Man",
+      "set": "76342",
+      "url": "https://www.lego.com/en-us/product/spider-man-vs-mysterio-the-daily-bugle-76342"
+    },
+    {
+      "theme": "Harry Potter",
+      "set": "76454",
+      "url": "https://www.lego.com/en-us/product/hogwarts-castle-the-main-tower-76454"
+    },
+    {
+      "theme": "Peppa Pig",
+      "set": "10467",
+      "url": "https://www.lego.com/en-us/product/family-house-10467"
+    }
+  ]
+}

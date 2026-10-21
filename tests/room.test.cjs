@@ -153,10 +153,10 @@ test('fitting replaces only competing fitted clothing and round-trips without gr
   assert.equal('owned' in normalizeRoom(room), false);
 });
 
-test('all twelve windows and the sports bar are purchasable wall items with real assets', () => {
+test('all thirteen windows and the sports bar are purchasable wall items with real assets', () => {
   const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
   const windows = ACCESSORIES.filter(i => i.category === 'windows');
-  assert.equal(windows.length, 12);
+  assert.equal(windows.length, 13);
   assert.equal(new Set(ACCESSORIES.map(i => i.id)).size, ACCESSORIES.length);
   for (const item of [...windows, ACCESSORIES.find(i => i.id === 'sport_wall_bar')]) {
     assert.ok(item.active && item.price > 0);
@@ -197,9 +197,9 @@ test('laptop follows desk in either corner at mobile and desktop aspect ratios, 
 });
 
 const { SHOP_RELEASE, shouldShowRelease } = load(path.resolve(__dirname, '../src/lib/shop-release.ts'));
-test('new shop release has twenty-five usable purchased-only products and announces once per version', () => {
+test('new shop release has thirty-three usable purchased-only products and announces once per version', () => {
   const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
-  assert.equal(SHOP_RELEASE.items.length, 25);
+  assert.equal(SHOP_RELEASE.items.length, 33);
   for (const id of SHOP_RELEASE.items) {
     const product = ACCESSORIES.find(i => i.id === id), room = catalog.find(i => i.id === id);
     assert.ok(product.active && product.price > 0 && room);
@@ -337,4 +337,13 @@ test('shelf placement uses free slots and refuses a fourth object instead of hid
   for (let n=0;n<3;n++) {const x=placement.freeShelfSlot(placed);assert.ok(Number.isFinite(x));assert.equal(placed.some(item=>item.mountX===x),false);placed.push({mountX:x});}
   assert.equal(placement.freeShelfSlot(placed),null);
   assert.equal(placement.freeShelfSlot([{mountX:-.2},{mountX:.2}]),0);
+});
+test('LEGO and premium sections use their own purchasable items and the requested price bands',()=>{
+  const {activeCategories}=load(path.resolve(__dirname,'../src/lib/shop.ts'));
+  assert.ok(activeCategories().some(item=>item.id==='lego'));assert.ok(activeCategories().some(item=>item.id==='premium'));
+  const lego=ACCESSORIES.filter(item=>item.category==='lego');assert.equal(lego.length,3);
+  for(const item of lego)assert.ok(item.active&&item.price>0);
+  const premium=ACCESSORIES.filter(item=>item.category==='premium');assert.equal(premium.length,4);
+  for(const item of premium)assert.ok(item.active&&(item.id==='cuckoo_clock'?item.price===100:item.price>=150&&item.price<=200));
+  for(const name of ['cuckoo_bird','fruit_mocktail'])assert.ok(fs.existsSync(path.resolve(__dirname,'../public/assets/clay/room-items/'+name+'.webp')));
 });

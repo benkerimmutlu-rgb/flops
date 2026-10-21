@@ -82,3 +82,33 @@
 #flops-room .room-object[data-kind=shelf]::after{content:"";position:absolute;inset:var(--shelf-top) 0 var(--shelf-bottom);border-radius:10px;pointer-events:none}
 #flops-room .room-object[data-kind=shelf][aria-pressed=true]::after{border:2px dashed #68573f99}
 #flops-room .room-object[data-kind=shelf]:focus-visible::after{border:3px solid #5987ac}
+/* Visual-only room activities never alter a saved layout. */
+.room-activity-layer{position:absolute;inset:0;pointer-events:none;z-index:50000;overflow:hidden}
+.activity-pug{position:absolute;left:0;top:0;aspect-ratio:1;z-index:1;transform-origin:50% 100%;isolation:isolate;will-change:transform,opacity}
+.activity-pug-body{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:1}
+.activity-clothes{position:absolute;inset:0;pointer-events:none}
+.activity-clothing{position:absolute;aspect-ratio:1;height:auto;object-fit:contain}
+.activity-furniture-front{position:absolute;object-fit:contain;z-index:2;pointer-events:none}
+.activity-drop{position:absolute;width:9px;height:13px;border-radius:60% 40% 55% 45%;background:#59b8ce;box-shadow:inset 2px 2px 2px #e4fafb;z-index:6}
+.activity-cuckoo{position:absolute;aspect-ratio:1;object-fit:contain;z-index:5;transform-origin:center}
+.activity-cup{position:absolute;aspect-ratio:1;object-fit:contain;z-index:5;transform-origin:50% 80%}
+#flops-room #room-play,#flops-room #room-play-extra{background-color:#c3d6a2}
+#flops-room[data-activity-playing=true] #room-play{background-color:#e6ba92}
+.activity-preview-wrap{display:inline-flex;align-items:center;justify-content:center}
+.activity-preview{position:relative;border:0;padding:0;background:transparent;cursor:pointer;border-radius:16px}
+.activity-preview:focus-visible{outline:3px solid #357793;outline-offset:4px}
+.activity-preview-badge{position:absolute;right:0;bottom:0;width:28px;height:28px;display:grid;place-items:center;border-radius:50%;color:#fff9e8;background:#668357;box-shadow:inset 2px 2px 3px #ffffff55,0 2px 0 #4c6540;font-size:14px}
+.activity-demo{margin:auto;width:min(600px,calc(100vw - 24px));padding:18px;border:0;border-radius:25px;background:#f2e4ca;color:#4d5140;box-shadow:inset 2px 3px 5px #fff9,0 20px 80px #40362855;max-height:90dvh;overflow:auto}
+.activity-demo::backdrop{background:#393d3077}
+.activity-demo header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.activity-demo h2{flex:1;font-size:20px;font-weight:750;text-align:left}
+.activity-demo header button,.activity-demo-actions button{min-height:46px;min-width:46px;border:0;border-radius:15px;background:#d5dfb9;box-shadow:inset 2px 2px 3px #fff8,0 3px 0 #a6b58b;color:#4d5140;padding:9px 14px;cursor:pointer;font-weight:700}
+.activity-demo header button{font-size:26px;background:#e6d6b7}
+.activity-demo-stage{position:relative;aspect-ratio:1.5;isolation:isolate;overflow:hidden;border-radius:20px;background:url('/assets/clay/room-peach.webp') center/100% 100%}
+.activity-demo-toy{position:absolute;left:50%;top:92%;width:66%;height:auto;aspect-ratio:1;object-fit:contain;transform:translate(-50%,-100%)}
+.activity-demo-toy.activity-demo-clock{top:66%;width:34%}
+.activity-demo-actor{position:absolute;left:20%;top:92%;width:22%;aspect-ratio:1;transform:translate(-50%,-100%)}
+.activity-demo-actor img{width:100%;height:100%;object-fit:contain}
+.activity-demo-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:16px}
+@media(prefers-reduced-motion:reduce){.activity-pug{will-change:auto}}
+#flops-room[data-activity-playing=true] .room-object[aria-pressed=true]{outline:none}

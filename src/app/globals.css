@@ -192,3 +192,5 @@ input:not([type=checkbox]):not([type=radio]),select{font-size:16px;min-height:44
 #flops-room[data-synth-playing=true] .room-object[data-id=synthesizer]{filter:drop-shadow(0 0 5px #edc96c);outline:2px solid #b1c68b;outline-offset:1px;border-radius:16px}
 @keyframes synth-sway{from{transform:rotate(-1.5deg)}to{transform:rotate(1.5deg)}}
 @media(prefers-reduced-motion:reduce){.synth-preview[aria-pressed=true] .shop-item-picture{animation:none}}
+/* Every window starts at the same top edge, including wide pickup windows. */
+.shop-window-picture img{object-position:50% 0}

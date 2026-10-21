@@ -7,6 +7,8 @@
 // видно, но в «Коллекции» у того, кто её купил, она остаётся — навсегда.
 
 export type ShopCategoryId =
+  | "lego"
+  | "premium"
   | "things"
   | "windows"
   | "sport"
@@ -27,6 +29,8 @@ export interface ShopCategory {
 // Порядок = порядок вкладок. Добавить раздел «по интересам» — просто дописать
 // сюда категорию и вещи ниже; пустые категории на витрине не показываются.
 export const SHOP_CATEGORIES: ShopCategory[] = [
+  { id: "premium", label: "Премиум", image: "/assets/clay/room-items/premium_playground.webp", color: "#ecd292" },
+  { id: "lego", label: "LEGO", image: "/assets/clay/room-items/lego_peppa.webp", color: "#edbfa6" },
   { id: "things", label: "Вещи", image: "/assets/clay/room-items/backpack.webp", color: "#d2dfbd" },
   { id: "sport", label: "Спорт", image: "/assets/clay/room-items/sp1.webp", color: "#edc4b5" },
   { id: "games", label: "Игры", image: "/assets/clay/room-items/gm9.webp", color: "#d8cce9" },
@@ -86,6 +90,14 @@ function gen(
 }
 
 export const ACCESSORIES: Accessory[] = [
+  {"id": "window_new_york_night", "name": "Окно в ночной Нью-Йорк", "img": "/assets/clay/room-items/window_new_york_night.webp", "price": 34, "category": "windows", "active": true},
+  {"id": "lego_spiderman", "name": "LEGO · Человек-паук", "img": "/assets/clay/room-items/lego_spiderman.webp", "price": 48, "category": "lego", "active": true},
+  {"id": "lego_hogwarts", "name": "LEGO · Хогвартс", "img": "/assets/clay/room-items/lego_hogwarts.webp", "price": 58, "category": "lego", "active": true},
+  {"id": "lego_peppa", "name": "LEGO · Дом Пеппы", "img": "/assets/clay/room-items/lego_peppa.webp", "price": 42, "category": "lego", "active": true},
+  {"id": "premium_playground", "name": "Игровой уголок", "img": "/assets/clay/room-items/premium_playground.webp", "price": 200, "category": "premium", "active": true},
+  {"id": "premium_pool", "name": "Бассейн Флопса", "img": "/assets/clay/room-items/premium_pool.webp", "price": 190, "category": "premium", "active": true},
+  {"id": "premium_juice_bar", "name": "Коктейльная стойка", "img": "/assets/clay/room-items/premium_juice_bar.webp", "price": 150, "category": "premium", "active": true},
+  {"id": "cuckoo_clock", "name": "Часы с кукушкой", "img": "/assets/clay/room-items/cuckoo_clock.webp", "price": 100, "category": "premium", "active": true},
   {"id": "jump_rope", "name": "Скакалка", "img": "/assets/clay/room-items/jump_rope.webp", "price": 18, "category": "sport", "active": true},
   {"id": "shelf_lack", "name": "Полка IKEA LACK", "img": "/assets/clay/room-items/shelf_lack.webp", "price": 20, "category": "relax", "active": true},
   {"id": "shelf_mosslanda", "name": "Полка IKEA MOSSLANDA", "img": "/assets/clay/room-items/shelf_mosslanda.webp", "price": 22, "category": "relax", "active": true},
