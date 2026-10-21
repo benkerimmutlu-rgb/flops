@@ -42,7 +42,6 @@ export function FlagGuessGame({
     const distractors = pickDistractors(target, ALL_LITE, 3);
     // eslint-disable-next-line react-hooks/set-state-in-effect -- randomize-after-mount, see store.tsx note
     setOptions(shuffle([target, ...distractors]));
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAnswer(null);
   }, [step, target]);
 
@@ -98,10 +97,10 @@ export function FlagGuessGame({
         </p>
 
         <div
-          className="w-full max-w-xs overflow-hidden rounded-2xl bg-white shadow-inner ring-1 ring-border"
+          className="w-full max-w-xs"
           style={{ aspectRatio: `${ratio.w} / ${ratio.h}` }}
         >
-          <FlagImage code={target.code} fit="cover" />
+          <FlagImage code={target.code} fit="contain" />
         </div>
 
         {/* 4 варианта с озвучкой */}

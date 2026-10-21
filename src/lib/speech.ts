@@ -35,6 +35,10 @@ export const LANG_BY_CODE: Record<string, string> = {
   mx: "es-MX",
   ar: "es-AR",
   co: "es-CO",
+  cz: "cs-CZ", sk: "sk-SK", hu: "hu-HU", ro: "ro-RO",
+  dk: "da-DK", no: "nb-NO", is: "is-IS", hr: "hr-HR",
+  rs: "sr-RS", bg: "bg-BG", ge: "ka-GE", am: "hy-AM",
+  my: "ms-MY", ph: "fil-PH", ke: "sw-KE", za: "zu-ZA",
 };
 
 /** Locale for a country code; Russian fallback keeps pre-readers covered. */

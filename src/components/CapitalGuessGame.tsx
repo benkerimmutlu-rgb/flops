@@ -40,9 +40,8 @@ export function CapitalGuessGame({
   useEffect(() => {
     if (!target) return;
     const distractors = pickCapitalDistractors(target, 3);
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- randomize-after-mount
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- generate browser-only choices
     setOptions(shuffle([target, ...distractors]));
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAnswerCode(null);
   }, [step, target]);
 
@@ -111,10 +110,10 @@ export function CapitalGuessGame({
         {answerCode && isCorrect && <Confetti />}
 
         <div
-          className="w-full max-w-[220px] overflow-hidden rounded-2xl bg-white shadow-inner ring-1 ring-border"
+          className="w-full max-w-[220px]"
           style={{ aspectRatio: `${ratio.w} / ${ratio.h}` }}
         >
-          <FlagImage code={target.code} fit="cover" />
+          <FlagImage code={target.code} fit="contain" />
         </div>
         <p className="text-center text-xl font-bold text-foreground">{target.name}</p>
         <p className="text-center text-base font-semibold text-muted">

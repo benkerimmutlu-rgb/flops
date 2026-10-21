@@ -1,0 +1,41 @@
+{
+  "mode": "built-in image_gen",
+  "assets": [
+    {
+      "code": "mn",
+      "prompt": "Use case: scientific-educational. Asset type: single transparent country flag for FLOPS children's clay geography game. Create the national flag of Mongolia: three equal vertical stripes red, blue, red; a correct golden Soyombo emblem in the upper part of the hoist red stripe. Handmade plasticine slab with softly irregular edges, subtle thumbprints, a gentle ripple but all symbols clearly legible and national design accurate. Straight front view, entire flag visible, centered with 7% clear margin, landscape 3:2 flag, soft studio light. Genuine transparent background outside flag, no pole, no lettering, no frame, no extra objects. Match tactile colorful stop-motion plasticine, not fabric.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-26d772ce-5b02-4917-b409-268a6be51dce.png",
+      "output": "public/flags-clay/mn.webp"
+    },
+    {
+      "code": "tz",
+      "prompt": "Use case: scientific-educational. Asset type: single transparent country flag for FLOPS children's clay geography game. Create the national flag of Tanzania: green upper left triangle, blue lower right triangle, black diagonal band from bottom left to top right edged with thin yellow stripes. Handmade plasticine slab with softly irregular edges, subtle thumbprints, a gentle ripple but all symbols clearly legible and national design accurate. Straight front view, entire flag visible, centered with 7% clear margin, landscape 3:2 flag, soft studio light. Genuine transparent background outside flag, no pole, no lettering, no frame, no extra objects. Match tactile colorful stop-motion plasticine, not fabric.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-50405e83-66a9-4de5-9183-88840838a5a4.png",
+      "output": "public/flags-clay/tz.webp"
+    },
+    {
+      "code": "ws",
+      "prompt": "Use case: scientific-educational. Asset type: single transparent country flag for FLOPS children's clay geography game. Create the national flag of Samoa: red field, blue canton containing exactly five white stars arranged as the Southern Cross. Handmade plasticine slab with softly irregular edges, subtle thumbprints, a gentle ripple but all symbols clearly legible and national design accurate. Straight front view, entire flag visible, centered with 7% clear margin, landscape 3:2 flag, soft studio light. Genuine transparent background outside flag, no pole, no lettering, no frame, no extra objects. Match tactile colorful stop-motion plasticine, not fabric.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-d78661da-b4b9-41d1-a531-b490c77fa177.png",
+      "output": "public/flags-clay/ws.webp"
+    },
+    {
+      "code": "za",
+      "prompt": "Use case: scientific-educational. Asset type: single transparent country flag for FLOPS children's clay geography game. Create the national flag of South Africa: correct six color South African national flag with green horizontal Y edged white, black hoist triangle edged gold, red upper field and blue lower field. Handmade plasticine slab with softly irregular edges, subtle thumbprints, a gentle ripple but all symbols clearly legible and national design accurate. Straight front view, entire flag visible, centered with 7% clear margin, landscape 3:2 flag, soft studio light. Genuine transparent background outside flag, no pole, no lettering, no frame, no extra objects. Match tactile colorful stop-motion plasticine, not fabric.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-485e449a-873a-4ea9-863c-dafa5afd7b84.png",
+      "output": "public/flags-clay/za.webp"
+    },
+    {
+      "code": "zw",
+      "prompt": "Use case: scientific-educational. Asset type: single transparent country flag for FLOPS children's clay geography game. Create the national flag of Zimbabwe: seven equal horizontal stripes green yellow red black red yellow green, white triangle at hoist bordered black containing red five pointed star and golden Zimbabwe Bird. Handmade plasticine slab with softly irregular edges, subtle thumbprints, a gentle ripple but all symbols clearly legible and national design accurate. Straight front view, entire flag visible, centered with 7% clear margin, landscape 3:2 flag, soft studio light. Genuine transparent background outside flag, no pole, no lettering, no frame, no extra objects. Match tactile colorful stop-motion plasticine, not fabric.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-4d48c531-de9c-43df-873f-4e97fe04a3bd.png",
+      "output": "public/flags-clay/zw.webp"
+    },
+    {
+      "code": "boxing-helmet",
+      "prompt": "Use case: precise-object-edit. Edit target image 1: red and yellow plasticine boxing headguard. Supporting anatomy reference image 2: FLOPS pug. Create ONLY a wearable front-view headguard overlay, not a dog: rounded red padded crown, yellow corner accents, curved red side cheek pads and a thin red chin strap. Huge continuous genuinely TRANSPARENT central opening for the pug's two eyes, nose and open mouth, occupying central 65% width and 70% height. No rear interior lining or rear helmet surface visible through opening. No white ground shadow, no floor, no mannequin, no face. Symmetrical front view, zero rotation, outer silhouette approximately circular, tactile handmade plasticine matching originals. Fill square canvas with 8% margin. Alpha cutout inside and outside helmet.",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-c1c45f45-52b3-4c99-b062-fe158018f05f.png",
+      "output": "public/assets/clay/wardrobe/boxing_headguard_fit.webp"
+    }
+  ]
+}

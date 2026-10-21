@@ -225,3 +225,15 @@ test('full-face mask uses the head layer and broad cape has front and back piece
     assert.ok(cape.parts[0].size >= 1 && cape.frontParts.length);
   }
 });
+
+test('boxing headguard uses an open front overlay around the face in all three poses', () => {
+  const helmet = require('../src/components/clay/room-catalog.json').find(i => i.id === 'sp10');
+  for (const pose of ['stand','sit','sleep']) {
+    const fit = wearableFit(helmet, pose);
+    assert.equal(fit.layer, 'head');
+    assert.equal(fit.parts.length, 1);
+    assert.equal(fit.parts[0].img, '/assets/clay/wardrobe/boxing_headguard_fit.webp');
+    assert.ok(fit.parts[0].y > .3, 'headguard surrounds the face rather than resting like a hat');
+    assert.ok(fs.existsSync(path.resolve(__dirname, '../public' + fit.parts[0].img)));
+  }
+});

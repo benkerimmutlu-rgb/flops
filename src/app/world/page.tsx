@@ -300,10 +300,10 @@ function MiniFlag({ code }: { code: string }) {
   const ratio = FLAG_VIEWBOX[code] ?? { w: 3, h: 2 };
   return (
     <div
-      className="h-7 w-10 shrink-0 overflow-hidden rounded-md ring-1 ring-border"
+      className="h-7 w-10 shrink-0"
       style={{ aspectRatio: `${ratio.w} / ${ratio.h}` }}
     >
-      <FlagImage code={code} fit="cover" />
+      <FlagImage code={code} fit="contain" />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-// 20 стандартных фраз на разных языках для раздела «Языки».
+// 40 стандартных фраз на разных языках для раздела «Языки».
 // Игрок видит фразу (родное написание + читаемая транслитерация) и угадывает,
 // из какой это страны. При правильном ответе звучит перевод на русском (`ru`).
 //
@@ -34,4 +34,24 @@ export const LANGUAGE_PHRASES: LanguagePhrase[] = [
   { code: "il", lang: "Иврит", native: "שלום", translit: "Шалом", ru: "Привет" },
   { code: "vn", lang: "Вьетнамский", native: "Xin chào", translit: "Син чао", ru: "Привет" },
   { code: "br", lang: "Португальский", native: "Obrigado", translit: "Обригаду", ru: "Спасибо" },
+  { code: "ua", lang: "Украинский", native: "Дякую", translit: "Дякую", ru: "Спасибо" },
+  { code: "ru", lang: "Русский", native: "Привет", translit: "Привет", ru: "Привет" },
+  { code: "cz", lang: "Чешский", native: "Ahoj", translit: "Ахой", ru: "Привет" },
+  { code: "sk", lang: "Словацкий", native: "Ďakujem", translit: "Дякуем", ru: "Спасибо" },
+  { code: "hu", lang: "Венгерский", native: "Szia", translit: "Сиа", ru: "Привет" },
+  { code: "ro", lang: "Румынский", native: "Mulțumesc", translit: "Мулцумеск", ru: "Спасибо" },
+  { code: "dk", lang: "Датский", native: "Tak", translit: "Так", ru: "Спасибо" },
+  { code: "no", lang: "Норвежский", native: "Takk", translit: "Так", ru: "Спасибо" },
+  { code: "is", lang: "Исландский", native: "Takk", translit: "Так", ru: "Спасибо" },
+  { code: "hr", lang: "Хорватский", native: "Hvala", translit: "Хвала", ru: "Спасибо" },
+  { code: "rs", lang: "Сербский", native: "Здраво", translit: "Здраво", ru: "Привет" },
+  { code: "bg", lang: "Болгарский", native: "Благодаря", translit: "Благодаря", ru: "Спасибо" },
+  { code: "ge", lang: "Грузинский", native: "გამარჯობა", translit: "Гамарджоба", ru: "Здравствуйте" },
+  { code: "am", lang: "Армянский", native: "Բարև", translit: "Барев", ru: "Привет" },
+  { code: "th", lang: "Тайский", native: "สวัสดี", translit: "Саватди", ru: "Здравствуйте" },
+  { code: "id", lang: "Индонезийский", native: "Terima kasih", translit: "Терима касих", ru: "Спасибо" },
+  { code: "my", lang: "Малайский", native: "Terima kasih", translit: "Терима касих", ru: "Спасибо" },
+  { code: "ph", lang: "Филиппинский", native: "Salamat", translit: "Саламат", ru: "Спасибо" },
+  { code: "ke", lang: "Суахили", native: "Asante", translit: "Асанте", ru: "Спасибо" },
+  { code: "za", lang: "Зулу", native: "Sawubona", translit: "Савубона", ru: "Здравствуйте" },
 ];

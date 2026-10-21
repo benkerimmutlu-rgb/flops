@@ -12,7 +12,7 @@ import { getFlopsAsset } from "@/brand/flops-assets";
 
 // The "Мир" country page. Shows full facts for the 12 detailed countries and a
 // short card (flag + continent, capital when known) for everyone else.
-export function CountryDetail({ code }: { code: string }) {
+export function CountryDetail({ code, returnToLanguages = false }: { code: string; returnToLanguages?: boolean }) {
   const full = countryByCode(code);
   const lite = liteByCode(code);
   const name = full?.name ?? lite?.name ?? code.toUpperCase();
@@ -24,14 +24,14 @@ export function CountryDetail({ code }: { code: string }) {
 
   return (
     <div className="flex flex-col gap-6 pb-16">
-      <Link href="/world" className="text-sm font-semibold text-muted hover:text-foreground">
-        ← Мой мир
+      <Link href={returnToLanguages ? "/languages" : "/world"} className="text-sm font-semibold text-brand-green hover:underline">
+        {returnToLanguages ? "← Продолжить игру в Языки" : "← Мой мир"}
       </Link>
 
       {/* Заголовок */}
       <div className="flex flex-col items-center gap-4 text-center">
         <div
-          className="w-full max-w-[240px] overflow-hidden rounded-2xl bg-white p-2 shadow-[var(--shadow-card)] ring-1 ring-border"
+          className="w-full max-w-[240px]"
           style={{ aspectRatio: `${ratio.w} / ${ratio.h}` }}
         >
           <FlagImage code={code} fit="contain" />

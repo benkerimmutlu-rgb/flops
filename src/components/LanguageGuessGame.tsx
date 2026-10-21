@@ -1,81 +1,54 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { CountryLite } from "@/lib/types";
-import { LanguagePhrase } from "@/lib/phrases";
-import { liteByCode, pickCapitalDistractors, shuffle } from "@/lib/data";
+import { LANGUAGE_PHRASES, LanguagePhrase } from "@/lib/phrases";
+import { liteByCode } from "@/lib/data";
 import { FlagImage, FLAG_VIEWBOX } from "@/lib/flags";
 import { speak, langFor } from "@/lib/speech";
 import { useUserState } from "@/lib/store";
 import { getFlopsAsset } from "@/brand/flops-assets";
 import { Confetti } from "./Confetti";
+import { answerLanguageSession, advanceLanguageSession, repeatLanguageErrors, type LanguageSession } from "@/lib/language-session";
 
 // Same guessing mechanic as flags/capitals: the prompt is a phrase in a foreign
 // language (written + readable transliteration), and the four options are
 // countries (flag + name). On a correct answer the Russian translation is read
 // aloud. Keeps its own session scoring; the flag known/repeat state is untouched.
 export function LanguageGuessGame({
-  pool,
+  session,
+  onChange,
   onRestart,
 }: {
-  pool: LanguagePhrase[];
+  session: LanguageSession;
+  onChange: (session: LanguageSession) => void;
   onRestart: () => void;
 }) {
   const { earnReward } = useUserState();
-  const [queue, setQueue] = useState<LanguagePhrase[]>(pool);
-  const [step, setStep] = useState(0);
-  const [options, setOptions] = useState<CountryLite[]>([]);
-  const [answerCode, setAnswerCode] = useState<string | null>(null);
-  const [correct, setCorrect] = useState(0);
-  const [earned, setEarned] = useState(0);
-  const [wrongList, setWrongList] = useState<LanguagePhrase[]>([]);
-  const [done, setDone] = useState(false);
-
+  const current = useRef(session);
+  useEffect(() => { current.current = session; }, [session]);
+  const { step, answerCode, correct, earned, done, wrongList } = session;
+  const queue = session.queue.map(code => LANGUAGE_PHRASES.find(p => p.code === code)!);
+  const options = session.options.map(code => liteByCode(code)!);
   const target = queue[step];
-  const targetCountry = target ? liteByCode(target.code) : undefined;
-
-  useEffect(() => {
-    if (!targetCountry) return;
-    const distractors = pickCapitalDistractors(targetCountry, 3);
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- randomize-after-mount
-    setOptions(shuffle([targetCountry, ...distractors]));
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setAnswerCode(null);
-  }, [step, targetCountry]);
-
-  if (!target || !targetCountry) return null;
-
+  const targetCountry = liteByCode(target.code)!;
+  function change(next: LanguageSession) {
+    current.current = next;
+    onChange(next);
+  }
   function choose(code: string) {
-    if (answerCode || !target || !targetCountry) return;
-    setAnswerCode(code);
-    if (code === target.code) {
-      // Правильный ответ — озвучиваем перевод на русском.
-      speak(target.ru, "ru-RU");
-      setCorrect((c) => c + 1);
-      setEarned((e) => e + earnReward());
-    } else {
-      // Ошибся — называем правильную страну вслух (для нечитающих).
-      speak(targetCountry.name, "ru-RU");
-      setWrongList((w) =>
-        w.some((p) => p.code === target.code) ? w : [...w, target]
-      );
-    }
+    const now = current.current;
+    if (now.answerCode || now.done || !now.options.includes(code)) return;
+    // Lock the answer before awarding anything; hydration never awards again.
+    const answered = answerLanguageSession(now, code, 0);
+    current.current = answered;
+    const reward = code === target.code ? earnReward() : 0;
+    change({ ...answered, earned: answered.earned + reward });
+    speak(code === target.code ? target.ru : targetCountry.name, "ru-RU");
   }
-
-  function advance() {
-    if (step + 1 >= queue.length) setDone(true);
-    else setStep((s) => s + 1);
-  }
-
-  function repeatWrong() {
-    setQueue(wrongList);
-    setWrongList([]);
-    setStep(0);
-    setCorrect(0);
-    setDone(false);
-  }
+  function advance() { change(advanceLanguageSession(current.current)); }
+  function repeatWrong() { change(repeatLanguageErrors(current.current)); }
 
   if (done) {
     return (
@@ -158,10 +131,10 @@ export function LanguageGuessGame({
                 }`}
               >
                 <div
-                  className="h-8 w-11 shrink-0 overflow-hidden rounded-md ring-1 ring-border"
+                  className="h-8 w-11 shrink-0"
                   style={{ aspectRatio: `${ratio.w} / ${ratio.h}` }}
                 >
-                  <FlagImage code={opt.code} fit="cover" />
+                  <FlagImage code={opt.code} fit="contain" />
                 </div>
                 <button
                   type="button"
@@ -241,7 +214,7 @@ function Feedback({
         >
           {last ? "Готово →" : "Дальше →"}
         </button>
-        <Link href={`/world/${code}`} className="text-sm font-semibold text-brand-blue hover:underline">
+        <Link href={`/world/${code}?from=languages`} className="text-sm font-semibold text-brand-blue hover:underline">
           Узнать больше о стране →
         </Link>
       </div>

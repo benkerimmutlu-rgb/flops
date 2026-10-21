@@ -81,8 +81,8 @@ export default function OnboardingPage() {
 
         {chosen && (
           <div className="flex items-center gap-3 rounded-[var(--radius-card)] border border-brand-green bg-brand-green/[0.06] p-3">
-            <div className="h-12 w-16 shrink-0 overflow-hidden rounded-lg ring-1 ring-border" style={{ aspectRatio: `${ratio.w} / ${ratio.h}` }}>
-              <FlagImage code={code!} fit="cover" />
+            <div className="h-12 w-16 shrink-0" style={{ aspectRatio: `${ratio.w} / ${ratio.h}` }}>
+              <FlagImage code={code!} fit="contain" />
             </div>
             <p className="text-[17px] font-bold text-foreground">
               Твой флаг — {chosen.name} 🎉
@@ -109,8 +109,8 @@ export default function OnboardingPage() {
                   on ? "border-brand-green bg-brand-green/10" : "border-border hover:bg-black/[0.03]"
                 }`}
               >
-                <div className="h-6 w-9 shrink-0 overflow-hidden rounded ring-1 ring-border" style={{ aspectRatio: `${r.w} / ${r.h}` }}>
-                  <FlagImage code={c.code} fit="cover" />
+                <div className="h-6 w-9 shrink-0" style={{ aspectRatio: `${r.w} / ${r.h}` }}>
+                  <FlagImage code={c.code} fit="contain" />
                 </div>
                 <span className="truncate text-sm font-bold text-foreground">{c.name}</span>
               </button>

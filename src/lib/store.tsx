@@ -180,13 +180,14 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
   const [owned, setOwned] = useState<string[]>([]);
   const [hydrated, setHydrated] = useState(false);
   const [roomData, setRoomDataState] = useState<RoomSnapshot>(emptyRoom);
-  const [roomHydrated, setRoomHydrated] = useState(false);
-  const roomScope = useRef("guest");
+  const [roomOwner, setRoomOwner] = useState<string | null>(null);
+  const roomScope = useRef<string | null>(null);
   const roomRef = useRef(roomData);
   const [giftPending, setGiftPending] = useState(false);
 
   // Облачная синхронизация (когда родитель вошёл и профиль создан).
   const { status: authStatus, user } = useAuth();
+  const roomHydrated = authStatus !== "loading" && roomOwner === (user?.id ?? "guest");
   const cloudLoaded = useRef(false);
   const saveTimer = useRef<number | null>(null);
   // Дневная отдача (не часть основного прогресса — только для начисления).
@@ -297,14 +298,27 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (authStatus === "loading") return;
     const scope = user?.id ?? "guest";
+    if (roomScope.current === scope) return;
     roomScope.current = scope;
     let saved = emptyRoom();
     try { saved = normalizeRoom(JSON.parse(localStorage.getItem(`${ROOM_KEY}:${scope}`) || "null")); } catch { /* empty room */ }
     roomRef.current = saved;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- account-scoped browser hydration
     setRoomDataState(saved);
-    setRoomHydrated(true);
+    setRoomOwner(scope);
   }, [authStatus, user?.id]);
+
+  // Reconcile another tab only if its layout is newer, including deliberate clears.
+  useEffect(() => {
+    function receive(event: StorageEvent) {
+      if (!roomScope.current || event.key !== `${ROOM_KEY}:${roomScope.current}` || !event.newValue) return;
+      try {
+        const next = newerRoom(roomRef.current, JSON.parse(event.newValue));
+        if (next.updatedAt > roomRef.current.updatedAt) { roomRef.current = next; setRoomDataState(next); }
+      } catch { /* Ignore malformed storage events. */ }
+    }
+    window.addEventListener("storage", receive);
+    return () => window.removeEventListener("storage", receive);
+  }, []);
 
   // Текущее состояние прогресса одним объектом (для облака).
   function currentBlob() {

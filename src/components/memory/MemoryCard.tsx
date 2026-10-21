@@ -65,7 +65,7 @@ export function MemoryCard({
           }`}
         >
           <span className="flex h-full w-full items-center justify-center p-1.5">
-            <FlagImage code={card.code} fit="contain" className="rounded-sm" />
+            <FlagImage code={card.code} fit="contain" />
           </span>
         </span>
       </span>

@@ -27,7 +27,8 @@ export function wearableFit(item, pose) {
     if (item.id === 'hw11') return { layer: 'head', parts: [part(sleeping ? .35 : .50, sleeping ? .67 : .40, sleeping ? .72 : .78, sleeping ? -20 : 12, '/assets/clay/wardrobe/scream_mask_fit.webp')] };
     if (group === 'cape') return { layer: 'back', parts: [part(sleeping ? .65 : .51, sleeping ? .69 : .59, sleeping ? 1.0 : 1.02, sleeping ? -12 : 0, '/assets/clay/wardrobe/' + (item.id === 'hw3' ? 'vampire_back_fan' : 'cape_back_fan') + '.webp')], frontParts: [part(sleeping ? .58 : .51, sleeping ? .77 : .68, .32, sleeping ? -20 : 10, '/assets/clay/wardrobe/' + (item.id === 'hw3' ? 'wear_vampire_collar' : 'wear_cape_collar') + '.webp')] };
     if (group === 'eyes') return { layer: 'head', parts: [part(sleeping ? .37 : .50, sleeping ? .64 : .36, .43, sleeping ? -20 : 15)] };
-    if (group === 'hat') return { layer: 'head', parts: [part(sleeping ? .39 : .48, sleeping ? .49 : .19, item.id === 'sp10' ? .64 : .50, sleeping ? -20 : 15)] };
+    if (item.id === 'sp10') return { layer: 'head', parts: [part(sleeping ? .36 : .50, sleeping ? .65 : .39, sleeping ? .74 : .76, sleeping ? -20 : 12, '/assets/clay/wardrobe/boxing_headguard_fit.webp')] };
+    if (group === 'hat') return { layer: 'head', parts: [part(sleeping ? .39 : .48, sleeping ? .49 : .19, .50, sleeping ? -20 : 15)] };
     if (group === 'neck') return { layer: 'front', parts: [part(sleeping ? .58 : .51, sleeping ? .74 : .64, .43, sleeping ? -20 : 12)] };
     if (group === 'headphones') return { layer: 'head', parts: [part(sleeping ? .37 : .50, sleeping ? .62 : .38, sleeping ? .62 : .75, sleeping ? -20 : 15)] };
     if (group === 'backpack') return { layer: 'back', parts: [part(sleeping ? .74 : .65, sleeping ? .70 : .65, .62)] };

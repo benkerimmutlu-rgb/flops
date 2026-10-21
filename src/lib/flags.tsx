@@ -267,15 +267,12 @@ export function FlagSvg({ code }: { code: string }) {
   if (!FLAG_VIEWBOX[code]) return null;
   // Fixed small local asset set served from /public — not worth Next/Image's setup.
   // eslint-disable-next-line @next/next/no-img-element
-  return <img src={`/flags/${code}.png`} alt="" className="h-full w-full object-cover" />;
+  return <img src={flagSrc(code)} alt="" className="h-full w-full object-contain" />;
 }
 
-// Clay-rendered flags (public/flags-clay/<code>.png) are a progressive visual
-// upgrade over the accurate stock PNGs. A code is listed here only once its
-// clay flag has been identified and dropped in — otherwise we fall back to the
-// stock flag, so the games always have a complete, correct set to draw from.
+// All 196 countries used by FLOPS have tactile clay flags with transparent edges.
 export const CLAY_FLAGS = new Set<string>([
-  // Identified from "Flags NEW" and copied to public/flags-clay/<code>.png.
+  // Identified from the original "Flags NEW" collection.
   "ae", "af", "al", "am", "ao", "ar", "at", "au", "az", "ba",
   "bd", "be", "bg", "bo", "br", "by", "ca", "ch", "ci", "cl",
   "cm", "cn", "co", "cr", "cu", "cz", "de", "dk", "do", "dz",
@@ -295,7 +292,8 @@ export const CLAY_FLAGS = new Set<string>([
   "mm", "sy", "tl", "tm", "ps", "ad", "li", "mc", "me", "sm",
   "va", "sv", "bz", "bs", "bb", "ag", "dm", "gd", "kn", "lc",
   "tt", "gy", "sr", "vu", "fm", "mh", "ki", "tv",
-  // Final 10 — the whole world
+  "se", "sg", "si", "sk", "sn", "td", "th", "tn", "to", "tr", "ua", "ug", "us", "uy", "uz", "ve", "vn", "mn", "tz", "ws", "za", "zw",
+  // Final 10
   "mt", "ye", "zm", "mv", "tj", "mr", "mu", "mw", "vc", "xk",
 ]);
 
@@ -306,12 +304,11 @@ export function flagSrc(code: string): string {
 
 /**
  * A flag image for the games. `fit="contain"` keeps clay flags (which carry
- * their own soft edges / shadow) un-cropped; `fit="cover"` fills a framed card.
+ * their own soft edges / shadow) un-cropped. Legacy fit props never crop a flag.
  */
 export function FlagImage({
   code,
   alt = "",
-  fit = "contain",
   className = "",
 }: {
   code: string;
@@ -324,7 +321,7 @@ export function FlagImage({
     <img
       src={flagSrc(code)}
       alt={alt}
-      className={`h-full w-full ${fit === "cover" ? "object-cover" : "object-contain"} ${className}`}
+      className={`h-full w-full object-contain ${className}`}
     />
   );
 }

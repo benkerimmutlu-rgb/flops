@@ -1,0 +1,89 @@
+{
+  "existingSources": [
+    {
+      "code": "se",
+      "source": "../Flags NEW/Глиняный шведский флаг в волнах.png",
+      "output": "public/flags-clay/se.webp"
+    },
+    {
+      "code": "sg",
+      "source": "../Flags NEW/Изображение ChatGPT 18 окт. 2026 г., 14_11_40-1.png",
+      "output": "public/flags-clay/sg.webp"
+    },
+    {
+      "code": "si",
+      "source": "../Flags NEW/Изображение ChatGPT 18 окт. 2026 г., 14_11_42-3.png",
+      "output": "public/flags-clay/si.webp"
+    },
+    {
+      "code": "sk",
+      "source": "../Flags NEW/Изображение ChatGPT 18 окт. 2026 г., 14_11_43-5.png",
+      "output": "public/flags-clay/sk.webp"
+    },
+    {
+      "code": "sn",
+      "source": "../Flags NEW/Изображение ChatGPT 18 окт. 2026 г., 14_11_46-8.png",
+      "output": "public/flags-clay/sn.webp"
+    },
+    {
+      "code": "td",
+      "source": "../Flags NEW/Изображение ChatGPT 18 окт. 2026 г., 14_23_08-8.png",
+      "output": "public/flags-clay/td.webp"
+    },
+    {
+      "code": "th",
+      "source": "../Flags NEW/Изображение ChatGPT 18 окт. 2026 г., 14_52_34-1.png",
+      "output": "public/flags-clay/th.webp"
+    },
+    {
+      "code": "tn",
+      "source": "../Flags NEW/Изображение ChatGPT 18 окт. 2026 г., 14_52_38-6.png",
+      "output": "public/flags-clay/tn.webp"
+    },
+    {
+      "code": "to",
+      "source": "../Flags NEW/Изображение ChatGPT 18 окт. 2026 г., 14_52_37-4.png",
+      "output": "public/flags-clay/to.webp"
+    },
+    {
+      "code": "tr",
+      "source": "../Flags NEW/Изображение ChatGPT 18 окт. 2026 г., 14_52_39-7.png",
+      "output": "public/flags-clay/tr.webp"
+    },
+    {
+      "code": "ua",
+      "source": "../Flags NEW/Изображение ChatGPT 19 окт. 2026 г., 00_12_02-1.png",
+      "output": "public/flags-clay/ua.webp"
+    },
+    {
+      "code": "ug",
+      "source": "../Flags NEW/Изображение ChatGPT 18 окт. 2026 г., 14_52_42-10.png",
+      "output": "public/flags-clay/ug.webp"
+    },
+    {
+      "code": "us",
+      "source": "../Flags NEW/Изображение ChatGPT 19 окт. 2026 г., 00_12_04-4.png",
+      "output": "public/flags-clay/us.webp"
+    },
+    {
+      "code": "uy",
+      "source": "../Flags NEW/Изображение ChatGPT 19 окт. 2026 г., 00_12_05-5.png",
+      "output": "public/flags-clay/uy.webp"
+    },
+    {
+      "code": "uz",
+      "source": "../Flags NEW/Изображение ChatGPT 19 окт. 2026 г., 00_12_06-6.png",
+      "output": "public/flags-clay/uz.webp"
+    },
+    {
+      "code": "ve",
+      "source": "../Flags NEW/Изображение ChatGPT 19 окт. 2026 г., 00_12_08-9.png",
+      "output": "public/flags-clay/ve.webp"
+    },
+    {
+      "code": "vn",
+      "source": "../Flags NEW/Изображение ChatGPT 19 окт. 2026 г., 00_12_08-10.png",
+      "output": "public/flags-clay/vn.webp"
+    }
+  ]
+}

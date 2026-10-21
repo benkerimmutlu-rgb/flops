@@ -16,13 +16,17 @@ export function PugRoom() {
   useEffect(() => { latest.current = { owned, roomData, setRoomData }; }, [owned, roomData, setRoomData]);
   useEffect(() => {
     if (!roomHydrated || !container.current) return;
-    const node = container.current.querySelector<HTMLElement>("#flops-room");
+    const host = container.current;
+    // React owns only the host; the imperative engine owns its descendants.
+    host.innerHTML = ROOM_MARKUP;
+    const node = host.querySelector<HTMLElement>("#flops-room");
     if (!node) return;
-    engine.current = mountRoom(node, { catalog, rooms, owned: latest.current.owned, saved: latest.current.roomData, onChange: snapshot => latest.current.setRoomData(snapshot) });
-    return () => { engine.current?.destroy(); engine.current = null; };
+    const mounted = mountRoom(node, { catalog, rooms, owned: latest.current.owned, saved: latest.current.roomData, onChange: snapshot => latest.current.setRoomData(snapshot) });
+    engine.current = mounted;
+    return () => { mounted.destroy(); if (engine.current === mounted) engine.current = null; host.replaceChildren(); };
   }, [roomHydrated, user?.id]);
   useEffect(() => { engine.current?.updateOwned(owned); }, [owned]);
   useEffect(() => { engine.current?.updateSaved(roomData); }, [roomData]);
   if (!roomHydrated) return <p role="status">Загружаем домик…</p>;
-  return <div ref={container} dangerouslySetInnerHTML={{ __html: ROOM_MARKUP }} />;
+  return <div ref={container} />;
 }

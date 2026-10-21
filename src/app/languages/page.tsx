@@ -1,31 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { LANGUAGE_PHRASES, LanguagePhrase } from "@/lib/phrases";
+import { LANGUAGE_PHRASES } from "@/lib/phrases";
 import { shuffle } from "@/lib/data";
 import { LanguageGuessGame } from "@/components/LanguageGuessGame";
 import { getFlopsAsset } from "@/brand/flops-assets";
 
-const COUNTS = [5, 10, 20] as const;
+import { useAuth } from "@/lib/auth";
+import { restoreLanguageSession, startLanguageSession, type LanguageSession } from "@/lib/language-session";
+
+const COUNTS = [5, 10, 20, 40] as const;
 
 export default function LanguagesPage() {
-  const [pool, setPool] = useState<LanguagePhrase[] | null>(null);
-
-  if (pool) {
-    return (
-      <div className="flex flex-col gap-5">
-        <h1 className="text-[28px] font-bold text-foreground">Языки мира</h1>
-        <LanguageGuessGame pool={pool} onRestart={() => setPool(null)} />
-      </div>
-    );
+  const { user, status } = useAuth();
+  if (status === "loading") return <p role="status">Загружаем игру…</p>;
+  return <LanguageVisit key={user?.id ?? "guest"} scope={user?.id ?? "guest"} />;
+}
+function LanguageVisit({ scope }: { scope: string }) {
+  const [session, setSession] = useState<LanguageSession | null>(null);
+  const [ready, setReady] = useState(false);
+  const key = `flops_languages_v1:${scope}`;
+  useEffect(() => {
+    let saved = null;
+    try { saved = restoreLanguageSession(JSON.parse(sessionStorage.getItem(key) || "null")); } catch { /* New game if storage is unavailable. */ }
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- restore browser-only, account-scoped session
+    setSession(saved);
+    setReady(true);
+  }, [key]);
+  function change(next: LanguageSession | null) {
+    try {
+      if (next) sessionStorage.setItem(key, JSON.stringify(next));
+      else sessionStorage.removeItem(key);
+    } catch { /* The current game remains playable without browser storage. */ }
+    setSession(next);
   }
-
-  return (
-    <Setup
-      onStart={(count) => setPool(shuffle(LANGUAGE_PHRASES).slice(0, count))}
-    />
+  if (!ready) return <p role="status">Загружаем игру…</p>;
+  if (session) return (
+    <div className="flex flex-col gap-5">
+      <h1 className="text-[28px] font-bold text-foreground">Языки мира</h1>
+      <LanguageGuessGame session={session} onChange={change} onRestart={() => change(null)} />
+    </div>
   );
+  return <Setup onStart={count => change(startLanguageSession(shuffle(LANGUAGE_PHRASES).slice(0, count).map(p => p.code)))} />;
 }
 
 function Setup({ onStart }: { onStart: (count: number) => void }) {
@@ -57,7 +74,7 @@ function Setup({ onStart }: { onStart: (count: number) => void }) {
       {/* Сколько фраз */}
       <section className="flex flex-col gap-3">
         <h2 className="text-[21px] font-bold text-foreground">Сколько фраз?</h2>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {COUNTS.map((n) => (
             <button
               key={n}

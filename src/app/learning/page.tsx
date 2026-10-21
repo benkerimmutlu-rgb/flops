@@ -55,8 +55,8 @@ export default function LearningPage() {
           const ratio = FLAG_VIEWBOX[code] ?? { w: 3, h: 2 };
           return (
             <div key={code} className="flex items-center gap-3 px-4 py-3">
-              <div className="h-8 w-12 shrink-0 overflow-hidden rounded-md ring-1 ring-border" style={{ aspectRatio: `${ratio.w} / ${ratio.h}` }}>
-                <FlagImage code={code} fit="cover" />
+              <div className="h-8 w-12 shrink-0" style={{ aspectRatio: `${ratio.w} / ${ratio.h}` }}>
+                <FlagImage code={code} fit="contain" />
               </div>
               <span className="flex-1 text-[15px] font-bold text-foreground">{liteByCode(code)!.name}</span>
               {all[code]?.inRepeat && (
