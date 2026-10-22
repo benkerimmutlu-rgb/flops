@@ -1,5 +1,6 @@
 import { toggleSynthMelody, stopSynthMelody, subscribeSynth, isSynthPlaying } from './synth-melody.js';
 import { createLiveClockController, liveClockMarkup } from './live-clock.js';
+import { musicRestMarkup } from './music-props.js';
 import { hourglassSand } from './hourglass.js';
 import { onSupport, deskCorner, canMount, detach, freeShelfSlot } from './room-placement.js';
 import { roomPose, isSleepSeat } from './room-poses.js';
@@ -131,7 +132,7 @@ export function mountRoom(root, options) {
         } else front?.remove();
     }
     function styleObject(b, o, wear) { const item = byId.get(o.id); if (wear && o.fitted) { styleWear(b, o); return; } outfit.querySelector(`[data-wear-front="${o.id}"]`)?.remove(); if (wear && b.parentElement !== headOutfit) headOutfit.append(b); b.classList.remove('room-fitted'); b.setAttribute('aria-pressed', String(selected === o.id)); const at = wear ? o : coordinates(o); b.style.left = at.x * 100 + '%'; b.style.top = at.y * 100 + '%'; b.style.width = (wear ? o.scale * item.size : itemWidth(o)) * 100 + '%'; b.style.transform = (wear ? 'translate(-50%,-50%)' : `translate(-50%,-${(item.anchorY ?? 1) * 100}%)`) + ' rotate(' + o.rotation + 'deg)'; b.style.zIndex = String(wear ? 10 : ['wall', 'ceiling', 'shelf'].includes(item.kind) ? 1 : parentOf(o) && byId.get(parentOf(o).id).kind === 'shelf' ? 2 : Math.round((parentOf(o)?.y ?? o.y) * 10000) + (parentOf(o) ? 5 : 0)); }
-    function objectButton(o, wear) { const item = byId.get(o.id), b = document.createElement('button'); b.type = 'button'; b.className = 'room-object'; b.dataset.id = o.id; b.dataset.kind = item.kind; if (item.kind === 'shelf') { b.style.clipPath = `inset(${(item.surfaceY - .1) * 100}% 0 ${(1 - item.anchorY - .05) * 100}% 0)`; b.style.setProperty('--shelf-top', (item.surfaceY - .1) * 100 + '%'); b.style.setProperty('--shelf-bottom', (1 - item.anchorY - .05) * 100 + '%'); } b.setAttribute('aria-label', item.name); b.setAttribute('aria-pressed', String(selected === o.id)); const img = document.createElement('img'); img.src = item.img; img.alt = ''; img.draggable = false; if (o.id === 'hourglass') { const clock = document.createElement('span'); clock.className = 'clay-hourglass'; clock.append(img); clock.insertAdjacentHTML('beforeend', hourglassSand()); b.append(clock); } else b.append(img); b.insertAdjacentHTML('beforeend',liveClockMarkup(o.id)); styleObject(b, o, wear); listen(b, 'pointerdown', e => begin(e, o.id, wear)); listen(b, 'click', e => { select(o.id); if (o.id === 'synthesizer' && e.detail === 0) void playSynth(); if (o.id === WARDROBE_ID && e.detail === 0) toggleWardrobe(); }); listen(b, 'keydown', e => moveKey(e, o.id)); return b; }
+    function objectButton(o, wear) { const item = byId.get(o.id), b = document.createElement('button'); b.type = 'button'; b.className = 'room-object'; b.dataset.id = o.id; b.dataset.kind = item.kind; if (item.kind === 'shelf') { b.style.clipPath = `inset(${(item.surfaceY - .1) * 100}% 0 ${(1 - item.anchorY - .05) * 100}% 0)`; b.style.setProperty('--shelf-top', (item.surfaceY - .1) * 100 + '%'); b.style.setProperty('--shelf-bottom', (1 - item.anchorY - .05) * 100 + '%'); } b.setAttribute('aria-label', item.name); b.setAttribute('aria-pressed', String(selected === o.id)); const img = document.createElement('img'); img.src = item.img; img.alt = ''; img.draggable = false; if (o.id === 'hourglass') { const clock = document.createElement('span'); clock.className = 'clay-hourglass'; clock.append(img); clock.insertAdjacentHTML('beforeend', hourglassSand()); b.append(clock); } else b.append(img); b.insertAdjacentHTML('beforeend',liveClockMarkup(o.id)+musicRestMarkup(o.id)); styleObject(b, o, wear); listen(b, 'pointerdown', e => begin(e, o.id, wear)); listen(b, 'click', e => { select(o.id); if (o.id === 'synthesizer' && e.detail === 0) void playSynth(); if (o.id === WARDROBE_ID && e.detail === 0) toggleWardrobe(); }); listen(b, 'keydown', e => moveKey(e, o.id)); return b; }
     function renderObjects() {
         const pose = currentPose(), image = root.querySelector('.kids-mascot-fallback'), face = root.querySelector('.room-face-occlusion');
         image.src = '/assets/clay/room-pug-' + pose + '.webp'; image.dataset.pose = pose; face.src = image.src; actor.dataset.pose = pose;
@@ -197,7 +198,7 @@ export function mountRoom(root, options) {
         img.draggable = false;
         const span = document.createElement('span');
         span.textContent = item.name;
-        const clockFace=liveClockMarkup(id);
+        const clockFace=liveClockMarkup(id)+musicRestMarkup(id);
         if(clockFace){const picture=document.createElement('span');picture.className='room-clock-thumbnail';picture.append(img);picture.insertAdjacentHTML('beforeend',clockFace);b.append(picture,span);}
         else b.append(img, span);
         listen(b, 'click', () => used.has(id) ? select(id) : add(id));

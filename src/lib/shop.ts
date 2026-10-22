@@ -90,6 +90,13 @@ function gen(
 }
 
 export const ACCESSORIES: Accessory[] = [
+  {"id": "poster_backstreet", "name": "Плакат · Backstreet Boys", "img": "/assets/clay/room-items/poster_backstreet.webp", "price": 22, "category": "relax", "active": true},
+  {"id": "poster_britney", "name": "Плакат · Бритни Спирс", "img": "/assets/clay/room-items/poster_britney.webp", "price": 22, "category": "relax", "active": true},
+  {"id": "poster_helene", "name": "Плакат · Элен и ребята", "img": "/assets/clay/room-items/poster_helene.webp", "price": 22, "category": "relax", "active": true},
+  {"id": "poster_manifest", "name": "Плакат · Manifest", "img": "/assets/clay/room-items/poster_manifest.webp", "price": 22, "category": "relax", "active": true},
+  {"id": "demirhane_wall_sign", "name": "Вывеска DEMIRHANE SOUND", "img": "/assets/clay/room-items/demirhane_wall_sign.webp", "price": 26, "category": "things", "active": true},
+  {"id": "premium_music_studio", "name": "Гитара и барабаны", "img": "/assets/clay/room-items/premium_music_studio.webp", "price": 200, "category": "premium", "active": true},
+
   { id: "live_clock_blue", name: "Синие часы", img: "/assets/clay/room-items/live_clock_blue.webp", price: 60, category: "premium", active: true },
   { id: "live_clock_green", name: "Часы-болтушка", img: "/assets/clay/room-items/live_clock_green.webp", price: 50, category: "premium", active: true },
   {"id": "window_new_york_night", "name": "Окно в ночной Нью-Йорк", "img": "/assets/clay/room-items/window_new_york_night.webp", "price": 34, "category": "windows", "active": true},

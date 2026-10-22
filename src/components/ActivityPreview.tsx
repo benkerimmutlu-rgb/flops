@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import catalog from './clay/room-catalog.json';
 import { LiveClockOverlay } from './LiveClockOverlay';
+import { musicRestMarkup } from './clay/music-props.js';
 import { ACTIVITIES } from './clay/activity-plans.js';
 import { createActivityPlayer } from './clay/room-activities.js';
 
@@ -27,7 +28,7 @@ export function ActivityPreview({id,src,name,children}:{id:string;src:string;nam
         {/* Stable square sprite registration is shared with the room engine. */}
         <div ref={toy} style={{transform:`translate(-50%,-${(definition.anchorY??1)*100}%)`}} className={`activity-demo-toy ${id==='cuckoo_clock'?'activity-demo-clock':''}`}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={src} alt="" className="h-full w-full object-contain"/><LiveClockOverlay id={id}/>
+          <img src={src} alt="" className="h-full w-full object-contain"/><LiveClockOverlay id={id}/>{id === 'premium_music_studio' && <span dangerouslySetInnerHTML={{__html:musicRestMarkup(id)}}/>}
         </div>
         <div ref={actor} className="activity-demo-actor">
           {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -16,7 +16,7 @@ test('premium actions require the specific purchased and placed item and cannot 
  assert.equal(allowedActivity(['premium_pool'],[{id:'premium_pool'}],'premium_pool','slide'),false);
 });
 test('every animation is bounded, ordered and returns the pug to its original place without changing its geometry',()=>{
- for(const actions of Object.values(ACTIVITIES))for(const action of actions){const plan=activityPlan(action.id);assert.ok(plan.duration>=5000&&plan.duration<=9000);let last=-1;
+ for(const actions of Object.values(ACTIVITIES))for(const action of actions){const plan=activityPlan(action.id);assert.ok(plan.duration>=5000&&plan.duration<=13000);let last=-1;
   for(const frame of plan.frames){assert.ok(frame.offset>=last&&frame.offset<=1);last=frame.offset;for(const coord of [frame.x,frame.y])assert.ok(coord===null||(Number.isFinite(coord)&&coord>=0&&coord<=1));assert.ok(frame.opacity>=0&&frame.opacity<=1);assert.equal('scaleX' in frame,false);assert.equal('scaleY' in frame,false);}
   if(plan.frames.length){assert.equal(plan.frames[0].x,null);assert.equal(plan.frames.at(-1).x,null);assert.equal(plan.frames.at(-1).opacity,1);}
  }
@@ -42,12 +42,13 @@ test('cancelling or replacing an activity restores the real actor and removes ev
   const {createActivityPlayer}=load(path.resolve('src/components/clay/room-activities.js'));
   const stage=element();stage.getBoundingClientRect=()=>({left:0,top:0,width:600,height:400});
   const actor=element();actor.style.visibility='visible';actor.getBoundingClientRect=()=>({left:50,top:250,width:100,bottom:350});
-  const target={getBoundingClientRect:()=>({left:200,top:100,width:250,height:250})};
+  const target={querySelector:()=>null,getBoundingClientRect:()=>({left:200,top:100,width:250,height:250})};
   const states=[];const player=createActivityPlayer({stage,actor,onChange:value=>states.push(value)});
   player.play('slide',target,{img:'/slide.webp'});assert.equal(actor.style.visibility,'hidden');const first=stage.children[0];
   player.play('dive',target,{img:'/pool.webp'});assert.equal(first.removed,true);assert.equal(player.playing,true);
+  player.play('jam',target,{img:'/drums.webp'});
   player.cancel();assert.equal(actor.style.visibility,'visible');assert.equal(player.playing,false);assert.ok(stage.children.every(node=>node.removed));assert.ok(animations.every(animation=>animation.cancelled));
-  assert.deepEqual(states,[true,false,true,false]);player.destroy();
+  assert.deepEqual(states,[true,false,true,false,true,false]);player.destroy();
  }finally{global.document=originalDocument;global.window=originalWindow;}
 });
 
@@ -88,4 +89,13 @@ test('body poses match walking, sitting on the slide, swimming, drinking and gym
   const shown=['stand','sit'].filter(pose=>poseFrames(slide,pose).filter(frame=>frame.offset<=time).at(-1).visibility==='visible');
   assert.deepEqual(shown,[poseAt(slide,time)]);
  }
+});
+
+test('music studio switches from standing guitar to seated drums and only hides the body behind drums during that part',()=>{
+ const {activityPoses,foregroundFrames}=load(path.resolve('src/components/clay/activity-plans.js'));
+ const plan=activityPlan('jam');assert.ok(plan.duration===12500);
+ const pose=time=>activityPoses(plan).filter(f=>f.offset<=time).at(-1).pose;
+ assert.equal(pose(.3),'stand');assert.equal(pose(.65),'sit');assert.equal(pose(.95),'stand');
+ const front=time=>foregroundFrames(plan).filter(f=>f.offset<=time).at(-1).visibility;
+ assert.equal(front(.3),'hidden');assert.equal(front(.65),'visible');assert.equal(front(.95),'hidden');
 });

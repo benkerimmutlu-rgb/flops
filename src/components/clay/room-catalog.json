@@ -1213,5 +1213,48 @@
     "kind": "surface",
     "size": 0.25,
     "anchorY": 0.88
+  },
+  {
+    "id": "poster_backstreet",
+    "name": "Плакат · Backstreet Boys",
+    "img": "/assets/clay/room-items/poster_backstreet.webp",
+    "kind": "wall",
+    "size": 0.3
+  },
+  {
+    "id": "poster_britney",
+    "name": "Плакат · Бритни Спирс",
+    "img": "/assets/clay/room-items/poster_britney.webp",
+    "kind": "wall",
+    "size": 0.3
+  },
+  {
+    "id": "poster_helene",
+    "name": "Плакат · Элен и ребята",
+    "img": "/assets/clay/room-items/poster_helene.webp",
+    "kind": "wall",
+    "size": 0.3
+  },
+  {
+    "id": "poster_manifest",
+    "name": "Плакат · Manifest",
+    "img": "/assets/clay/room-items/poster_manifest.webp",
+    "kind": "wall",
+    "size": 0.3
+  },
+  {
+    "id": "demirhane_wall_sign",
+    "name": "Вывеска DEMIRHANE SOUND",
+    "img": "/assets/clay/room-items/demirhane_wall_sign.webp",
+    "kind": "wall",
+    "size": 0.32
+  },
+  {
+    "id": "premium_music_studio",
+    "name": "Гитара и барабаны",
+    "img": "/assets/clay/room-items/premium_music_studio.webp",
+    "kind": "activity",
+    "size": 0.56,
+    "anchorY": 0.92
   }
 ]

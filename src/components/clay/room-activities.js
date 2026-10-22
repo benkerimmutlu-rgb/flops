@@ -1,5 +1,6 @@
 import { activityPlan, foregroundFrames, activityPoses, poseFrames } from './activity-plans.js';
 import { wearableFit } from './wardrobe.js';
+import { createActivitySound } from './activity-sound.js';
 import { createCuckooSound } from './cuckoo-sound.js';
 
 /** An independent visual performer keeps animations out of the persisted room layout. */
@@ -22,11 +23,12 @@ export function activityPug(pose, clothes = [], catalog = []) {
 /** @param {{stage:HTMLElement,actor:HTMLElement,clothes?:()=>Array<import("@/lib/room").RoomItem>,catalog?:Array<import("@/lib/room").RoomCatalogItem>,onChange?:(playing:boolean)=>void,say?:(message:string)=>void}} options */
 export function createActivityPlayer({stage,actor,clothes=()=>[],catalog=[],onChange=()=>{},say=()=>{}}) {
     let active=null;
+    const soundtrack=createActivitySound(()=>new window.AudioContext());
     const audio=createCuckooSound(()=>new window.AudioContext());
     function cancel() {
         if(!active)return;
         const run=active;active=null;
-        run.animations.forEach(animation=>animation.cancel());run.timers.forEach(clearTimeout);run.layer.remove();actor.style.visibility=run.visibility;audio.stop();onChange(false);
+        run.animations.forEach(animation=>animation.cancel());run.timers.forEach(clearTimeout);run.layer.remove();actor.style.visibility=run.visibility;audio.stop();soundtrack.stop();onChange(false);
     }
     function play(action,target,definition) {
         const plan=activityPlan(action);if(!plan||!target)return false;
@@ -59,7 +61,7 @@ export function createActivityPlayer({stage,actor,clothes=()=>[],catalog=[],onCh
             const extension=[{offset:0,lift:0},{offset:.15,lift:1},{offset:.22,lift:.82},{offset:.30,lift:1},{offset:.43,lift:.88},{offset:.52,lift:1},{offset:.65,lift:.88},{offset:.75,lift:1},{offset:.84,lift:.9},{offset:.96,lift:0},{offset:1,lift:0}];
             animate(bird,extension.map(({offset,lift})=>({offset,transform:`translate(-50%,${-100-lift*flight*110}%) scale(${.3+.7*lift}) rotate(-50deg)`,easing:'ease-in-out'})),{duration:plan.duration});
             animate(spring,extension.map(({offset,lift})=>({offset,transform:`translateX(-50%) scaleY(${.03+lift*flight*.97})`,easing:'ease-in-out'})),{duration:plan.duration});
-            void audio.play().catch(()=>say('Кукушка появилась. Для звука нажми ещё раз.'));
+            void audio.play().catch(()=>{if(active===run)say('Кукушка появилась. Для звука нажми ещё раз.');});
         } else {
             const performer=document.createElement('div');performer.className='activity-pug';
             for(const pose of new Set(activityPoses(plan).map(frame=>frame.pose))){
@@ -70,11 +72,25 @@ export function createActivityPlayer({stage,actor,clothes=()=>[],catalog=[],onCh
             const frames=plan.frames.map(frame=>({offset:frame.offset,width:(frame.x===null?original.width:rect.w*plan.size)+'px',transform:`translate(${frame.x===null?origin.x:rect.x+frame.x*rect.w}px,${frame.y===null?origin.y:rect.y+frame.y*rect.h}px) translate(-50%,-100%) rotate(${reduced?0:frame.rotate}deg)`,opacity:frame.opacity,easing:'ease-in-out'}));
             if(reduced)for(const frame of frames)frame.transform=`translate(${rect.x+rect.w*.5}px,${rect.y+rect.h*.78}px) translate(-50%,-100%)`;
             animate(performer,frames,{duration:plan.duration});
+            void soundtrack.play(action).catch(()=>{if(active===run)say('Для звука нажми ещё раз.');});
+            if(action==='jam'){
+                const guitar=document.createElement('img');guitar.className='activity-held-guitar';guitar.src='/assets/clay/room-items/studio_guitar.webp';guitar.alt='';performer.append(guitar);
+                const held=[{offset:0,visibility:'hidden'},{offset:.18,visibility:'visible'},{offset:.45,visibility:'hidden'},{offset:1,visibility:'hidden'}].map(frame=>({...frame,easing:'steps(1,end)'}));
+                animate(guitar,held,{duration:plan.duration});
+                const rest=target.querySelector('.music-rest-guitar');if(rest)animate(rest,held.map(frame=>({...frame,visibility:frame.visibility==='visible'?'hidden':'visible'})),{duration:plan.duration});
+                if(!reduced)animate(guitar,[{rotate:'-3deg'},{rotate:'3deg'},{rotate:'-3deg'}],{duration:740,delay:plan.duration*.18,iterations:5});
+                const sticks=document.createElement('div');sticks.className='activity-drumsticks';sticks.style.left=rect.x+rect.w*.5+'px';sticks.style.top=rect.y+rect.h*(reduced?.78:.58)+'px';sticks.style.width=rect.w*plan.size+'px';sticks.style.height=rect.w*plan.size+'px';layer.append(sticks);
+                animate(sticks,[{offset:0,visibility:'hidden',easing:'steps(1,end)'},{offset:.58,visibility:'visible',easing:'steps(1,end)'},{offset:.86,visibility:'hidden',easing:'steps(1,end)'},{offset:1,visibility:'hidden'}],{duration:plan.duration});
+                for(let n=0;n<2;n++){const stick=document.createElement('i');stick.style.left=(n?65:32)+'%';stick.style.rotate=(n?35:-35)+'deg';sticks.append(stick);if(!reduced)animate(stick,[{rotate:(n?35:-35)+'deg'},{rotate:(n?-15:15)+'deg'},{rotate:(n?35:-35)+'deg'}],{duration:400,delay:plan.duration*.58+n*200,iterations:8});}
+            }
             // Foreground occlusion makes the pug enter water or stand behind the counter.
             const occlusion=foregroundFrames(plan,reduced);
             if(occlusion){
-                const front=document.createElement('img');front.src=definition.img;front.alt='';front.className='activity-furniture-front';front.style.left=rect.x+'px';front.style.top=rect.y+'px';front.style.width=rect.w+'px';front.style.height=rect.h+'px';front.style.clipPath=action==='dive'?'inset(49% 0 0 0)':'inset(43% 0 0 0)';layer.append(front);
+                const front=document.createElement('img');front.src=definition.img;front.alt='';front.className='activity-furniture-front';front.style.left=rect.x+'px';front.style.top=rect.y+'px';front.style.width=rect.w+'px';front.style.height=rect.h+'px';front.style.clipPath=plan.frontClip||(action==='dive'?'inset(49% 0 0 0)':'inset(43% 0 0 0)');layer.append(front);
                 animate(front,occlusion,{duration:plan.duration});
+                if(action==='jam'){
+                    const rest=document.createElement('img');rest.src='/assets/clay/room-items/studio_guitar.webp';rest.alt='';rest.className='activity-rest-guitar';rest.style.left=rect.x+rect.w*.67+'px';rest.style.top=rect.y+rect.h*.53+'px';rest.style.width=rect.w*.35+'px';rest.style.height=rect.h*.35+'px';layer.append(rest);animate(rest,occlusion,{duration:plan.duration});
+                }
             }
             for(const offset of plan.splash||[])later(()=>splash(rect.x+rect.w*(offset<.5?.5:.85),rect.y+rect.h*(offset<.5?.55:.76)),offset*plan.duration);
             if(plan.cup){
@@ -85,5 +101,5 @@ export function createActivityPlayer({stage,actor,clothes=()=>[],catalog=[],onCh
         onChange(true);later(()=>cancel(),plan.duration+50);return true;
     }
     const hidden=()=>{if(document.hidden)cancel();};document.addEventListener('visibilitychange',hidden);window.addEventListener('pagehide',cancel);window.addEventListener('resize',cancel);
-    return {play,cancel,get playing(){return !!active;},destroy(){cancel();audio.destroy();document.removeEventListener('visibilitychange',hidden);window.removeEventListener('pagehide',cancel);window.removeEventListener('resize',cancel);}};
+    return {play,cancel,get playing(){return !!active;},destroy(){cancel();audio.destroy();soundtrack.destroy();document.removeEventListener('visibilitychange',hidden);window.removeEventListener('pagehide',cancel);window.removeEventListener('resize',cancel);}};
 }

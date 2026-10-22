@@ -1,4 +1,5 @@
 const paths = {
+    music: '<path fill="#e4b264" d="M27 16v30a9 9 0 1 1-6-8V20l30-7v27a9 9 0 1 1-6-8V8z"/>',
     play: '<circle cx="32" cy="32" r="23" fill="#c4dba9"/><path fill="#65804d" d="m26 20 18 12-18 12z"/>',
     stop: '<rect x="17" y="17" width="30" height="30" rx="6" fill="#e3ac88"/>',
     slide: '<path fill="#e99576" d="M25 14h11q0 22 20 34l-8 7Q22 39 22 22z"/><path d="M12 50V15h13M12 28h12m-12 12h12"/>',

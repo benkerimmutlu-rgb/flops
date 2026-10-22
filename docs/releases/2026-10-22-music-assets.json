@@ -1,0 +1,50 @@
+{
+  "tool": "built-in imagegen",
+  "date": "2026-10-22",
+  "manifestReference": "https://manifestgirlband.com/",
+  "assets": [
+    {
+      "id": "poster_backstreet",
+      "prompt": "Use case: stylized-concept. Transparent-background square product asset for a children's handmade plasticine room. Tactile sculpted clay, subtle fingerprints, rounded edges, soft studio illumination, no environment, no floor shadow, centered complete object with generous safe margins. A vertical nostalgic 1990s bedroom wall poster, cream paper rectangle with slightly curled corners and four little clay tape tabs. Inside a charming recognizable CLAY PORTRAIT of the five Backstreet Boys in 1990s denim and white casual outfits, blond Nick Carter, Kevin Richardson, Brian Littrell, Howie Dorough and AJ McLean, friendly pop-band group pose, sky blue and cobalt star backdrop. Accurate exact title 'BACKSTREET BOYS' at top, no other text. Portraits should be detailed and recognizable, cheerful child-friendly modeling-clay aesthetic. Poster about 70% canvas width and 88% height, straight front view.",
+      "generated": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-b587eb1c-cce0-4f01-822e-07580f2b5600.png",
+      "output": "public/assets/clay/room-items/poster_backstreet.webp"
+    },
+    {
+      "id": "poster_britney",
+      "prompt": "Use case: stylized-concept. Transparent-background square product asset for a children's handmade plasticine room. Tactile sculpted clay, subtle fingerprints, rounded edges, soft studio illumination, no environment, no floor shadow, centered complete object with generous safe margins. A vertical nostalgic late-1990s pop bedroom wall poster of BRITNEY SPEARS in a friendly recognizable clay portrait, blonde hair with soft bangs, pink casual top and blue jeans, smiling innocent pop-star pose, lavender and pink background with clay stars, exact title 'BRITNEY SPEARS' in bold lettering at top. Cream paper rectangle with slightly curled corners and four small tape tabs. No other text. Child-friendly outfit, detailed recognizable sculpted face, 70% canvas width 88% height, perfectly straight front view.",
+      "generated": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-72c81e67-5df3-4f7c-921d-3b02f9932d02.png",
+      "output": "public/assets/clay/room-items/poster_britney.webp"
+    },
+    {
+      "id": "poster_helene",
+      "prompt": "Use case: stylized-concept. Transparent-background square product asset for a children's handmade plasticine room. Tactile sculpted clay, subtle fingerprints, rounded edges, soft studio illumination, no environment, no floor shadow, centered complete object with generous safe margins. A vertical nostalgic French 1990s sitcom bedroom wall poster titled exactly 'HÉLÈNE ET LES GARÇONS'. Friendly recognizable plasticine portraits of Hélène Rollès with long blonde hair and Nicolas Patrick Puydebat with long brown hair, plus their 1990s student friends around them, denim and colorful casual tops, cozy sitcom garage rehearsal atmosphere, warm coral turquoise cream palette. Cream poster paper with gently curled corners and four tape tabs, 70% canvas width 88% height, straight front view. Only the exact title, no other text.",
+      "generated": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-b0fad749-e86d-4898-b1c9-4cd15c43ff91.png",
+      "output": "public/assets/clay/room-items/poster_helene.webp"
+    },
+    {
+      "id": "poster_manifest",
+      "prompt": "Use case: stylized-concept. Transparent-background square product asset for a children's handmade plasticine room. Tactile sculpted clay, subtle fingerprints, rounded edges, soft studio illumination, no environment, no floor shadow, centered complete object with generous safe margins. A vertical music fan wall poster of Turkish girl group MANIFEST, exactly six stylish young adult women with distinct recognizable friendly clay faces and different brown, dark and blonde hairstyles, fully dressed colorful casual stage outfits. Dynamic group pose, orange purple teal pop background, bold exact title 'MANIFEST' at top. Cream poster paper rectangle with softly curled corners, four clay tape tabs, nostalgic 1990s fan-poster layout updated for this group. 70% canvas width 88% height, straight front view, no other text.",
+      "generated": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-ae7d5232-5e2b-4926-a809-6298bef343a8.png",
+      "output": "public/assets/clay/room-items/poster_manifest.webp"
+    },
+    {
+      "id": "demirhane_wall_sign",
+      "reference": true,
+      "prompt": "Use case: stylized-concept. Transparent-background square product asset for a children's handmade plasticine room. Tactile sculpted clay, subtle fingerprints, rounded edges, soft studio illumination, no environment, no floor shadow, centered complete object with generous safe margins. Create a wall-mounted dimensional clay sign faithfully based on the attached DEMIRHANE SOUND logo reference. Preserve recognizable red guitar-pick shield with the two black hammer-like diagonal shapes forming its central mark. Below the red pick, exact bold red lettering 'DEMIRHANE' and below that spaced red lettering 'S O U N D'. All parts are thick sculpted clay letters and emblem connected as a single cohesive wall sign, front view, clean and readable at small size. Reference image is branding guide, do not retain white rectangular photo background. Transparent background, no extra wording or decorations.",
+      "generated": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-562f4ebf-c343-4654-a99c-39dd6f5ae1ba.png",
+      "output": "public/assets/clay/room-items/demirhane_wall_sign.webp"
+    },
+    {
+      "id": "premium_music_studio",
+      "prompt": "Use case: stylized-concept. Transparent-background square product asset for a children's handmade plasticine room. Tactile sculpted clay, subtle fingerprints, rounded edges, soft studio illumination, no environment, no floor shadow, centered complete object with generous safe margins. A beautiful miniature DRUM KIT for a clay pug to play. Front view, slightly elevated. Warm coral red bass drum centered at x50% y68%, cream drumhead, two small tom drums around x38% and62% y48%, gold cymbals at x20% and80% y35%, low green oval rug x10%-90%, bottom y92%. Leave EMPTY visible space between toms at x50% y30%-48% where a small pug will sit BEHIND the drums. Include small drum stool behind, largely hidden. No guitar, no drumsticks, NO CHARACTER, no text. Complete kit fits square and looks like a premium handmade plasticine toy, rounded bamboo stands and tactile gold cymbals.",
+      "generated": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-ec233259-6f30-4ddc-99e1-a4e27e33cbd4.png",
+      "output": "public/assets/clay/room-items/premium_music_studio.webp"
+    },
+    {
+      "id": "studio_guitar",
+      "prompt": "Use case: stylized-concept. Transparent-background square product asset for a children's handmade plasticine room. Tactile sculpted clay, subtle fingerprints, rounded edges, soft studio illumination, no environment, no floor shadow, centered complete object with generous safe margins. One small charming coral-orange electric guitar, cream pickguard, six strings, dark cocoa fretboard, six tuning pegs, rounded clay rock-and-roll toy proportions. Full front view guitar aligned vertically with neck at top, body bottom. Complete guitar including neck and body, isolated centered, no stand, no cables, no text, transparent background. Thin enough neck and broad rounded body for a pug to hold across its chest.",
+      "generated": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-29f3f3b2-6c1d-43b5-9bef-2afa96f3c72c.png",
+      "output": "public/assets/clay/room-items/studio_guitar.webp"
+    }
+  ]
+}

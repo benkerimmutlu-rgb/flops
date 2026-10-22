@@ -123,3 +123,10 @@
 #flops-room .room-selected-picture>img{width:100%;height:100%;margin:0}
 #flops-room .room-selected-picture .live-clock-face{width:100%;height:100%;filter:none}
 @media(max-width:520px){#flops-room .room-clock-thumbnail{width:60px;height:60px}}
+
+.music-rest-guitar,#flops-room .room-object .music-rest-guitar,#flops-room .room-clock-thumbnail .music-rest-guitar{position:absolute;left:67%;top:53%;width:35%;height:35%;object-fit:contain;transform:rotate(15deg);pointer-events:none}
+.activity-held-guitar{position:absolute;left:22%;top:40%;width:80%;height:80%;object-fit:contain;transform:rotate(55deg);z-index:5;pointer-events:none}
+.activity-drumsticks{position:absolute;z-index:6;pointer-events:none;transform:translate(-50%,-100%)}
+.activity-drumsticks i{position:absolute;top:65%;height:22%;width:3.5%;border-radius:8px;background:#deb97b;box-shadow:inset 1px 0 1px #fff6,1px 1px 1px #6d4c2b55;transform-origin:50% 90%}
+
+.activity-rest-guitar{position:absolute;object-fit:contain;transform:rotate(15deg);z-index:3;pointer-events:none}

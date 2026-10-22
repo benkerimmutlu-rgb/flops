@@ -1,4 +1,5 @@
 export const ACTIVITIES = {
+    premium_music_studio: [{id:'jam',label:'Сыграть на гитаре и барабанах',icon:'music'}],
     premium_playground: [{ id: 'slide', label: 'Скатиться с горки', icon: 'slide' }, { id: 'spin', label: 'Солнышко на турнике', icon: 'spin' }],
     premium_pool: [{ id: 'dive', label: 'Нырнуть и отряхнуться', icon: 'dive' }],
     premium_juice_bar: [{ id: 'dance', label: 'Выпить сок и потанцевать', icon: 'drink' }],
@@ -14,6 +15,7 @@ export function activityPlan(action) {
     if (action === 'spin') return { duration: 7400, size: .27, frames: [f(0,null,null),f(.16,.88,.91),f(.30,.80,.29),f(.38,.80,.29),f(.51,.80,.29,180),f(.65,.80,.29,360),f(.73,.80,.29,360),f(.84,.87,.92,360),f(1,null,null,360)] };
     if (action === 'dive') return { duration: 8600, size: .34, occlusion: [.26,.65], frames: [f(0,null,null),f(.12,.88,.85),f(.23,.75,.48,-15),f(.32,.51,.60,-80,0),f(.40,.5,.66,0,0),f(.47,.5,.59),f(.53,.5,.57),f(.59,.5,.60),f(.65,.5,.57),f(.72,.84,.85),f(.77,.85,.91,-8),f(.795,.85,.91,8),f(.82,.85,.91,-7),f(.845,.85,.91,7),f(.87,.85,.91),f(1,null,null)], splash: [.32,.76,.81,.85] };
     if (action === 'dance') return { duration: 8500, size: .35, occlusion: [.17,.47], frames: [f(0,null,null),f(.10,.15,.90),f(.17,.50,.56),f(.37,.50,.56),f(.47,.50,.56),f(.58,.86,.92),f(.63,.86,.88,-9),f(.68,.86,.92,9),f(.73,.86,.87,-9),f(.78,.86,.92,9),f(.84,.86,.89),f(1,null,null)], cup: [.20,.46] };
+    if (action === 'jam') return {duration:12500,size:.38,occlusion:[.54,.86],frontClip:'inset(44% 0 0 0)',poses:[{offset:0,pose:'stand'},{offset:.55,pose:'sit'},{offset:.88,pose:'stand'}],frames:[f(0,null,null),f(.12,.84,.86),f(.20,.82,.87),f(.27,.82,.87,-3),f(.34,.82,.87,3),f(.43,.82,.87),f(.49,.74,.86),f(.57,.50,.58),f(.66,.50,.58,-2),f(.74,.50,.58,2),f(.84,.50,.58),f(.90,.85,.90),f(1,null,null)]};
     if (action === 'cuckoo') return { duration: 5200, size: 0, frames: [] };
     return null;
 }
