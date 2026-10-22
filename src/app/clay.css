@@ -130,3 +130,5 @@
 .activity-drumsticks i{position:absolute;top:65%;height:22%;width:3.5%;border-radius:8px;background:#deb97b;box-shadow:inset 1px 0 1px #fff6,1px 1px 1px #6d4c2b55;transform-origin:50% 90%}
 
 .activity-rest-guitar{position:absolute;object-fit:contain;transform:rotate(15deg);z-index:3;pointer-events:none}
+/* Keep the guitar visible beside the kit on the small shop thumbnail. */
+.activity-preview:has(.music-rest-guitar) .activity-preview-badge{right:auto;left:0}
