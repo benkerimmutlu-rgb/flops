@@ -23,6 +23,9 @@ body{
   font-family:'Archivo',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
   line-height:1.6;-webkit-font-smoothing:antialiased;
 }
+/* Декоративные рамки/формы не должны давать горизонтальный скролл.
+   #main-content вне sticky-шапки, поэтому обрезка её не ломает. */
+#main-content{overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 button{font:inherit}
 a,button{-webkit-tap-highlight-color:transparent}
@@ -38,7 +41,8 @@ p{color:var(--muted)}
 em{font-style:normal;color:var(--pink)}  /* акцентные слова в заголовках */
 
 .section{max-width:1240px;margin:auto;padding:84px 36px}
-.eyebrow{display:block;text-transform:uppercase;letter-spacing:.17em;font-size:11px;font-weight:800;color:var(--pink);margin-bottom:20px}
+/* Контурный тег-пилюля — фирменная деталь референса */
+.eyebrow{display:inline-flex;align-items:center;text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:800;color:var(--pink);border:1.5px solid currentColor;border-radius:100px;padding:7px 15px;margin-bottom:22px}
 
 /* ---------- Buttons / pills ---------- */
 .button{
@@ -75,6 +79,11 @@ em{font-style:normal;color:var(--pink)}  /* акцентные слова в з�
   position:absolute;width:94%;aspect-ratio:1;background:var(--pink);z-index:-1;
   border-radius:46% 54% 58% 42% / 54% 44% 56% 46%;
 }
+/* Контурная рамка-слой за розовым blob (приём референса) */
+.hero-art::before{
+  content:'';position:absolute;z-index:-2;inset:2% -3% -8% 7%;
+  border:2px solid var(--ink);border-radius:66px;transform:rotate(-6deg);
+}
 .hero-art>img{width:86%;max-height:470px;object-fit:contain;filter:drop-shadow(0 22px 20px rgba(255,31,90,.22))}
 .art-caption{
   position:absolute;bottom:4px;right:0;background:var(--white);border:1px solid var(--line);
@@ -82,6 +91,13 @@ em{font-style:normal;color:var(--pink)}  /* акцентные слова в з�
   box-shadow:0 8px 24px rgba(36,36,40,.1);
 }
 .art-caption strong{color:var(--ink)}
+
+/* ---------- Marquee band (жирная бегущая строка) ---------- */
+.marquee{background:var(--pink);color:var(--white);overflow:hidden;white-space:nowrap;padding:16px 0}
+.marquee-track{display:inline-flex;animation:marquee 24s linear infinite;will-change:transform}
+.marquee span{display:inline-block;font-size:clamp(1.25rem,2.6vw,2rem);font-weight:900;letter-spacing:-.01em;text-transform:uppercase;padding:0 22px}
+.marquee .star{font-style:normal;color:var(--ink)}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ---------- Products ---------- */
 .products-section{border-top:1px solid var(--line)}
@@ -114,7 +130,10 @@ em{font-style:normal;color:var(--pink)}  /* акцентные слова в з�
 .lavender,.blue,.sand{background:var(--white)}
 
 /* ---------- Approach (тёмная панель) ---------- */
-.approach{background:var(--ink);color:var(--white);border-radius:40px;max-width:1168px;margin:48px auto;padding:74px 62px}
+.approach{background:var(--ink);color:var(--white);border-radius:40px;max-width:1168px;margin:48px auto;padding:74px 62px;position:relative;overflow:hidden}
+/* Полутоновая точечная текстура в углу — печатный коллажный вайб */
+.approach::after{content:'';position:absolute;right:-26px;top:-26px;width:240px;height:240px;background-image:radial-gradient(var(--pink) 2px,transparent 2.3px);background-size:17px 17px;opacity:.45;pointer-events:none}
+.approach>.section-heading,.approach>.principles{position:relative;z-index:1}
 .approach .section-heading{margin-bottom:10px}
 .approach h2{color:var(--white)}
 .approach .eyebrow{color:var(--pink)}
@@ -124,8 +143,11 @@ em{font-style:normal;color:var(--pink)}  /* акцентные слова в з�
 .principles p{font-size:14px;color:var(--on-dark)}
 
 /* ---------- Vision (розовая панель) ---------- */
-.vision{background:var(--pink);color:var(--white);border-radius:40px;max-width:1168px;margin:30px auto 84px;padding:70px 62px}
-.vision .eyebrow{color:var(--white);opacity:.85}
+.vision{background:var(--pink);color:var(--white);border-radius:40px;max-width:1168px;margin:30px auto 84px;padding:70px 62px;position:relative;overflow:hidden}
+/* Белая контур-рамка внутри розовой панели (приём референса) */
+.vision::before{content:'';position:absolute;inset:16px;border:2px solid rgba(255,255,255,.42);border-radius:30px;pointer-events:none}
+.vision>*{position:relative;z-index:1}
+.vision .eyebrow{color:var(--white);opacity:.9}
 .vision h2{color:var(--white)}
 .vision em{color:var(--ink)}       /* тёмное слово на розовом */
 .vision p{max-width:690px;font-size:17px;color:rgba(255,255,255,.9)}
@@ -201,4 +223,5 @@ em{font-style:normal;color:var(--pink)}  /* акцентные слова в з�
   html{scroll-behavior:auto}
   .button{transition:none}
   .button:hover{transform:none}
+  .marquee-track{animation:none}
 }
