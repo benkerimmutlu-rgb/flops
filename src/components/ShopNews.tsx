@@ -12,10 +12,10 @@ function dismiss() { try { localStorage.setItem(key, SHOP_RELEASE.id); } catch {
 export function ShopNews() {
   const show = useSyncExternalStore(subscribe, snapshot, () => false);
   const { hydrated, giftPending } = useUserState(); const path = usePathname();
-  if (!show || !hydrated || giftPending || ['/login', '/onboarding', '/auth/callback'].includes(path)) return null;
+  if (!show || !hydrated || giftPending || ['/flops/login', '/flops/onboarding', '/flops/auth/callback'].includes(path)) return null;
   return <aside className="shop-news" aria-label="Новинки магазина">
     <Image src="/assets/clay/room-items/premium_music_studio.webp" alt="" width={82} height={82}/>
-    <div><strong>В магазине новые вещи!</strong><p>Зарабатывай косточки в играх и выбирай подарки Флопсу.</p><div className="shop-news-links"><Link href="/shop" onClick={dismiss}>Смотреть новинки</Link><Link href="/flags" onClick={dismiss}>Заработать косточки</Link></div></div>
+    <div><strong>В магазине новые вещи!</strong><p>Зарабатывай косточки в играх и выбирай подарки Флопсу.</p><div className="shop-news-links"><Link href="/flops/shop" onClick={dismiss}>Смотреть новинки</Link><Link href="/flops/flags" onClick={dismiss}>Заработать косточки</Link></div></div>
     <button type="button" aria-label="Закрыть новинки" onClick={dismiss}>×</button>
   </aside>;
 }

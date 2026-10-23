@@ -111,7 +111,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           email,
           options: {
             // Ссылку оставляем как запасной вариант, но основной путь — код.
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
+            emailRedirectTo: `${window.location.origin}/flops/auth/callback`,
           },
         });
         return { error: error?.message ?? null };

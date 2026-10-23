@@ -24,7 +24,7 @@ export function CountryDetail({ code, returnToLanguages = false }: { code: strin
 
   return (
     <div className="flex flex-col gap-6 pb-16">
-      <Link href={returnToLanguages ? "/languages" : "/world"} className="text-sm font-semibold text-brand-green hover:underline">
+      <Link href={returnToLanguages ? "/flops/languages" : "/flops/world"} className="text-sm font-semibold text-brand-green hover:underline">
         {returnToLanguages ? "← Продолжить игру в Языки" : "← Мой мир"}
       </Link>
 

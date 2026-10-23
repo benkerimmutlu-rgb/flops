@@ -42,3 +42,8 @@ next-env.d.ts
 
 # claude code session data (never commit)
 /.claude/
+
+# Independent VivaLearning zone
+/portal/node_modules/
+/portal/.next/
+/portal/out/

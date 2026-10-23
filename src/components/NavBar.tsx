@@ -10,13 +10,13 @@ import styles from "./NavBar.module.css";
 // нижняя панель с иконками (ничего не нужно скроллить вбок). «Повтори» и «Учу»
 // живут внутри «Флагов».
 const LINKS = [
-  { href: "/flags", label: "Флаги", image: "/assets/navigation/capital_flag.webp" },
-  { href: "/capitals", label: "Столицы", image: "/assets/navigation/signpost.webp" },
-  { href: "/languages", label: "Языки", image: "/assets/navigation/sound_speaker.webp" },
-  { href: "/memory", label: "Меморина", image: null },
-  { href: "/world", label: "Мой мир", image: "/assets/navigation/map.webp" },
-  { href: "/shop", label: "Магазин", image: "/assets/world/suitcase.webp" },
-  { href: "/room", label: "Домик", image: "/assets/navigation/clay-doghouse.webp" },
+  { href: "/flops/flags", label: "Флаги", image: "/assets/navigation/capital_flag.webp" },
+  { href: "/flops/capitals", label: "Столицы", image: "/assets/navigation/signpost.webp" },
+  { href: "/flops/languages", label: "Языки", image: "/assets/navigation/sound_speaker.webp" },
+  { href: "/flops/memory", label: "Меморина", image: null },
+  { href: "/flops/world", label: "Мой мир", image: "/assets/navigation/map.webp" },
+  { href: "/flops/shop", label: "Магазин", image: "/assets/world/suitcase.webp" },
+  { href: "/flops/room", label: "Домик", image: "/assets/navigation/clay-doghouse.webp" },
 ];
 
 function isActive(pathname: string, href: string) {
@@ -25,13 +25,13 @@ function isActive(pathname: string, href: string) {
 
 export function NavBar() {
   const pathname = usePathname();
-  if (pathname === "/") return null;
+  if (pathname === "/flops") return null;
   return (
     <>
       {/* Верхняя полоса: логотип + ссылки (ссылки только на широком экране) */}
       <nav aria-label="Основная навигация" className="flops-topbar border-b border-border bg-background/95 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 px-4 py-3">
-          <Link href="/" className="shrink-0" aria-label="FLOPS — на главную">
+          <Link href="/flops" className="shrink-0" aria-label="FLOPS — на главную">
             <Image
               src={getFlopsAsset("flops_wordmark", false)}
               alt="FLOPS"

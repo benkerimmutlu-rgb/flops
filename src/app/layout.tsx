@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   description:
     "Викторина и энциклопедия эмпатии: флаги, столицы, языки, еда и люди разных стран.",
   applicationName: "FLOPS",
-  manifest: "/manifest.webmanifest",
+  manifest: "/flops/manifest.webmanifest",
   // Устанавливается на домашний экран как приложение (PWA).
   appleWebApp: {
     capable: true,

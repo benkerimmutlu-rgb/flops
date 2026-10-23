@@ -209,7 +209,7 @@ function Feedback({
         >
           {last ? "Готово →" : "Дальше →"}
         </button>
-        <Link href={`/world/${code}`} className="text-sm font-semibold text-brand-blue hover:underline">
+        <Link href={`/flops/world/${code}`} className="text-sm font-semibold text-brand-blue hover:underline">
           Узнать больше о стране →
         </Link>
       </div>
@@ -258,7 +258,7 @@ function Results({
       </p>
       <div className="flex w-full flex-col gap-2 sm:flex-row sm:justify-center">
         {variant === "learn" && (
-          <Link href="/flags?new=1" className="rounded-full bg-brand-green px-6 py-3 text-center text-[17px] font-bold text-white active:scale-95">
+          <Link href="/flops/flags?new=1" className="rounded-full bg-brand-green px-6 py-3 text-center text-[17px] font-bold text-white active:scale-95">
             Ещё заход
           </Link>
         )}
@@ -272,13 +272,13 @@ function Results({
             </button>
           ) : (
             <Link
-              href="/flags/repeat"
+              href="/flops/flags/repeat"
               className="rounded-full border border-border bg-surface px-6 py-3 text-center text-[17px] font-bold text-foreground hover:bg-black/[0.03]"
             >
               Поработать над ошибками
             </Link>
           ))}
-        <Link href="/" className="rounded-full border border-border bg-surface px-6 py-3 text-center text-[17px] font-bold text-foreground hover:bg-black/[0.03]">
+        <Link href="/flops" className="rounded-full border border-border bg-surface px-6 py-3 text-center text-[17px] font-bold text-foreground hover:bg-black/[0.03]">
           На главную
         </Link>
       </div>

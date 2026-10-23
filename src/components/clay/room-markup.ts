@@ -2,7 +2,7 @@ import { roomIcon, posePicture, depthPicture } from './room-icons.js';
 
 const action = (id: string, label: string, picture: string, hidden = false) => `<button type="button" id="${id}" class="room-action" aria-label="${label}" title="${label}"${hidden ? ' hidden' : ''}>${picture}</button>`;
 export const ROOM_MARKUP = `<div id="flops-room" lang="ru" data-auto="off">
- <header class="room-header"><a href="/" aria-label="На главную">${roomIcon('back')}</a><h1>Домик</h1><a href="/shop" aria-label="Магазин">${roomIcon('shop')}</a></header>
+ <header class="room-header"><a href="/flops" aria-label="На главную">${roomIcon('back')}</a><h1>Домик</h1><a href="/flops/shop" aria-label="Магазин">${roomIcon('shop')}</a></header>
  <nav class="room-choices" aria-label="Комната">${[['peach','Персиковая','stand'],['blue','Голубая','sit'],['sage','Зелёная','sleep']].map(([id,label,pose])=>`<button type="button" data-room="${id}" aria-label="${label}" title="${label}" aria-pressed="${id === 'peach'}"><img class="room-choice-background" src="/assets/clay/room-${id}.webp" alt=""><img class="room-choice-pug" src="/assets/clay/room-pug-${pose}.webp" alt=""></button>`).join('')}</nav>
  <div class="room-stage" aria-label="Комната Флопса">
   <div class="room-scene"></div>
@@ -21,7 +21,7 @@ export const ROOM_MARKUP = `<div id="flops-room" lang="ru" data-auto="off">
   <header class="room-closet-header"><img src="/assets/clay/room-items/yellow_wardrobe.webp" alt=""><h2 id="room-closet-title">Жёлтый шкаф</h2><button type="button" id="room-closet-close" aria-label="Закрыть окно одежды">${roomIcon('close')}</button></header>
   <section class="room-closet-section" id="room-closet-stored"><h3>На вешалках</h3><div class="room-closet-grid" id="room-closet-hanging"></div></section>
   <section class="room-closet-section" id="room-closet-rest"><h3>Одежда Флопса</h3><div class="room-closet-grid" id="room-closet-available"></div></section>
-  <p class="room-closet-empty" hidden>Одежду и костюмы можно выбрать в <a href="/shop">магазине</a>.</p>
+  <p class="room-closet-empty" hidden>Одежду и костюмы можно выбрать в <a href="/flops/shop">магазине</a>.</p>
  </dialog>
  <dialog class="room-surfaces room-closet" aria-labelledby="room-surfaces-title">
   <header class="room-closet-header"><h2 id="room-surfaces-title">Куда поставить?</h2><button type="button" id="room-surfaces-close" aria-label="Закрыть выбор полки">${roomIcon('close')}</button></header>

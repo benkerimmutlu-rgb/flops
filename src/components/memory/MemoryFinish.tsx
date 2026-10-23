@@ -100,7 +100,7 @@ export function MemoryFinish({
           Сыграть ещё
         </button>
         <Link
-          href="/"
+          href="/flops"
           className="rounded-full border border-border bg-surface px-7 py-3 text-center text-[17px] font-bold text-foreground hover:bg-black/[0.03]"
         >
           На главную

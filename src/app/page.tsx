@@ -1,3 +1,2 @@
-import { ClayHome } from "@/components/clay/ClayHome";
-
-export default function Home() { return <ClayHome />; }
+import { redirect } from "next/navigation";
+export default function Page() { redirect("/flops"); }

@@ -234,7 +234,7 @@ function Feedback({
         >
           {last ? "Готово →" : "Дальше →"}
         </button>
-        <Link href={`/world/${code}`} className="text-sm font-semibold text-brand-blue hover:underline">
+        <Link href={`/flops/world/${code}`} className="text-sm font-semibold text-brand-blue hover:underline">
           Узнать больше о стране →
         </Link>
       </div>
@@ -297,7 +297,7 @@ function Results({
         >
           Ещё заход
         </button>
-        <Link href="/" className="rounded-full border border-border bg-surface px-6 py-3 text-center text-[17px] font-bold text-foreground hover:bg-black/[0.03]">
+        <Link href="/flops" className="rounded-full border border-border bg-surface px-6 py-3 text-center text-[17px] font-bold text-foreground hover:bg-black/[0.03]">
           На главную
         </Link>
       </div>

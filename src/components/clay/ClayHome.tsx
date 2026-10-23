@@ -7,12 +7,12 @@ import { mountPoseMotion } from "./pose-motion";
 import { DailyVisitBadge } from "../DailyVisitBadge";
 
 const cards = [
-  { href: "/flags", title: "Флаги", image: "/assets/navigation/globe.webp", color: "green" },
-  { href: "/capitals", title: "Столицы", image: "/assets/navigation/signpost.webp", color: "yellow" },
-  { href: "/languages", title: "Языки", image: "/assets/navigation/sound_speaker.webp", color: "blue" },
-  { href: "/memory", title: "Меморина", image: null, color: "pink" },
-  { href: "/world", title: "Мой мир", image: "/assets/navigation/map.webp", color: "mint" },
-  { href: "/shop", title: "Магазин", image: "/assets/world/suitcase.webp", color: "peach" },
+  { href: "/flops/flags", title: "Флаги", image: "/assets/navigation/globe.webp", color: "green" },
+  { href: "/flops/capitals", title: "Столицы", image: "/assets/navigation/signpost.webp", color: "yellow" },
+  { href: "/flops/languages", title: "Языки", image: "/assets/navigation/sound_speaker.webp", color: "blue" },
+  { href: "/flops/memory", title: "Меморина", image: null, color: "pink" },
+  { href: "/flops/world", title: "Мой мир", image: "/assets/navigation/map.webp", color: "mint" },
+  { href: "/flops/shop", title: "Магазин", image: "/assets/world/suitcase.webp", color: "peach" },
 ];
 export function ClayHome() {
   const root = useRef<HTMLDivElement>(null), nextPose = useRef(0);
@@ -29,13 +29,15 @@ export function ClayHome() {
   }, []);
   return <div id="flops-kids" ref={root} className={paused ? "kids-paused" : undefined}>
     <header className="kids-header">
-      <Link className="kids-logo-link" href="/" aria-label="FLOPS — на главную">
+      <Link className="kids-logo-link" href="/flops" aria-label="FLOPS — на главную">
         {/* eslint-disable-next-line @next/next/no-img-element -- clay bitmap */}
         <img className="kids-logo" src="/assets/logo/flops_wordmark.webp" alt="FLOPS" width="112" height="58" />
       </Link>
       <div className="kids-tools">
-        <Link className="kids-house" href="/room">Домик</Link>
-        {auth.configured && (auth.status === "ready" ? <button className="kids-account" onClick={auth.signOut}>Выйти</button> : <Link className="kids-account" href={auth.status === "no_profile" ? "/onboarding" : "/login"}>Войти</Link>)}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- full navigation between independent Next.js zones */}
+        <a className="kids-account" href="/">VivaLearning ↗</a>
+        <Link className="kids-house" href="/flops/room">Домик</Link>
+        {auth.configured && (auth.status === "ready" ? <button className="kids-account" onClick={auth.signOut}>Выйти</button> : <Link className="kids-account" href={auth.status === "no_profile" ? "/flops/onboarding" : "/flops/login"}>Войти</Link>)}
         <div className="kids-visit"><DailyVisitBadge /></div>
         <div className="kids-balance" aria-label={`${bones} косточек`}>
           {/* eslint-disable-next-line @next/next/no-img-element -- small clay icon */}
