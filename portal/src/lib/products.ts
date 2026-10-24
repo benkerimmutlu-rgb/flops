@@ -8,7 +8,7 @@ export const products: Product[] = [
   { id: 'lafla', name: 'LaФla', category: 'Language Learning', description: 'Learn Turkish through real-life situations, everyday expressions, and cultural discoveries.', status: 'available', href: 'https://lafla.app', action: 'Open LaФla', image: '/viva/turkish-tea.webp', color: 'sage' },
   { id: 'iznanka', name: 'IZNANKA', category: 'Psychology & Self-Development', description: 'Explore human behavior and psychological concepts through interactive learning experiences.', status: 'development', color: 'lavender' },
   { id: 'groups', name: 'Group Dynamics Lab', category: 'Leadership & Team Dynamics', description: 'Practice understanding and leading groups through realistic interactive simulations.', status: 'development', color: 'blue' },
-  { id: 'business', name: 'Business Partner Academy', category: 'Professional Development', description: 'Develop business acumen, HR expertise, and change management skills through practical business simulations.', status: 'development', color: 'sand' },
+  { id: 'business', name: 'Business Partner Academy', category: 'Professional Development', description: 'Build confidence in business conversations with Journey. Follow the customer, understand clear numerical examples, and practice useful HR questions.', status: 'available', href: '/journey', action: 'Open Journey', color: 'sand' },
 ];
 // Future access belongs to each product; no shared child profiles or payment data.
 export type AccessOffering = 'premium' | 'family' | 'corporate';

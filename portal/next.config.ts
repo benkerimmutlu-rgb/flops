@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
+        // Journey is a self-contained static application in this portal.
+        { source: '/journey', destination: '/journey/index.html' },
         // Сначала голый путь зоны (без хвоста): /flops → origin/flops. Без этого
         // wildcard отдаёт пустой :path* как /flops/ и источник делает слеш-редирект
         // на /flops — получается бесконечная петля на входе в приложение.
