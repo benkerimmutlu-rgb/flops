@@ -1,6 +1,6 @@
 # Treehouse homecoming and shelf figurines
 
-FLOPS remains an independent zone at https://vivalearn.space/flops. No portal, domain, database, or authentication configuration changes.
+FLOPS remains an independent zone at https://vivalearn.space/flops. No portal, domain, database, or authentication configuration changes. The independent IZNANKA source added concurrently is excluded from the FLOPS TypeScript compilation, like the portal, so its different framework version cannot enter the game build.
 
 ## Player experience
 - A fourth empty clay room, the treehouse, is free for every player. Existing rooms, clothing, and furniture stay intact.
