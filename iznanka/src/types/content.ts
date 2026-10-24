@@ -133,4 +133,5 @@ export type ProgressData = {
   status: Record<string, TopicStatus>;
   testPassed: Record<string, boolean>;
   srs?: Record<string, SrsCard>; // ключ — термин глоссария
+  name?: string; // имя пользователя (указывается при входе)
 };

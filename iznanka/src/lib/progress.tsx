@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import type { User } from "@supabase/supabase-js";
@@ -59,6 +60,7 @@ function loadLocal(): ProgressData {
       status: { ...base.status, ...(parsed.status ?? {}) },
       testPassed: { ...base.testPassed, ...(parsed.testPassed ?? {}) },
       srs: { ...(parsed.srs ?? {}) },
+      name: parsed.name,
     };
   } catch {
     return base;
@@ -76,6 +78,7 @@ function saveLocal(data: ProgressData) {
 type Ctx = {
   ready: boolean;
   user: User | null;
+  name: string | null;
   status: Record<string, TopicStatus>;
   testPassed: Record<string, boolean>;
   srs: Record<string, SrsCard>;
@@ -83,8 +86,14 @@ type Ctx = {
   masterTopic: (topicId: string) => void; // → «done»
   passTest: (clusterId: string) => void;
   gradeCard: (key: string, grade: SrsGrade) => void;
+  setName: (name: string) => void;
   reset: () => void;
-  signInWithEmail: (email: string) => Promise<{ error?: string }>;
+  requestCode: (email: string) => Promise<{ error?: string }>;
+  verifyCode: (
+    email: string,
+    token: string,
+    name?: string,
+  ) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
 };
 
@@ -95,6 +104,10 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [data, setData] = useState<ProgressData>(emptyProgress);
+  const dataRef = useRef<ProgressData>(data);
+  useEffect(() => {
+    dataRef.current = data;
+  }, [data]);
 
   // Запись в Supabase (upsert одной строки) + всегда в localStorage.
   const persist = useCallback(
@@ -112,63 +125,61 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     [supabase],
   );
 
-  // Первичная загрузка: сессия → строка пользователя (с мерджем локального),
-  // иначе — localStorage.
-  useEffect(() => {
-    let active = true;
-
-    async function init() {
-      const local = loadLocal();
-
-      if (!supabase) {
-        if (active) {
-          setData(local);
-          setReady(true);
-        }
-        return;
-      }
-
-      const {
-        data: { user: u },
-      } = await supabase.auth.getUser();
-
-      if (!u) {
-        if (active) {
-          setUser(null);
-          setData(local);
-          setReady(true);
-        }
-        return;
-      }
-
+  // Загружает облачный прогресс пользователя и мерджит с локальным.
+  const loadRemote = useCallback(
+    async (u: User) => {
+      if (!supabase) return;
       const { data: row } = await supabase
         .from("user_progress")
         .select("data")
         .eq("user_id", u.id)
         .maybeSingle();
-
       const remote = (row?.data as ProgressData | undefined) ?? null;
+      const local = dataRef.current;
       const merged: ProgressData = remote
         ? {
             status: { ...local.status, ...remote.status },
             testPassed: { ...local.testPassed, ...remote.testPassed },
             srs: { ...(local.srs ?? {}), ...(remote.srs ?? {}) },
+            name: remote.name ?? local.name,
           }
         : local;
-
-      if (active) {
-        setUser(u);
-        setData(merged);
-        setReady(true);
-      }
-      // Если локально был прогресс, а удалённо пусто — подтянем локальный наверх.
+      dataRef.current = merged;
+      setData(merged);
+      // Облако пустое — переносим локальный прогресс наверх.
       if (!remote) persist(merged, u);
-    }
+    },
+    [supabase, persist],
+  );
 
-    init();
+  // Первичная загрузка: локальный прогресс сразу, затем облако при сессии.
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      const local = loadLocal();
+      dataRef.current = local;
+      setData(local);
+      if (!supabase) {
+        if (active) setReady(true);
+        return;
+      }
+      const {
+        data: { user: u },
+      } = await supabase.auth.getUser();
+      if (!active) return;
+      if (u) {
+        setUser(u);
+        await loadRemote(u);
+      } else {
+        setUser(null);
+      }
+      if (active) setReady(true);
+    })();
 
-    const sub = supabase?.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+    const sub = supabase?.auth.onAuthStateChange((event, session) => {
+      const u = session?.user ?? null;
+      setUser(u);
+      if (event === "SIGNED_IN" && u) loadRemote(u);
     });
 
     return () => {
@@ -225,18 +236,49 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
 
   const reset = useCallback(() => update(() => emptyProgress()), [update]);
 
-  const signInWithEmail = useCallback(
+  const setName = useCallback(
+    (name: string) => update((p) => ({ ...p, name: name.trim() || undefined })),
+    [update],
+  );
+
+  // Запросить код входа на e-mail (письмо должно содержать {{ .Token }}).
+  const requestCode = useCallback(
     async (email: string) => {
       if (!supabase) return { error: "Supabase не настроен" };
-      // Приложение живёт по пути /iznanka (зона портала VivaLearn).
-      const base = typeof window !== "undefined" ? window.location.origin : "";
       const { error } = await supabase.auth.signInWithOtp({
         email,
-        options: { emailRedirectTo: `${base}/iznanka/auth/callback` },
+        options: { shouldCreateUser: true },
       });
       return error ? { error: error.message } : {};
     },
     [supabase],
+  );
+
+  // Подтвердить код и, при необходимости, сохранить имя.
+  const verifyCode = useCallback(
+    async (email: string, token: string, name?: string) => {
+      if (!supabase) return { error: "Supabase не настроен" };
+      const { data: res, error } = await supabase.auth.verifyOtp({
+        email,
+        token,
+        type: "email",
+      });
+      if (error) return { error: error.message };
+      const u = res.user;
+      if (u) {
+        setUser(u);
+        await loadRemote(u);
+        const nm = name?.trim();
+        if (nm) {
+          const next = { ...dataRef.current, name: nm };
+          dataRef.current = next;
+          setData(next);
+          persist(next, u);
+        }
+      }
+      return {};
+    },
+    [supabase, loadRemote, persist],
   );
 
   const signOut = useCallback(async () => {
@@ -247,6 +289,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const value: Ctx = {
     ready,
     user,
+    name: data.name ?? null,
     status: data.status,
     testPassed: data.testPassed,
     srs: data.srs ?? {},
@@ -254,8 +297,10 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     masterTopic,
     passTest,
     gradeCard,
+    setName,
     reset,
-    signInWithEmail,
+    requestCode,
+    verifyCode,
     signOut,
   };
 

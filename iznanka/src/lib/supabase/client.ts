@@ -16,7 +16,7 @@ export function createClient(): SupabaseClient | null {
     auth: {
       persistSession: true,
       autoRefreshToken: true,
-      detectSessionInUrl: false, // код из ссылки обрабатывает страница /auth/callback
+      detectSessionInUrl: false, // вход по коду: сессию выдаёт verifyOtp, не ссылка
       flowType: "pkce",
     },
   });

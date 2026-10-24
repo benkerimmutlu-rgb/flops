@@ -10,9 +10,13 @@ import { CLUSTERS } from "@/content/clusters";
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { user, status, testPassed, signInWithEmail, signOut } = useProgress();
+  const { user, name, status, testPassed, requestCode, verifyCode, signOut } =
+    useProgress();
+
+  const [step, setStep] = useState<"email" | "code">("email");
   const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
+  const [code, setCode] = useState("");
+  const [nameInput, setNameInput] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -28,14 +32,24 @@ export default function ProfilePage() {
     };
   }, [status, testPassed]);
 
-  const submit = async (e: React.FormEvent) => {
+  const sendCode = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setBusy(true);
-    const { error } = await signInWithEmail(email.trim());
+    const { error } = await requestCode(email.trim());
     setBusy(false);
     if (error) setError(error);
-    else setSent(true);
+    else setStep("code");
+  };
+
+  const confirm = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setBusy(true);
+    const { error } = await verifyCode(email.trim(), code.trim(), nameInput);
+    setBusy(false);
+    if (error) setError(error);
+    // при успехе провайдер выставит user → отрисуется карточка аккаунта
   };
 
   return (
@@ -51,6 +65,7 @@ export default function ProfilePage() {
 
         <div className="col" style={{ alignItems: "flex-start", gap: "var(--space-3)" }}>
           <Logo size={26} glow />
+          {name && <span className="title-md">{name}</span>}
         </div>
 
         {/* Сводный прогресс */}
@@ -105,34 +120,26 @@ export default function ProfilePage() {
         {/* Аккаунт */}
         <div className="section">
           <span className="section__over overline">Аккаунт</span>
+
           {!isSupabaseConfigured ? (
             <section className="callout callout--note">
               <h3 className="callout__head overline">Демо-режим</h3>
               <p className="callout__text body">
-                Supabase не подключён — прогресс хранится в этом браузере. Укажите
-                ключи в <code>.env.local</code>, чтобы включить вход и синхронизацию.
+                Supabase не подключён — прогресс хранится в этом браузере.
               </p>
             </section>
           ) : user ? (
             <section className="card">
-              <h3 className="title-sm">{user.email}</h3>
-              <p className="card__text body">
+              <h3 className="title-sm">{name ?? "Вы вошли"}</h3>
+              <p className="card__text body">{user.email}</p>
+              <p className="card__text caption mute">
                 Прогресс синхронизируется между устройствами.
               </p>
             </section>
-          ) : sent ? (
-            <section className="callout callout--voice">
-              <h3 className="callout__head overline">
-                <IcCheck sm /> Письмо отправлено
-              </h3>
-              <p className="callout__text reading">
-                Откройте ссылку из письма на {email}, чтобы войти.
-              </p>
-            </section>
-          ) : (
-            <form className="col" style={{ gap: "var(--space-3)" }} onSubmit={submit}>
+          ) : step === "email" ? (
+            <form className="col" style={{ gap: "var(--space-3)" }} onSubmit={sendCode}>
               <p className="card__text body">
-                Войдите по ссылке из письма — прогресс сохранится между устройствами.
+                Войдите по коду из письма — прогресс сохранится между устройствами.
               </p>
               <input
                 id="email"
@@ -149,8 +156,64 @@ export default function ProfilePage() {
                 </p>
               )}
               <button className="btn btn--glow btn--block label" type="submit" disabled={busy}>
-                {busy ? "Отправляем…" : "Получить ссылку"} <IcArrow sm />
+                {busy ? "Отправляем…" : "Получить код"} <IcArrow sm />
               </button>
+            </form>
+          ) : (
+            <form className="col" style={{ gap: "var(--space-3)" }} onSubmit={confirm}>
+              <p className="card__text body">
+                Код отправлен на <b>{email}</b>. Введите его и ваше имя.
+              </p>
+              <input
+                id="code"
+                className="field"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                required
+                placeholder="Код из письма"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+              />
+              <input
+                id="name"
+                className="field"
+                type="text"
+                placeholder="Ваше имя"
+                value={nameInput}
+                onChange={(e) => setNameInput(e.target.value)}
+              />
+              {error && (
+                <p className="caption danger" role="alert">
+                  {error}
+                </p>
+              )}
+              <button className="btn btn--glow btn--block label" type="submit" disabled={busy}>
+                {busy ? "Проверяем…" : "Войти"} <IcCheck sm />
+              </button>
+              <div className="row" style={{ gap: "var(--space-3)" }}>
+                <button
+                  type="button"
+                  className="reset caption"
+                  onClick={() => {
+                    setStep("email");
+                    setCode("");
+                    setError(null);
+                  }}
+                >
+                  Изменить e-mail
+                </button>
+                <button
+                  type="button"
+                  className="reset caption"
+                  onClick={async () => {
+                    setError(null);
+                    const { error } = await requestCode(email.trim());
+                    if (error) setError(error);
+                  }}
+                >
+                  Отправить код заново
+                </button>
+              </div>
             </form>
           )}
         </div>
