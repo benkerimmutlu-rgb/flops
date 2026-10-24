@@ -6,7 +6,7 @@ export type Product = {
 export const products: Product[] = [
   { id: 'flops', name: 'FLOPS', category: 'Geography & Culture', description: 'Explore countries, discover cultures, collect flags, and travel the world with your friendly pug companion.', status: 'available', href: '/flops', action: 'Play Now', image: '/viva/flops.webp', color: 'peach' },
   { id: 'lafla', name: 'LaФla', category: 'Language Learning', description: 'Learn Turkish through real-life situations, everyday expressions, and cultural discoveries.', status: 'available', href: 'https://lafla.app', action: 'Open LaФla', image: '/viva/turkish-tea.webp', color: 'sage' },
-  { id: 'iznanka', name: 'IZNANKA', category: 'Psychology & Self-Development', description: 'Explore human behavior and psychological concepts through interactive learning experiences.', status: 'development', color: 'lavender' },
+  { id: 'iznanka', name: 'IZNANKA', category: 'Psychology & Self-Development', description: 'Explore human behavior and psychological concepts through interactive learning experiences.', status: 'available', href: '/iznanka', action: 'Open IZNANKA', color: 'lavender' },
   { id: 'groups', name: 'Group Dynamics Lab', category: 'Leadership & Team Dynamics', description: 'Practice understanding and leading groups through realistic interactive simulations.', status: 'development', color: 'blue' },
   { id: 'business', name: 'Business Partner Academy', category: 'Professional Development', description: 'Build confidence in business conversations with Journey. Follow the customer, understand clear numerical examples, and practice useful HR questions.', status: 'available', href: '/journey', action: 'Open Journey', color: 'sand' },
 ];

@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
       beforeFiles: [
         // Journey is a self-contained static application in this portal.
         { source: '/journey', destination: '/journey/index.html' },
+        // IZNANKA — статическое приложение (зона /iznanka) внутри портала.
+        // Голый путь → входной index.html; вложенные пути отдаёт файловая система.
+        { source: '/iznanka', destination: '/iznanka/index.html' },
         // Сначала голый путь зоны (без хвоста): /flops → origin/flops. Без этого
         // wildcard отдаёт пустой :path* как /flops/ и источник делает слеш-редирект
         // на /flops — получается бесконечная петля на входе в приложение.

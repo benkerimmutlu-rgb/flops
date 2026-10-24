@@ -1,0 +1,23 @@
+name: Supabase keep-alive (IZNANKA)
+
+# Держит бесплатный проект Supabase «тёплым», чтобы он не вставал на паузу
+# после 7 дней простоя (пинг раз в 3 дня). Запускается и вручную.
+# anon-ключ публичный (защищён RLS) — его безопасно хранить в репозитории.
+on:
+  schedule:
+    - cron: "0 6 */3 * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping IZNANKA Supabase REST
+        env:
+          KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR5b3pwcml1bGlsaWp3dnl0ZXdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2NTMzMTQsImV4cCI6MjEwNzIyOTMxNH0.lk8fE-w_eG4Oul3x-m4VO8JeTFBN92JKVMC2y17LwrI
+        run: |
+          code=$(curl -sS -o /dev/null -w "%{http_code}" \
+            "https://tyozpriulilijwvytewc.supabase.co/rest/v1/user_progress?select=user_id&limit=1" \
+            -H "apikey: ${KEY}" -H "Authorization: Bearer ${KEY}")
+          echo "Supabase responded with HTTP $code"
+          test "$code" = "200"
