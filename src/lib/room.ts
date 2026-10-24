@@ -1,8 +1,9 @@
+import { normalizeAdventure, mergeAdventure, type TreehouseAdventure } from "./treehouse-adventure";
 import { ACCESSORIES, migrateOwnedIds } from "./shop";
 import roomCatalog from "../components/clay/room-catalog.json";
 import { canMount } from "../components/clay/room-placement.js";
 
-export const ROOM_IDS = ["peach", "blue", "sage"] as const;
+export const ROOM_IDS = ["peach", "blue", "sage", "treehouse"] as const;
 export type RoomId = (typeof ROOM_IDS)[number];
 export interface RoomItem {
   id: string; x: number; y: number; scale: number; rotation: number;
@@ -18,6 +19,7 @@ export interface RoomSnapshot {
   version: 1;
   updatedAt: number;
   room: RoomId;
+  adventure: TreehouseAdventure | null;
   layout: Record<RoomId, RoomLayout>;
 }
 export interface RoomCatalogItem { id: string; name: string; img: string; kind: string; size: number; anchorY?: number; surfaceY?: number; closedImg?: string; wearX?: number; wearY?: number; wearRotation?: number }
@@ -30,7 +32,7 @@ export interface RoomMountOptions {
 }
 export function emptyRoom(): RoomSnapshot {
   const fresh = (): RoomLayout => ({ items: [], outfit: [], closet: [], pug: { x: .52, y: .86, scale: 1, seat: null } });
-  return { version: 1, updatedAt: 0, room: "peach", layout: { peach: fresh(), blue: fresh(), sage: fresh() } };
+  return { version: 1, updatedAt: 0, room: "peach", adventure: null, layout: { peach: fresh(), blue: fresh(), sage: fresh(), treehouse: fresh() } };
 }
 const validIds = new Set(ACCESSORIES.map(item => item.id));
 const clothingIds = new Set(roomCatalog.filter(item => item.kind === "wear").map(item => item.id));
@@ -54,6 +56,7 @@ function items(value: unknown): RoomItem[] {
 }
 export function normalizeRoom(value: unknown): RoomSnapshot {
   const data = record(value), source = record(data.layout), result = emptyRoom();
+  result.adventure = normalizeAdventure(data.adventure);
   result.updatedAt = finite(data.updatedAt, 0, 0, Number.MAX_SAFE_INTEGER);
   if (ROOM_IDS.includes(data.room as RoomId)) result.room = data.room as RoomId;
   for (const id of ROOM_IDS) {
@@ -79,5 +82,7 @@ export function normalizeRoom(value: unknown): RoomSnapshot {
 /** Choose a complete room layout, so furniture relationships cannot be split by merging. */
 export function newerRoom(local: RoomSnapshot, remote: unknown): RoomSnapshot {
   const other = normalizeRoom(remote);
-  return other.updatedAt > local.updatedAt ? other : local;
+  const latest = other.updatedAt > local.updatedAt ? other : local;
+  const adventure = mergeAdventure(local.adventure, other.adventure);
+  return adventure === latest.adventure ? latest : { ...latest, adventure };
 }

@@ -1,5 +1,5 @@
 /** @type {Record<import('@/lib/room').RoomId, 'stand' | 'sit' | 'sleep'>} */
-export const ROOM_POSES = { peach: 'stand', blue: 'sit', sage: 'sleep' };
+export const ROOM_POSES = { peach: 'stand', blue: 'sit', sage: 'sleep', treehouse: 'stand' };
 
 /** @param {string | null} seat */
 export function isSleepSeat(seat) { return seat === 'hw10' || seat === 'sleep_bed'; }

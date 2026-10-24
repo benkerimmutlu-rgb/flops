@@ -1256,5 +1256,78 @@
     "kind": "activity",
     "size": 0.56,
     "anchorY": 0.92
+  },
+  {
+    "id": "figure_rumi",
+    "name": "Руми · K-pop Demon Hunters",
+    "img": "/assets/clay/room-items/figure_rumi.webp",
+    "kind": "floor",
+    "size": 0.15,
+    "anchorY": 0.9863
+  },
+  {
+    "id": "figure_mira",
+    "name": "Мира · K-pop Demon Hunters",
+    "img": "/assets/clay/room-items/figure_mira.webp",
+    "kind": "floor",
+    "size": 0.15,
+    "anchorY": 0.9922
+  },
+  {
+    "id": "figure_zoey",
+    "name": "Зои · K-pop Demon Hunters",
+    "img": "/assets/clay/room-items/figure_zoey.webp",
+    "kind": "floor",
+    "size": 0.15,
+    "anchorY": 0.9922
+  },
+  {
+    "id": "figure_alvin",
+    "name": "Элвин",
+    "img": "/assets/clay/room-items/figure_alvin.webp",
+    "kind": "floor",
+    "size": 0.15,
+    "anchorY": 0.9883
+  },
+  {
+    "id": "figure_simon",
+    "name": "Саймон",
+    "img": "/assets/clay/room-items/figure_simon.webp",
+    "kind": "floor",
+    "size": 0.15,
+    "anchorY": 0.9844
+  },
+  {
+    "id": "figure_theodore",
+    "name": "Теодор",
+    "img": "/assets/clay/room-items/figure_theodore.webp",
+    "kind": "floor",
+    "size": 0.15,
+    "anchorY": 0.9707
+  },
+  {
+    "id": "treehouse_lantern",
+    "name": "Лесной фонарик",
+    "img": "/assets/clay/room-items/treehouse_lantern.webp",
+    "kind": "floor",
+    "size": 0.15,
+    "anchorY": 0.9629
+  },
+  {
+    "id": "treehouse_cushion",
+    "name": "Подушка-листочек",
+    "img": "/assets/clay/room-items/treehouse_cushion.webp",
+    "kind": "floor",
+    "size": 0.18,
+    "anchorY": 0.8535
+  },
+  {
+    "id": "treehouse_shelf",
+    "name": "Лесная полочка",
+    "img": "/assets/clay/room-items/treehouse_shelf.webp",
+    "kind": "shelf",
+    "size": 0.42,
+    "anchorY": 0.75,
+    "surfaceY": 0.495
   }
 ]

@@ -9,8 +9,8 @@ export function deskCorner(side, width) {
     return { x: side === 'left' ? edge : 1 - edge, y: .80 };
 }
 
-export const shelfIds = ['shelf_lack', 'shelf_mosslanda', 'shelf_bergshult'];
-const smallObjects = new Set(['live_clock_blue', 'live_clock_green', 'camera', 'plant', 'journal', 'globe', 'trophy', 'rx3', 'rx4', 'rx5', 'rx6', 'tk1', 'tk9', 'su3', 'su4', 'su9', 'gm4', 'gm8', 'gm29', 'gaming_mouse', 'chips_day', 'hourglass', 'vanilla_tealights', 'bunny_toy', 'ev_microphone_trophy', 'ev_golden_star']);
+export const shelfIds = ['shelf_lack', 'shelf_mosslanda', 'shelf_bergshult', 'treehouse_shelf'];
+const smallObjects = new Set(['figure_rumi', 'figure_mira', 'figure_zoey', 'figure_alvin', 'figure_simon', 'figure_theodore', 'treehouse_lantern', 'live_clock_blue', 'live_clock_green', 'camera', 'plant', 'journal', 'globe', 'trophy', 'rx3', 'rx4', 'rx5', 'rx6', 'tk1', 'tk9', 'su3', 'su4', 'su9', 'gm4', 'gm8', 'gm29', 'gaming_mouse', 'chips_day', 'hourglass', 'vanilla_tealights', 'bunny_toy', 'ev_microphone_trophy', 'ev_golden_star']);
 export function canMount(item, support) {
     if (!item || !support || item.id === support.id) return false;
     return support.id === 'gm36' ? item.kind === 'surface' : shelfIds.includes(support.id) && smallObjects.has(item.id);

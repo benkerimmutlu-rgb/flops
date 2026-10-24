@@ -28,11 +28,11 @@ export function mountRoom(root, options) {
     const byId = new Map(catalog.map(x => [x.id, x]));
     const oldIds = { hw_witch_hat: 'hw1', hw_bat_glasses: 'hw2', hw_vampire_cape: 'hw3', hw_bat_bow: 'hw4', hw_candy_bucket: 'hw5', hw_cauldron: 'hw6', hw_broom: 'hw7', hw_jack: 'hw8', hw_ghost: 'hw9', hw_pumpkin_bed: 'hw10', wizard: 'cape' };
     const normalize = ids => Array.isArray(ids) ? [...new Set(ids.filter(x => typeof x === 'string').map(x => oldIds[x] || x).filter(x => byId.has(x)))] : [];
-    let owned = normalize(options.owned), room = 'peach', selected = null, drag = null, lastEmitted = null;
+    let owned = normalize(options.owned), room = 'peach', selected = null, drag = null, lastEmitted = null, adventure = null;
     const fresh = () => ({ items: [], pug: { x: .52, y: .86, scale: 1, seat: null }, outfit: [], closet: [] });
-    let layout = { peach: fresh(), blue: fresh(), sage: fresh() };
+    let layout = { peach: fresh(), blue: fresh(), sage: fresh(), treehouse: fresh() };
     function restore(saved) { if (!saved || typeof saved !== 'object')
-        return; for (const name of Object.keys(rooms)) {
+        return; adventure = saved.adventure || null; for (const name of Object.keys(rooms)) {
         const v = saved.layout?.[name];
         if (!v)
             continue;
@@ -42,7 +42,7 @@ export function mountRoom(root, options) {
         room = saved.room; }
     function clamp(n, a, b, f = a) { return Number.isFinite(n) ? Math.max(a, Math.min(b, n)) : f; }
     restore(options.saved);
-    function state() { return { version: 1, updatedAt: Date.now(), room, layout }; }
+    function state() { return { version: 1, updatedAt: Date.now(), room, layout, adventure }; }
     // Each room has its own pose and free clothing placement.
     function save() { lastEmitted = structuredClone(state()); options.onChange(lastEmitted); }
     function current() { return layout[room]; }
@@ -282,10 +282,10 @@ export function mountRoom(root, options) {
         // Separate successive small objects rather than hiding them at the same center.
         const siblings = current().items.filter(item => item.parent === support.id && item.id !== o.id);
         const slot = byId.get(support.id).kind === 'shelf' ? freeShelfSlot(siblings) : 0;
-        if (slot === null) { say('На этой полке уже три вещи. Выбери другую полку.'); return; }
+        if (slot === null) { say('На этой полке уже три вещи. Выбери другую полку.'); return false; }
         o.parent = support.id;
         o.mountX = slot; o.mountY = 0;
-        render(); save(); say(byId.get(o.id).name + ' — ' + byId.get(support.id).name);
+        render(); save(); say(byId.get(o.id).name + ' — ' + byId.get(support.id).name); return true;
     }
     listen(root.querySelector('#room-surface'), 'click', () => {
         const o = find(); if (!o || !current().items.includes(o)) return;
@@ -297,7 +297,11 @@ export function mountRoom(root, options) {
             const b = document.createElement('button'); b.type = 'button'; b.dataset.support = support.id;
             const img = document.createElement('img'); img.src = byId.get(support.id).img; img.alt = '';
             const label = document.createElement('span'); label.textContent = byId.get(support.id).name;
-            b.setAttribute('aria-label', 'Поставить на: ' + label.textContent); b.append(img, label); grid.append(b);
+            const full = byId.get(support.id).kind === 'shelf' && current().items.filter(item => item.parent === support.id && item.id !== o.id).length >= 3;
+            b.disabled = full;
+            b.setAttribute('aria-label', 'Поставить на: ' + label.textContent + (full ? ' — полка заполнена' : ''));
+            if (full) label.textContent += ' · 3/3';
+            b.append(img, label); grid.append(b);
         }
         surfaces.showModal();
     });
@@ -305,7 +309,7 @@ export function mountRoom(root, options) {
         const button = e.target.closest('[data-support]'), o = find();
         if (!button || !o) return;
         const support = supports(o).find(p => p.id === button.dataset.support);
-        if (support) { mountOn(o, support); surfaces.close(); }
+        if (support && mountOn(o, support) !== false) surfaces.close();
     });
     listen(root.querySelector('#room-surfaces-close'), 'click', () => surfaces.close());
     function toggleWardrobe() {

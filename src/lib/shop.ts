@@ -90,6 +90,15 @@ function gen(
 }
 
 export const ACCESSORIES: Accessory[] = [
+  { id: "figure_rumi", name: "Руми · K-pop Demon Hunters", img: "/assets/clay/room-items/figure_rumi.webp", price: 8, category: "games", active: true },
+  { id: "figure_mira", name: "Мира · K-pop Demon Hunters", img: "/assets/clay/room-items/figure_mira.webp", price: 8, category: "games", active: true },
+  { id: "figure_zoey", name: "Зои · K-pop Demon Hunters", img: "/assets/clay/room-items/figure_zoey.webp", price: 8, category: "games", active: true },
+  { id: "figure_alvin", name: "Элвин", img: "/assets/clay/room-items/figure_alvin.webp", price: 8, category: "games", active: true },
+  { id: "figure_simon", name: "Саймон", img: "/assets/clay/room-items/figure_simon.webp", price: 8, category: "games", active: true },
+  { id: "figure_theodore", name: "Теодор", img: "/assets/clay/room-items/figure_theodore.webp", price: 8, category: "games", active: true },
+  { id: "treehouse_lantern", name: "Лесной фонарик", img: "/assets/clay/room-items/treehouse_lantern.webp", price: 0, category: "relax", active: false },
+  { id: "treehouse_cushion", name: "Подушка-листочек", img: "/assets/clay/room-items/treehouse_cushion.webp", price: 0, category: "relax", active: false },
+  { id: "treehouse_shelf", name: "Лесная полочка", img: "/assets/clay/room-items/treehouse_shelf.webp", price: 0, category: "relax", active: false },
   {"id": "poster_backstreet", "name": "Плакат · Backstreet Boys", "img": "/assets/clay/room-items/poster_backstreet.webp", "price": 22, "category": "relax", "active": true},
   {"id": "poster_britney", "name": "Плакат · Бритни Спирс", "img": "/assets/clay/room-items/poster_britney.webp", "price": 22, "category": "relax", "active": true},
   {"id": "poster_helene", "name": "Плакат · Элен и ребята", "img": "/assets/clay/room-items/poster_helene.webp", "price": 22, "category": "relax", "active": true},

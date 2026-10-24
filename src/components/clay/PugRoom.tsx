@@ -6,7 +6,7 @@ import { mountRoom } from "./room-engine";
 import catalog from "./room-catalog.json";
 import { ROOM_MARKUP } from "./room-markup";
 
-const rooms = { peach: "/assets/clay/room-peach.webp", blue: "/assets/clay/room-blue.webp", sage: "/assets/clay/room-sage.webp" };
+const rooms = { peach: "/assets/clay/room-peach.webp", blue: "/assets/clay/room-blue.webp", sage: "/assets/clay/room-sage.webp", treehouse: "/assets/clay/room-treehouse.webp" };
 export function PugRoom() {
   const { owned, roomData, setRoomData, roomHydrated } = useUserState();
   const { user } = useAuth();

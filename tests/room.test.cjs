@@ -197,9 +197,9 @@ test('laptop follows desk in either corner at mobile and desktop aspect ratios, 
 });
 
 const { SHOP_RELEASE, shouldShowRelease } = load(path.resolve(__dirname, '../src/lib/shop-release.ts'));
-test('new shop release has forty-one usable purchased-only products and announces once per version', () => {
+test('new shop release has forty-seven usable purchased-only products and announces once per version', () => {
   const catalog = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../src/components/clay/room-catalog.json'), 'utf8'));
-  assert.equal(SHOP_RELEASE.items.length, 41);
+  assert.equal(SHOP_RELEASE.items.length, 47);
   for (const id of SHOP_RELEASE.items) {
     const product = ACCESSORIES.find(i => i.id === id), room = catalog.find(i => i.id === id);
     assert.ok(product.active && product.price > 0 && room);

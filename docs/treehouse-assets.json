@@ -1,0 +1,99 @@
+{
+  "generator": "Built-in image_gen",
+  "figurePrompt": "Use case: stylized-concept. Asset type: individual shop collectible figurine and room shelf object for FLOPS. A single small toy figurine entirely HAND-SCULPTED REAL MATTE MODELING CLAY, stop-motion claymation style, tactile rounded shapes and fingerprints, adorable child-friendly simplified recognizable character. Full body facing viewer with slight 3/4 turn, centered, entire figure from head to feet visible, tiny flat clay oval base directly under feet, ample transparent margin, figure occupies 80 percent of height. Soft upper-left studio lighting, warm gentle shading. Genuine TRANSPARENT BACKGROUND, no floor plane, no backdrop, no fake checkerboard, no text, no watermark, no packaging, no additional characters, no photographic human skin. Stable compact silhouette readable when tiny on a shelf. ",
+  "figures": [
+    [
+      "figure_mira",
+      "Character: MIRA from KPop Demon Hunters. Distinctive extremely long vivid pink-red hair in two high ponytails, side swept bangs, black short top, yellow cropped jacket draped on shoulders, red-black plaid short skirt, chunky black high boots, confident hand on hip. Friendly expressive toy face. No weapons. Square 1:1 image."
+    ],
+    [
+      "figure_zoey",
+      "Character: ZOEY from KPop Demon Hunters. Distinctive black hair in TWO ROUND HIGH SPACE BUNS, straight short bangs, oversized sporty yellow-green top with dark sleeves, purple shorts, chunky yellow and dark boots. Tiny microphone in hand. Bubbly happy face, small chibi proportions. No weapons. Square 1:1 image."
+    ],
+    [
+      "figure_alvin",
+      "Character: ALVIN from Alvin and the Chipmunks. Recognizable cute singing golden-brown CHIPMUNK, chubby cheeks, short muzzle with tiny front teeth, big eyes, red baseball cap, RED HOODIE with a single large yellow capital A on front. Energetic smiling pose, holding a tiny microphone, short furry tail sculpted from clay. Not a squirrel with huge tail. Square 1:1 image."
+    ],
+    [
+      "figure_simon",
+      "Character: SIMON from Alvin and the Chipmunks. Recognizable cute singing golden-brown CHIPMUNK with chubby cheeks, short muzzle, distinctive ROUND BLACK GLASSES, royal BLUE HOODIE, slightly taller slim body, friendly clever smile, small brown tail. Holding tiny microphone. Must read as Simon, not generic animal, not Alvin. Square 1:1 image."
+    ],
+    [
+      "figure_theodore",
+      "Character: THEODORE from Alvin and the Chipmunks. Recognizable adorable short round chubby golden-brown CHIPMUNK, big soft cheeks and eyes, short muzzle, GREEN HOODIE, happy shy smile, tiny tail, holding microphone with both little paws. Clearly smallest roundest brother, no cap and no glasses. Square 1:1 image."
+    ]
+  ],
+  "gifts": [
+    [
+      "treehouse_lantern",
+      "One small cozy forest explorer lantern, sage green clay frame and round handle, warm honey-yellow softly glowing clay light inside, cream bottom. Front view with tiny 3/4 depth, no flame. Flat bottom aligned at 90 percent image height."
+    ],
+    [
+      "treehouse_cushion",
+      "One plump round-cornered small sunflower yellow cushion, stitched cream edge made of clay, tiny green leaf-shaped patch centered, pillow slightly upright resting on its lower edge. No furniture."
+    ],
+    [
+      "treehouse_shelf",
+      "One simple small honey-colored wooden wall shelf made of modeling clay, front-facing straight-on, broad flat top horizontal plank clearly visible at 48 percent image height, two small leaf-green rounded bracket supports below plank, lots of transparent area ABOVE the shelf (top 42 percent empty), plank spans 84 percent of image width, shelf bottom brackets at 80 percent height. Empty shelf for placing toy figures later, no contents, no wall, no plants."
+    ]
+  ],
+  "files": [
+    {
+      "id": "treehouse_image",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-2c21dd25-5359-471d-b0e8-124db6f9b9cd.png",
+      "path": "public/assets/clay/room-treehouse.webp"
+    },
+    {
+      "id": "figure_rumi",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-763494dc-faae-4b9b-baff-fca303dd0f40.png",
+      "path": "public/assets/clay/room-items/figure_rumi.webp"
+    },
+    {
+      "id": "figure_mira",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-b7c1585a-8ae4-4b3a-8c0b-574a949bd069.png",
+      "path": "public/assets/clay/room-items/figure_mira.webp"
+    },
+    {
+      "id": "figure_zoey",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-910108ab-cd9a-4f3e-ae57-c2bb5fbb70e1.png",
+      "path": "public/assets/clay/room-items/figure_zoey.webp"
+    },
+    {
+      "id": "figure_alvin",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-fab70e19-6acd-4354-a189-a8394bb99f65.png",
+      "path": "public/assets/clay/room-items/figure_alvin.webp"
+    },
+    {
+      "id": "figure_simon",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-3b3c6904-2be1-490c-b17d-476f590594f3.png",
+      "path": "public/assets/clay/room-items/figure_simon.webp"
+    },
+    {
+      "id": "treehouse_lantern",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-b14a5bbd-f437-4024-8200-c462efbd9721.png",
+      "path": "public/assets/clay/room-items/treehouse_lantern.webp"
+    },
+    {
+      "id": "treehouse_cushion",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-c19363b7-7692-4df4-b5c8-44956b9809d5.png",
+      "path": "public/assets/clay/room-items/treehouse_cushion.webp"
+    },
+    {
+      "id": "treehouse_shelf",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-2be893fc-1157-4151-a01f-1932b74752ed.png",
+      "path": "public/assets/clay/room-items/treehouse_shelf.webp"
+    },
+    {
+      "id": "figure_theodore",
+      "source": "/Users/cyrilmogilnik/.codex/generated_images/01a155e5-cfcc-7672-b296-c8314119297c/exec-9623b05f-1a62-4875-838b-365e6ab9250f.png",
+      "path": "public/assets/clay/room-items/figure_theodore.webp"
+    }
+  ],
+  "theodoreEdit": "Create companion collectible Theodore using Simon clay figurine as style reference. Green hoodie, no glasses, shorter rounder body, soft cheeks, shy smile, both paws holding microphone, full body on oval base, clean transparent background.",
+  "sources": [
+    "https://www.netflix.com/tudum/articles/kpop-demon-hunters-cast",
+    "https://www.alvinandthechipmunks.com/"
+  ],
+  "roomPrompt": "Empty treehouse interior entirely hand-sculpted from matte modeling clay, fingerprints, warm honey wood, straight-on back wall and both side corners, empty floor lower 42%, one rounded window high left with green leaves and blue sky, no furniture or characters, clear wall for player shelves, soft warm lighting.",
+  "rumiPrompt": "Use case: stylized-concept. Asset type: individual shop collectible figurine and room shelf object for FLOPS. A single small toy figurine entirely HAND-SCULPTED REAL MATTE MODELING CLAY, stop-motion claymation style, tactile rounded shapes and fingerprints, adorable child-friendly simplified recognizable character. Full body facing viewer with slight 3/4 turn, centered, entire figure from head to feet visible, tiny flat clay oval base directly under feet, ample transparent margin, figure occupies 80 percent of height. Soft upper-left studio lighting, warm gentle shading. Genuine TRANSPARENT BACKGROUND, no floor plane, no backdrop, no fake checkerboard, no text, no watermark, no packaging, no additional characters, no photographic human skin. Stable compact silhouette readable when tiny on a shelf. Character: RUMI from KPop Demon Hunters, friendly singer figurine with distinctive long thick purple braided ponytail curving beside her body, yellow cropped biker jacket, white shirt, dark high-waisted shorts, chunky dark boots, holding tiny microphone. Cheerful expressive face, no weapons."
+}

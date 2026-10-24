@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { startAdventure, answerAdventure, claimAdventure, mergeAdventure } from "./treehouse-adventure";
 import { UserCountryState } from "./types";
 import { useAuth } from "./auth";
 import { getBrowserSupabase } from "./supabase/client";
@@ -168,6 +169,8 @@ interface StoreValue {
   roomData: RoomSnapshot;
   roomHydrated: boolean;
   setRoomData: (snapshot: RoomSnapshot) => void;
+  startTreehouse: () => void;
+  claimTreehouseGift: (id: string) => void;
   all: StateMap;
 }
 
@@ -187,7 +190,8 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
 
   // Облачная синхронизация (когда родитель вошёл и профиль создан).
   const { status: authStatus, user } = useAuth();
-  const roomHydrated = authStatus !== "loading" && roomOwner === (user?.id ?? "guest");
+  const [cloudResolved, setCloudResolved] = useState<string | null>(null);
+  const roomHydrated = authStatus !== "loading" && roomOwner === (user?.id ?? "guest") && (authStatus !== "ready" || cloudResolved === user?.id);
   const cloudLoaded = useRef(false);
   const saveTimer = useRef<number | null>(null);
   // Дневная отдача (не часть основного прогресса — только для начисления).
@@ -313,7 +317,14 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       if (!roomScope.current || event.key !== `${ROOM_KEY}:${roomScope.current}` || !event.newValue) return;
       try {
         const next = newerRoom(roomRef.current, JSON.parse(event.newValue));
-        if (next.updatedAt > roomRef.current.updatedAt) { roomRef.current = next; setRoomDataState(next); }
+        if (next !== roomRef.current) {
+          roomRef.current = next; setRoomDataState(next);
+          const gifts = next.adventure?.claimed || [];
+          if (gifts.some(id => !ownedRef.current.includes(id))) {
+            const nextOwned = Array.from(new Set([...ownedRef.current, ...gifts]));
+            ownedRef.current = nextOwned; setOwned(nextOwned); persistShop(nextOwned);
+          }
+        }
       } catch { /* Ignore malformed storage events. */ }
     }
     window.addEventListener("storage", receive);
@@ -359,6 +370,8 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
         new Set([
           ...migrateOwnedIds(ownedRef.current),
           ...migrateOwnedIds(blob.owned ?? []),
+          ...(normalizeRoom(blob.roomData).adventure?.claimed || []),
+          ...(roomRef.current.adventure?.claimed || []),
         ])
       );
       setOwned(mergedOwned);
@@ -377,7 +390,7 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       // Косточки — максимум (чтобы не потерять заработанное).
       reconcileVisitCredit(blob.visitRewardTotal || 0, blob.bones, blob.bonesEarned);
       cloudLoaded.current = true;
-    })().catch(() => console.warn("FLOPS: cloud unavailable; local progress retained"));
+    })().catch(() => console.warn("FLOPS: cloud unavailable; local progress retained")).finally(() => { if (active) setCloudResolved(user.id); });
     return () => {
       active = false;
     };
@@ -455,6 +468,15 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
       setBones(next); setBonesEarned(bonesEarnedRef.current);
       persistWallet(next, bonesEarnedRef.current, wallet);
     }
+    function saveRoom(next: RoomSnapshot) {
+      if (!roomScope.current) return;
+      roomRef.current = next;
+      setRoomDataState(next);
+      try { localStorage.setItem(`${ROOM_KEY}:${roomScope.current}`, JSON.stringify(next)); } catch { /* session-only */ }
+    }
+    function stampRoom(next: RoomSnapshot): RoomSnapshot {
+      return { ...next, updatedAt: Math.max(Date.now(), roomRef.current.updatedAt + 1) };
+    }
     function earnReward() {
       const today = todayStr();
       if (earnDate.current !== today) {
@@ -472,18 +494,35 @@ export function UserStateProvider({ children }: { children: React.ReactNode }) {
         // ignore
       }
       giveBones(reward);
+      if (roomHydrated) {
+        const adventure = answerAdventure(roomRef.current.adventure);
+        if (adventure !== roomRef.current.adventure) saveRoom(stampRoom({ ...roomRef.current, adventure }));
+      }
       return reward;
     }
     return {
       dailyVisit,
       visitNotice,
+      startTreehouse: () => {
+        if (!roomHydrated) return;
+        saveRoom(stampRoom({ ...roomRef.current, room: "treehouse", adventure: roomRef.current.adventure || startAdventure() }));
+      },
+      claimTreehouseGift: (id: string) => {
+        if (!roomHydrated) return;
+        const adventure = claimAdventure(roomRef.current.adventure, id);
+        if (adventure === roomRef.current.adventure) return;
+        const nextOwned = Array.from(new Set([...ownedRef.current, id]));
+        ownedRef.current = nextOwned;
+        setOwned(nextOwned);
+        persistShop(nextOwned);
+        saveRoom(stampRoom({ ...roomRef.current, adventure }));
+      },
       roomData,
       roomHydrated,
       setRoomData: (snapshot: RoomSnapshot) => {
         const next = normalizeRoom(snapshot);
-        roomRef.current = next;
-        setRoomDataState(next);
-        try { localStorage.setItem(`${ROOM_KEY}:${roomScope.current}`, JSON.stringify(next)); } catch { /* storage unavailable */ }
+        next.adventure = mergeAdventure(roomRef.current.adventure, next.adventure);
+        saveRoom(next);
       },
       all: map,
       bones,
