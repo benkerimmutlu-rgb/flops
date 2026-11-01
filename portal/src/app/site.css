@@ -43,16 +43,10 @@ em{font-style:normal;color:var(--action)}  /* акцентные слова */
 
 .section{max-width:var(--container);margin:auto;padding:64px 32px}
 
-/* ---------- Логотип: два шеврона + viva(жирное)/learning(тонкое) ---------- */
+/* ---------- Логотип: растровый файл как есть (без перерисовки) ---------- */
 .chev{display:block;clip-path:polygon(0 0,48% 0,100% 50%,48% 100%,0 100%,52% 50%);background:var(--brand-turquoise)}
-.logo{display:inline-flex;align-items:center;gap:11px}
-.logo-arrows{display:inline-flex;gap:3px}
-.logo .chev{width:17px;height:23px}
-.logo .chev:first-child{background:var(--brand-turquoise)}
-.logo .chev:last-child{background:var(--brand-yellow)}
-.logo-word{font-size:26px;line-height:1;letter-spacing:-.6px;color:var(--logo-graphite);white-space:nowrap}
-.logo-word b{font-weight:800}
-.logo-word i{font-weight:300;font-style:normal}
+.logo{display:inline-flex;align-items:center}
+.logo img{display:block;height:38px;width:auto}
 
 /* ---------- Header ---------- */
 .site-header{background:var(--surface);border-bottom:1px solid var(--border-subtle);position:sticky;top:0;z-index:50}
@@ -162,7 +156,7 @@ em{font-style:normal;color:var(--action)}  /* акцентные слова */
 @media(max-width:767px){
   .section{padding:48px 20px}
   .header-inner{min-height:72px;padding:0 20px;flex-wrap:wrap}
-  .logo-word{font-size:23px}
+  .logo img{height:30px}
   .menu-toggle{display:flex;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--border-control);border-radius:8px;padding:8px 14px;font-size:14px;font-weight:600;min-height:44px;color:var(--text-primary)}
   .menu-toggle span{font-size:18px;line-height:1}
   .site-nav{display:none;width:100%;flex-direction:column;align-items:stretch;gap:4px;padding:10px 0 4px}
