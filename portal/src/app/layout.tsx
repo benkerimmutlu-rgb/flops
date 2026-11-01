@@ -14,7 +14,7 @@ export default function Layout({children}: {children: React.ReactNode}) {
   return <html lang="en"><head>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin=""/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap"/>
-    <meta name="theme-color" content="#ff1f5a"/>
-  </head><body><a href="#main-content" className="skip-link">Skip to content</a><Header/><main id="main-content">{children}</main><footer className="site-footer"><div><Link className="wordmark" href="/">viva<span>learn</span><i aria-hidden="true">.</i></Link><p>Learn by Living.</p></div><nav aria-label="Footer navigation"><Link href="/products">Products</Link><Link href="/about">About</Link><Link href="/contact">Contact</Link><Link href="/privacy">Privacy Policy</Link><Link href="/terms">Terms of Use</Link></nav><small>© {new Date().getFullYear()} VivaLearn</small></footer></body></html>;
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"/>
+    <meta name="theme-color" content="#006B65"/>
+  </head><body><a href="#main-content" className="skip-link">Skip to content</a><Header/><main id="main-content">{children}</main><footer className="site-footer"><div><Link className="logo" href="/" aria-label="VivaLearning home"><span className="logo-arrows" aria-hidden="true"><i className="chev"/><i className="chev"/></span><span className="logo-word"><b>viva</b><i>learning</i></span></Link><p>Learn by Living.</p></div><nav aria-label="Footer navigation"><Link href="/products">Products</Link><Link href="/about">About</Link><Link href="/contact">Contact</Link><Link href="/privacy">Privacy Policy</Link><Link href="/terms">Terms of Use</Link></nav><small>© {new Date().getFullYear()} VivaLearn</small></footer></body></html>;
 }
