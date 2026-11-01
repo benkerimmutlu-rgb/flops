@@ -7,7 +7,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const path = usePathname();
   return <header className="site-header"><div className="header-inner">
-    <Link href="/" className="logo" aria-label="VivaLearn home"><span className="logo-arrows" aria-hidden="true"><i className="chev"/><i className="chev"/></span><span className="logo-word"><b>viva</b><i>learning</i></span></Link>
+    <Link href="/" className="logo" aria-label="VivaLearn home"><span className="logo-arrows" aria-hidden="true"><i className="chev"/><i className="chev"/></span><span className="logo-word"><b>Viva</b><i>Learn</i></span></Link>
     <button className="menu-toggle" onClick={() => setOpen(!open)} aria-expanded={open} aria-controls="site-navigation">{open ? 'Close' : 'Menu'} <span aria-hidden="true">{open ? '×' : '☰'}</span></button>
     <nav id="site-navigation" className={open ? 'site-nav open' : 'site-nav'} aria-label="Main navigation">
       {links.map(([href, label]) => <Link key={href} href={href} aria-current={path === href ? 'page' : undefined} onClick={() => setOpen(false)}>{label}</Link>)}
